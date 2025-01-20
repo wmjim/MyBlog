@@ -4,7 +4,7 @@
     <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport" />
-    <meta name="description" content="" />
+    <meta name="description" content="git使用前的基本配置" />
     <meta name="hexo-theme-A4" content="v1.9.6" />
     <link rel="alternate icon" type="image/webp" href="/MyBlog/img/favicon.jpg">
     <title>青山依旧在</title>
@@ -276,18 +276,96 @@ mjx-container[display="true"] + br {
     
 
     
+        
+            
+                <div class="post-main-title" style="text-align: center;">
+                    git使用前的基本配置
+                </div>
+            
+        
+      
+    
 
+    
+
+        
+            <div class="post-head-meta-center">
+        
+                
+                
+                    
+                     <span>字数总计：512</span>
+                
+                
+                    
+                        &nbsp; | &nbsp;
+                    
+                    <span>阅读估时：2分钟</span>
+                
+                
+                    
+                        &nbsp; | &nbsp;
+                    
+                    <span id="busuanzi_container_page_pv">
+                        阅读量：<span id="busuanzi_value_page_pv"></span>次
+                    </span>
+                
+            </div>
     
 
     <div class="post-md">
         
             
         
-        
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/hint.css/2.7.0/hint.min.css"><div class=".article-gallery"><p>为了更好的使用体验 Git，在正式使用 Git 前需要进行一些必要的设置。</p>
+<h2 id="设置用户信息"><a href="#设置用户信息" class="headerlink" title="设置用户信息"></a>设置用户信息</h2><p>安装完 Git 之后，要做的第一件事就是设置你的用户名和邮件地址。每一个 Git 提交都会使用这些信息，它们会写入到你的每一次提交中，不可更改：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># git config --global user.name "yourname"</span></span><br><span class="line"><span class="comment"># git config --global user.email "youremail"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 示例</span></span><br><span class="line">git config --global user.name <span class="string">"ct"</span></span><br><span class="line">git config --global user.email <span class="string">"ct@163.com"</span></span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="设置行尾首选项"><a href="#设置行尾首选项" class="headerlink" title="设置行尾首选项"></a>设置行尾首选项</h2><p>每次按键盘上的 return 时，会插入一个称为行结束符的不可见字符。 不同的操作系统处理行结束符的方式不同。</p>
+<p>在使用 Git 和 GitHub 协作处理项目时，Git 可能产生意外结果，例如，您在 Windows 计算机上操作，而您的协作者是在 macOS 中做的更改。</p>
+<p>您可以将 Git 配置为自动处理行结束符，以便与使用不同操作系统的人员有效地协作。</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Unix/Linux</span></span><br><span class="line">git config --global core.autocrlf input</span><br><span class="line">git config --global core.safecrlf <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Windows</span></span><br><span class="line">git config --global core.autocrlf <span class="literal">true</span></span><br><span class="line">git config --global core.safecrlf <span class="literal">true</span></span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="设置默认分支名"><a href="#设置默认分支名" class="headerlink" title="设置默认分支名"></a>设置默认分支名</h2><p>分支名默认为 Master ，但是 Github 仓库默认分支名修改为了 main ，由于需要经常使用 Github ，因此修改默认分支名为 main。如果你主要是有 Gitee ，则可以不修改。</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># git config --global init.defaultBranch "分支名"</span></span><br><span class="line">git config --global init.defaultBranch <span class="string">"main"</span> <span class="comment"># 为配合 github 使用</span></span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="设置文本编辑器"><a href="#设置文本编辑器" class="headerlink" title="设置文本编辑器"></a>设置文本编辑器</h2><p>可以配置一个你熟悉使用的编辑器作为 Git 的默认编辑器，通过下面的指令配置。</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># git config --global core.editor "编辑器名"</span></span><br><span class="line">git config --global core.editor vim <span class="comment"># 终端个人比较习惯 vim 的操作</span></span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="检查配置信息"><a href="#检查配置信息" class="headerlink" title="检查配置信息"></a>检查配置信息</h2><p>如果想要检查你的配置，可以使用 git config –list 命令来列出所有 Git 当时能找到的配置。</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ git config --list</span><br><span class="line">user.name=John Doe</span><br><span class="line">user.email=johndoe@example.com</span><br><span class="line">color.status=auto</span><br><span class="line">color.branch=auto</span><br><span class="line">color.interactive=auto</span><br><span class="line">color.diff=auto</span><br><span class="line">...</span><br></pre></td></tr></tbody></table></figure>
+
+<p>当然你也可以在用户目录下的 <code>.gitconfig</code> 文件中查看所有配置。</p>
+</div>
     </div>
 
     <div class="post-meta">
         <i>
+        
+            <span>2023-10-08</span>
+            
+                <span>该篇文章被 meng.wang</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/MyBlog/tags/git/'>
+                            git
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/MyBlog/categories/%E5%B7%A5%E5%85%B7/'>
+                            工具
+                        </a>
+                    
+                </span>
+            
         
         </i>
     </div>
@@ -299,20 +377,17 @@ mjx-container[display="true"] + br {
     
             <div class="post-footer-pre-next">
                 
-                    <span>上一篇：<a href='/MyBlog/'></a></span>
+                    <span>上一篇：<a href='/MyBlog/posts/47078.html'>enum那些事</a></span>
                 
 
                 
-                    <span class="post-footer-pre-next-last-span-right">下一篇：<a href="/MyBlog/"></a>
+                    <span class="post-footer-pre-next-last-span-right">下一篇：<a href="/MyBlog/posts/64262.html">assert的讨论</a>
                     </span>
                 
             </div>
     
         
     
-
-    
-        
 
      
 </div>
