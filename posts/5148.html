@@ -59,9 +59,7 @@
 <link rel="stylesheet" href="/MyBlog/css/lightgallery-bundle.min.css">
 
 
-<meta name="generator" content="Hexo 7.3.0">
-<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
-<style>mjx-container[jax="SVG"] {
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
   direction: ltr;
 }
 
@@ -317,32 +315,33 @@ mjx-container[display="true"] + br {
         
             
         
-        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/hint.css/2.7.0/hint.min.css"><div class=".article-gallery"><h2 id="库文件下载"><a href="#库文件下载" class="headerlink" title="库文件下载"></a>库文件下载</h2><ul>
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/hint.css/2.7.0/hint.min.css"><div class=".article-gallery"><h2 id="库文件下载">库文件下载</h2>
+<ul>
 <li><a target="_blank" rel="noopener" href="https://codebus.cn/f/a/0/0/488/easyx4mingw_20240601.zip">easyx4mingw_20240601</a></li>
 <li><a target="_blank" rel="noopener" href="https://easyx.cn/download/easyx4mingw_2023%E5%A4%A7%E6%9A%91%E7%89%88.zip">easyx4mingw_2023大暑假版</a></li>
 </ul>
 <p>或者到 <a target="_blank" rel="noopener" href="https://easyx.cn/t/download">EasyX Graphics Library for C++</a> 官方下载中心。</p>
-<h2 id="文件清单"><a href="#文件清单" class="headerlink" title="文件清单"></a>文件清单</h2><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">easyx4mingw_xxxxxxxx.zip</span><br><span class="line">	├ include &lt;folder&gt;</span><br><span class="line">	│	├ easyx.h 				// 头文件(提供了当前最新版本的接口)</span><br><span class="line">	│	└ graphics.h			// 头文件(在 easyx.h 的基础上，保留了若干旧接口)</span><br><span class="line">	├ lib32 &lt;folder&gt;</span><br><span class="line">	│	└ libeasyx.a			// 针对 TDM-GCC 4.8.1 及以上版本的 32 位库文件</span><br><span class="line">	├ lib64 &lt;folder&gt;</span><br><span class="line">	│	└ libeasyx.a			// 针对 TDM-GCC 4.8.1 及以上版本的 64 位库文件</span><br><span class="line">	└ lib-for-devcpp_5.4.0</span><br><span class="line">		└ libeasyx.a			// 适用于 DevCpp 5.4.0 GCC MinGW 4.7.2 和 C-Free 5.0</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
-
-<h2 id="配置说明"><a href="#配置说明" class="headerlink" title="配置说明"></a>配置说明</h2><ol>
+<h2 id="文件清单">文件清单</h2>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">easyx4mingw_xxxxxxxx.zip</span><br><span class="line">	├ include &lt;folder&gt;</span><br><span class="line">	│	├ easyx.h 			// 头文件(提供了当前最新版本的接口)</span><br><span class="line">	│	└ graphics.h			// 头文件(在 easyx.h 的基础上，保留了若干旧接口)</span><br><span class="line">	├ lib32 &lt;folder&gt;</span><br><span class="line">	│	└ libeasyx.a			// 针对 TDM-GCC 4.8.1 及以上版本的 32 位库文件</span><br><span class="line">	├ lib64 &lt;folder&gt;</span><br><span class="line">	│	└ libeasyx.a			// 针对 TDM-GCC 4.8.1 及以上版本的 64 位库文件</span><br><span class="line">	└ lib-for-devcpp_5.4.0</span><br><span class="line">		└ libeasyx.a			// 适用于 DevCpp 5.4.0 GCC MinGW 4.7.2 和 C-Free 5.0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="配置说明">配置说明</h2>
+<ol>
 <li>安装库文件</li>
 </ol>
 <p>下载的压缩包先解压缩，然后将 include 下的头文件和 lib32/lib64 下的库文件，分别拷贝到 MinGW 的头文件和库文件中。</p>
-<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">├ include &lt;folder&gt;</span><br><span class="line">│	├ easyx.h 	        -----&gt;  CLion 2024.1\bin\mingw\bin</span><br><span class="line">│	└ graphics.h        -----&gt;  CLion 2024.1\bin\mingw\bin</span><br><span class="line">├ lib64 &lt;folder&gt;</span><br><span class="line">│	└ libeasyx.a        -----&gt;  D:\CLion\CLion 2024.1\bin\mingw\lib</span><br></pre></td></tr></tbody></table></figure>
-
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">├ include &lt;folder&gt;</span><br><span class="line">│	├ easyx.h 	    -----&gt;  CLion 2024.1\bin\mingw\bin</span><br><span class="line">│	└ graphics.h        -----&gt;  CLion 2024.1\bin\mingw\bin</span><br><span class="line">├ lib64 &lt;folder&gt;</span><br><span class="line">│	└ libeasyx.a        -----&gt;  D:\CLion\CLion 2024.1\bin\mingw\lib</span><br></pre></td></tr></table></figure>
 <p>经过测试，我得64位机器直接使用Clion捆绑编译器，这样拷贝文件也可。</p>
 <ol start="2">
 <li>增加编译时的链接选项</li>
 </ol>
 <p>链接选项增加：<code>-leasyx</code>，这样可以在编译的时候链接 libeasyx.a 库文件。每个项目都要这样设置一次，然后编译即可。</p>
-<h2 id="CLion-画圆测试"><a href="#CLion-画圆测试" class="headerlink" title="CLion 画圆测试"></a>CLion 画圆测试</h2><p>使用 Clion 创建一个项目，并输入以下代码：</p>
-<figure class="highlight cpp"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;graphics.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;conio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>{</span><br><span class="line">	<span class="built_in">initgraph</span>(<span class="number">640</span>, <span class="number">480</span>);</span><br><span class="line">	<span class="built_in">circle</span>(<span class="number">320</span>, <span class="number">240</span>, <span class="number">100</span>);</span><br><span class="line">	_getch();</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
-
+<h2 id="clion-画圆测试">CLion 画圆测试</h2>
+<p>使用 Clion 创建一个项目，并输入以下代码：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;graphics.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;conio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>{</span><br><span class="line">	<span class="built_in">initgraph</span>(<span class="number">640</span>, <span class="number">480</span>);</span><br><span class="line">	<span class="built_in">circle</span>(<span class="number">320</span>, <span class="number">240</span>, <span class="number">100</span>);</span><br><span class="line">	_getch();</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
 <p>在 <code>add_executable(...)</code> 这行前面，增加引入库文件的指令：</p>
-<figure class="highlight cpp"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">link_libraries</span>(libeasyx.a)</span><br></pre></td></tr></tbody></table></figure>
-
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">link_libraries</span>(libeasyx.a)</span><br></pre></td></tr></table></figure>
 <p>编译执行，即可看到画出了一个圆。</p>
-<h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><p>如果本篇文章没有解决你的问题，你还可以查看这篇文章[在 CLion、Dev-C++ 或 Code::Blocks 下面配置 EasyX](<a target="_blank" rel="noopener" href="https://codebus.cn/bestans/easyx-for-mingw">在 CLion、Dev-C++ 或 Code::Blocks 下面配置 EasyX（2024-6-1 更新） - CodeBus</a>)。 </p>
+<h2 id="补充">补充</h2>
+<p>如果本篇文章没有解决你的问题，你还可以查看这篇文章[在 CLion、Dev-C++ 或 Code::Blocks 下面配置 EasyX](<a target="_blank" rel="noopener" href="https://codebus.cn/bestans/easyx-for-mingw">在 CLion、Dev-C++ 或 Code::Blocks 下面配置 EasyX（2024-6-1 更新） - CodeBus</a>)。</p>
 </div>
     </div>
 
@@ -522,6 +521,7 @@ mjx-container[display="true"] + br {
 
 
     <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script> 
+
 
                 </div>
             

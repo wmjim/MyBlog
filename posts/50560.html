@@ -59,9 +59,7 @@
 <link rel="stylesheet" href="/MyBlog/css/lightgallery-bundle.min.css">
 
 
-<meta name="generator" content="Hexo 7.3.0">
-<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
-<style>mjx-container[jax="SVG"] {
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
   direction: ltr;
 }
 
@@ -317,59 +315,65 @@ mjx-container[display="true"] + br {
         
             
         
-        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/hint.css/2.7.0/hint.min.css"><div class=".article-gallery"><h2 id="注释的种类"><a href="#注释的种类" class="headerlink" title="注释的种类"></a>注释的种类</h2><p>在 Rust 中，注释分为三类：</p>
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/hint.css/2.7.0/hint.min.css"><div class=".article-gallery"><h2 id="注释的种类">注释的种类</h2>
+<p>在 Rust 中，注释分为三类：</p>
 <ul>
 <li><strong>代码注释</strong>：用于说明某一块代码的功能。读者往往是同一个项目的协作开发者。</li>
 <li><strong>文档注释</strong>：用于对项目进行描述，公共 API 等用户关心的功能进行介绍，同时还能提供示例代码，读者往往是想要了解项目的人。</li>
 <li><strong>包和模块注释</strong>：用于说明当前包和模块的功能，方便用户迅速了解一个项目。</li>
 </ul>
-<h2 id="代码注释"><a href="#代码注释" class="headerlink" title="代码注释"></a>代码注释</h2><p>代码注释方式有两种：</p>
-<h3 id="行注释"><a href="#行注释" class="headerlink" title="行注释"></a>行注释</h3><blockquote>
+<h2 id="代码注释">代码注释</h2>
+<p>代码注释方式有两种：</p>
+<h3 id="行注释">行注释</h3>
+<blockquote>
 <p><strong>行注释</strong>：以两个斜线 <code>//</code> 开始，注释内容直到改行结束。</p>
 </blockquote>
-<figure class="highlight rust"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这是一个行内注释</span></span><br></pre></td></tr></tbody></table></figure>
-
-<h3 id="块注释"><a href="#块注释" class="headerlink" title="块注释"></a>块注释</h3><blockquote>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这是一个行内注释</span></span><br></pre></td></tr></table></figure>
+<h3 id="块注释">块注释</h3>
+<blockquote>
 <p><strong>块注释</strong>：以 <code>/*</code> 开始，以 <code>*/</code> 结束，可以跨越多行。</p>
 </blockquote>
-<figure class="highlight rust"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* 这是一个</span></span><br><span class="line"><span class="comment">* 块注释</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></tbody></table></figure>
-
-<h2 id="文档注释"><a href="#文档注释" class="headerlink" title="文档注释"></a>文档注释</h2><p>在 Rust 中，文档注释（Documentation Comments）是一种特殊的注释，它们被设计用于生成 HTML 文档，这些 HTML 文档展示公有 API 文档注释的内容。</p>
-<h3 id="文档行注释"><a href="#文档行注释" class="headerlink" title="文档行注释"></a>文档行注释</h3><p><code>///</code> 是用于创建文档行注释的一种特殊注释方式，通常放置在 <strong>函数</strong>、<strong>结构体</strong>、<strong>枚举</strong>、<strong>方法</strong> 等定义的上方。</p>
-<figure class="highlight rust"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// `add_one` 将指定值加 1</span></span><br><span class="line"><span class="comment">///</span></span><br><span class="line"><span class="comment">/// # Example</span></span><br><span class="line"><span class="comment">///</span></span><br><span class="line"><span class="comment">/// ```</span></span><br><span class="line"><span class="comment">/// let = arg = 5;</span></span><br><span class="line"><span class="comment">/// let answer = my_crate::add_one(arg);</span></span><br><span class="line"><span class="comment">/// </span></span><br><span class="line"><span class="comment">/// assert_eq(6, answer);</span></span><br><span class="line"><span class="comment">///```</span></span><br><span class="line"><span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">add_one</span>(x: <span class="type">i32</span>) <span class="punctuation">-&gt;</span> <span class="type">i32</span> {</span><br><span class="line">    x + <span class="number">1</span></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
-
-<h3 id="文档块注释"><a href="#文档块注释" class="headerlink" title="文档块注释"></a>文档块注释</h3><p><code>/** ... */</code> 是用于创建文档块注释的一种特殊注释方式，通常放置在 <strong>函数</strong>、<strong>结构体</strong>、<strong>枚举</strong>、<strong>方法</strong> 等定义的上方。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* 这是一个</span></span><br><span class="line"><span class="comment">* 块注释</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+<h2 id="文档注释">文档注释</h2>
+<p>在 Rust 中，文档注释（Documentation Comments）是一种特殊的注释，它们被设计用于生成 HTML 文档，这些 HTML 文档展示公有 API 文档注释的内容。</p>
+<h3 id="文档行注释">文档行注释</h3>
+<p><code>///</code> 是用于创建文档行注释的一种特殊注释方式，通常放置在 <strong>函数</strong>、<strong>结构体</strong>、<strong>枚举</strong>、<strong>方法</strong> 等定义的上方。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// `add_one` 将指定值加 1</span></span><br><span class="line"><span class="comment">///</span></span><br><span class="line"><span class="comment">/// # Example</span></span><br><span class="line"><span class="comment">///</span></span><br><span class="line"><span class="comment">/// ```</span></span><br><span class="line"><span class="comment">/// let = arg = 5;</span></span><br><span class="line"><span class="comment">/// let answer = my_crate::add_one(arg);</span></span><br><span class="line"><span class="comment">/// </span></span><br><span class="line"><span class="comment">/// assert_eq(6, answer);</span></span><br><span class="line"><span class="comment">///```</span></span><br><span class="line"><span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">add_one</span>(x: <span class="type">i32</span>) <span class="punctuation">-&gt;</span> <span class="type">i32</span> {</span><br><span class="line">    x + <span class="number">1</span></span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<h3 id="文档块注释">文档块注释</h3>
+<p><code>/** ... */</code> 是用于创建文档块注释的一种特殊注释方式，通常放置在 <strong>函数</strong>、<strong>结构体</strong>、<strong>枚举</strong>、<strong>方法</strong> 等定义的上方。</p>
 <p>(<strong>注意</strong>：这里由于文章 markdown 代码块解析的问题，我在文档块注释的 “```” 的前面加上了 <code>///</code>，而实际的文档块注释是不需要的。)</p>
-<figure class="highlight rust"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** `add_two` 将指定值加 2</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">/// ```</span></span><br><span class="line"><span class="comment">let arg = 5;</span></span><br><span class="line"><span class="comment">let answer = my_crate::add_two(arg);</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">assert_eq!(7, answer);</span></span><br><span class="line"><span class="comment">///```</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">add_two</span>(x: <span class="type">i32</span>) <span class="punctuation">-&gt;</span> <span class="type">i32</span> {</span><br><span class="line">    x + <span class="number">2</span></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
-
-<h3 id="文档注释注意项"><a href="#文档注释注意项" class="headerlink" title="文档注释注意项"></a>文档注释注意项</h3><ol>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** `add_two` 将指定值加 2</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">/// ```</span></span><br><span class="line"><span class="comment">let arg = 5;</span></span><br><span class="line"><span class="comment">let answer = my_crate::add_two(arg);</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">assert_eq!(7, answer);</span></span><br><span class="line"><span class="comment">///```</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">add_two</span>(x: <span class="type">i32</span>) <span class="punctuation">-&gt;</span> <span class="type">i32</span> {</span><br><span class="line">    x + <span class="number">2</span></span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<h3 id="文档注释注意项">文档注释注意项</h3>
+<ol>
 <li>文档注释需要位于 <code>lib</code> 类型的包中，例如 <code>src/lib.rs</code>。</li>
 <li>文档注释可以使用 markdown 语法，例如 <code># Examples</code> 的标题，以及 <code>```</code> 代码块高亮。</li>
 <li>被注释的对象需要使用 <code>pub</code> 对外可见，文档注释是给用户看的，内部细节不应该暴露。</li>
 </ol>
-<h3 id="查看文档注释"><a href="#查看文档注释" class="headerlink" title="查看文档注释"></a>查看文档注释</h3><p>运行 <code>cargo doc</code> 可以直接生成 <code>HTML</code> 文档，放入 <code>target/doc</code> 目录下。</p>
+<h3 id="查看文档注释">查看文档注释</h3>
+<p>运行 <code>cargo doc</code> 可以直接生成 <code>HTML</code> 文档，放入 <code>target/doc</code> 目录下。</p>
 <p>运行 <code>cargo doc --open</code> 可以在生成文档后，自动在浏览器打开网页。</p>
 <p>上面的文档行注释和文档块注释示例，生成的最终效果如图所示：</p>
-<p><a target="_blank" rel="noopener" href="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/20231231165817.png" class="gallery-item" style="box-shadow: none;"> <img src="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/20231231165817.png"></a></p>
-<p><a target="_blank" rel="noopener" href="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/20231231165837.png" class="gallery-item" style="box-shadow: none;"> <img src="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/20231231165837.png"></a></p>
-<p><a target="_blank" rel="noopener" href="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/20231231165900.png" class="gallery-item" style="box-shadow: none;"> <img src="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/20231231165900.png"></a></p>
-<h3 id="文档注释标题的一些常用语法"><a href="#文档注释标题的一些常用语法" class="headerlink" title="文档注释标题的一些常用语法"></a>文档注释标题的一些常用语法</h3><ul>
+<p><a target="_blank" rel="noopener" href="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/20231231165817.png" class="gallery-item" style="box-shadow: none;"> <img src="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/20231231165817.png" alt=""></a></p>
+<p><a target="_blank" rel="noopener" href="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/20231231165837.png" class="gallery-item" style="box-shadow: none;"> <img src="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/20231231165837.png" alt=""></a></p>
+<p><a target="_blank" rel="noopener" href="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/20231231165900.png" class="gallery-item" style="box-shadow: none;"> <img src="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/20231231165900.png" alt=""></a></p>
+<h3 id="文档注释标题的一些常用语法">文档注释标题的一些常用语法</h3>
+<ul>
 <li><code># Examples</code>：用于包含示例代码块的标题。</li>
 <li><code># Panics</code>：用于描述函数可能引发的 panic 情况。</li>
 <li><code># Errors</code>：用于描述函数可能返回的错误情况。</li>
 <li><code># Safety</code>：用于描述使用 unsafe 代码时的使用条件。</li>
 </ul>
-<h2 id="包和模块注释"><a href="#包和模块注释" class="headerlink" title="包和模块注释"></a>包和模块注释</h2><p>在 Rust 中，包（Package）和模块（Module）的注释通常放置在源文件的顶部，用于描述包或模块的基本信息和功能。</p>
+<h2 id="包和模块注释">包和模块注释</h2>
+<p>在 Rust 中，包（Package）和模块（Module）的注释通常放置在源文件的顶部，用于描述包或模块的基本信息和功能。</p>
 <p>包级别的注释也分为两种：行注释 <code>//!</code> 和块注释 <code>/*! ... */</code> 。</p>
 <p>在 <code>src/lib.rs</code> 包根的最上方，添加：</p>
-<figure class="highlight rust"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*! lib包是world_hello二进制包的依赖包，</span></span><br><span class="line"><span class="comment"> 里面包含了compute等有用模块 */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">pub</span> <span class="keyword">mod</span> compute;</span><br></pre></td></tr></tbody></table></figure>
-
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*! lib包是world_hello二进制包的依赖包，</span></span><br><span class="line"><span class="comment"> 里面包含了compute等有用模块 */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">pub</span> <span class="keyword">mod</span> compute;</span><br></pre></td></tr></table></figure>
 <p>再在该包根的子模块 <code>src/compute.rs</code>，添加：</p>
-<figure class="highlight rust"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//! 计算一些你口算算不出来的复杂算术题</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/// `add_one`将指定值加1</span></span><br><span class="line"><span class="comment">///</span></span><br></pre></td></tr></tbody></table></figure>
-
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//! 计算一些你口算算不出来的复杂算术题</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/// `add_one`将指定值加1</span></span><br><span class="line"><span class="comment">///</span></span><br></pre></td></tr></table></figure>
 <p>运行 <code>cargo doc --open</code> 查看效果：</p>
-<p><a target="_blank" rel="noopener" href="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/20231231171548.png" class="gallery-item" style="box-shadow: none;"> <img src="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/20231231171548.png"></a></p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在 Rust 中，注释分为三个主要类型：代码注释、文档注释、包和模块注释，每个注释类型都拥有两种形式：行注释和块注释。</p>
+<p><a target="_blank" rel="noopener" href="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/20231231171548.png" class="gallery-item" style="box-shadow: none;"> <img src="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/20231231171548.png" alt=""></a></p>
+<h2 id="总结">总结</h2>
+<p>在 Rust 中，注释分为三个主要类型：代码注释、文档注释、包和模块注释，每个注释类型都拥有两种形式：行注释和块注释。</p>
 </div>
     </div>
 
@@ -549,6 +553,7 @@ mjx-container[display="true"] + br {
 
 
     <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script> 
+
 
                 </div>
             

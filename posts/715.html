@@ -59,9 +59,7 @@
 <link rel="stylesheet" href="/MyBlog/css/lightgallery-bundle.min.css">
 
 
-<meta name="generator" content="Hexo 7.3.0">
-<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
-<style>mjx-container[jax="SVG"] {
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
   direction: ltr;
 }
 
@@ -317,29 +315,29 @@ mjx-container[display="true"] + br {
         
             
         
-        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/hint.css/2.7.0/hint.min.css"><div class=".article-gallery"><h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>在按照<a target="_blank" rel="noopener" href="https://github.com/LearningInfiniTensor/.github/blob/main/exam-grading-user-guide/doc.md">Exam Grading 自动测试评分系统使用教程</a>搭建 rustlings 做题环境时遇到了一些问题，这里记录一下解决方法。</p>
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/hint.css/2.7.0/hint.min.css"><div class=".article-gallery"><h2 id="引言">引言</h2>
+<p>在按照<a target="_blank" rel="noopener" href="https://github.com/LearningInfiniTensor/.github/blob/main/exam-grading-user-guide/doc.md">Exam Grading 自动测试评分系统使用教程</a>搭建 rustlings 做题环境时遇到了一些问题，这里记录一下解决方法。</p>
 <p>准备 git 环境和获取 exam-grading 代码的步骤就不再进行赘述，从添加子模块开始。</p>
-<h2 id="添加子模块"><a href="#添加子模块" class="headerlink" title="添加子模块"></a>添加子模块</h2><p>1、首先将上一步创建的exam-grading仓库文件拉到本地，比如我放在 <code>~/2024winter</code> 目录下。</p>
+<h2 id="添加子模块">添加子模块</h2>
+<p>1、首先将上一步创建的exam-grading仓库文件拉到本地，比如我放在 <code>~/2024winter</code> 目录下。</p>
 <p>2、安装 rustlings（自己按照<a target="_blank" rel="noopener" href="https://github.com/rust-lang/rustlings">安装教程</a>的指导安装），安装完后找一个目录（我同样放在 <code>~/2024winter</code> 目录下）执行 <code>rustlings init</code> 。</p>
 <p>3、在 github 再创建一个空的私有仓库，之后将 rustlings 内容推送到该仓库（空仓库会有指导该怎样推送）。</p>
 <p>4、在 exam-grading 目录下，执行：</p>
-<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git submodule add &lt;target-test-repo&gt; ./rustlings</span><br></pre></td></tr></tbody></table></figure>
-
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git submodule add &lt;target-test-repo&gt; ./rustlings</span><br></pre></td></tr></table></figure>
 <p>这里的 <code>&lt;target-test-repo&gt;</code> 是你刚刚创建的 rustlings 仓库地址（用 ssh 地址而不是 https，否则拉不下来）。</p>
 <p>5、再将 exam-grading 新增的修改推送到远程仓库。</p>
-<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">"add rustlings submodule"</span></span><br><span class="line">git push</span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">"add rustlings submodule"</span></span><br><span class="line">git push</span><br></pre></td></tr></table></figure>
 <p>6、打开 <a target="_blank" rel="noopener" href="https://opencamp.cn/InfiniTensor/camp/2024winter/stage/2">训练营</a> 找到 Rust 专题的晋级榜单，然后在最好几页查看自己的分数和最后提交时间，确认自己的提交是否成功。</p>
-<h2 id="后续"><a href="#后续" class="headerlink" title="后续"></a>后续</h2><p>在前面添加子模块后，后续操作就可以简化。</p>
+<h2 id="后续">后续</h2>
+<p>在前面添加子模块后，后续操作就可以简化。</p>
 <p>1、做题还是在 rustlings 中做，做完题后直接提交到 rustlings 的 github 仓库。</p>
-<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">"done ..."</span></span><br><span class="line">git push</span><br></pre></td></tr></tbody></table></figure>
-
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">"done ..."</span></span><br><span class="line">git push</span><br></pre></td></tr></table></figure>
 <p>2、进入 exam-grading 目录，更新子模块</p>
-<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git submodule update --remote</span><br></pre></td></tr></tbody></table></figure>
-
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git submodule update --remote</span><br></pre></td></tr></table></figure>
 <p>然后再提交 exam-grading 的修改。</p>
-<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">"done ..."</span></span><br><span class="line">git push</span><br></pre></td></tr></tbody></table></figure>
-
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">"done ..."</span></span><br><span class="line">git push</span><br></pre></td></tr></table></figure>
+<h2 id="参考">参考</h2>
+<ul>
 <li><a target="_blank" rel="noopener" href="https://github.com/LearningInfiniTensor/.github/blob/main/exam-grading-user-guide/doc.md">Exam Grading 自动测试评分系统使用教程</a></li>
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/Murrrphy/article/details/144730967?sharetype=blogdetail&amp;sharerId=144730967&amp;sharerefer=PC&amp;sharesource=Murrrphy&amp;spm=1011.2480.3001.8118">清华大学 大模型与人工智能系统训练营 一阶段submodule配置</a></li>
 </ul>
@@ -522,6 +520,7 @@ mjx-container[display="true"] + br {
 
 
     <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script> 
+
 
                 </div>
             

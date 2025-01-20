@@ -59,9 +59,7 @@
 <link rel="stylesheet" href="/MyBlog/css/lightgallery-bundle.min.css">
 
 
-<meta name="generator" content="Hexo 7.3.0">
-<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
-<style>mjx-container[jax="SVG"] {
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
   direction: ltr;
 }
 
@@ -317,62 +315,57 @@ mjx-container[display="true"] + br {
         
             
         
-        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/hint.css/2.7.0/hint.min.css"><div class=".article-gallery"><h2 id="引入概念"><a href="#引入概念" class="headerlink" title="引入概念"></a>引入概念</h2><p>当我们需要表示如状态（文件的打开、关闭、读取、写入）、颜色（红色、绿色、蓝色）或对象类型（圆形、矩形、三角形）等场景时，<strong>枚举类型</strong>是一个不错的选择。</p>
-<p><a target="_blank" rel="noopener" href="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/202310092324944.png" class="gallery-item" style="box-shadow: none;"> <img src="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/202310092324944.png"></a></p>
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/hint.css/2.7.0/hint.min.css"><div class=".article-gallery"><h2 id="引入概念">引入概念</h2>
+<p>当我们需要表示如状态（文件的打开、关闭、读取、写入）、颜色（红色、绿色、蓝色）或对象类型（圆形、矩形、三角形）等场景时，<strong>枚举类型</strong>是一个不错的选择。</p>
+<p><a target="_blank" rel="noopener" href="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/202310092324944.png" class="gallery-item" style="box-shadow: none;"> <img src="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/202310092324944.png" alt=""></a></p>
 <p>而什么是枚举类型呢？从上图的使用场景也可直窥一二。</p>
 <p>定义一个传统的枚举类型：</p>
-<figure class="highlight cpp"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">color</span> { red, orange, blue, yellow}; <span class="comment">// red = 0, orange = 1, blue = 2, yellow = 3</span></span><br><span class="line">color book = red;</span><br><span class="line">color pencil = blue;</span><br><span class="line">std::cout &lt;&lt; book &lt;&lt; std::endl; <span class="comment">// 0</span></span><br><span class="line">std::cout &lt;&lt; pencil &lt;&lt; std::endl; <span class="comment">// 2</span></span><br></pre></td></tr></tbody></table></figure>
-
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">color</span> { red, orange, blue, yellow}; <span class="comment">// red = 0, orange = 1, blue = 2, yellow = 3</span></span><br><span class="line">color book = red;</span><br><span class="line">color pencil = blue;</span><br><span class="line">std::cout &lt;&lt; book &lt;&lt; std::endl; <span class="comment">// 0</span></span><br><span class="line">std::cout &lt;&lt; pencil &lt;&lt; std::endl; <span class="comment">// 2</span></span><br></pre></td></tr></table></figure>
 <p>从上面的示例，可以得出简单的结论：枚举（Enumeration）是一种用于定义一组具有离散取值的相关命名常量的数据类型。</p>
 <p>上面定义了一个传统枚举类型，也就意味着 C++ 是有新的枚举类型的，<strong>C++11 中引入了枚举类（enum class）</strong>。至于为什么有了传统的枚举类型还要定义新的枚举类呢？下面来探究一下。</p>
-<h2 id="传统枚举"><a href="#传统枚举" class="headerlink" title="传统枚举"></a>传统枚举</h2><p>如上面所举出的例子，枚举的语法定义格式为：</p>
+<h2 id="传统枚举">传统枚举</h2>
+<p>如上面所举出的例子，枚举的语法定义格式为：</p>
 <blockquote>
-<p>enum 枚举名 { 枚举成员1, 枚举成员2, ……}</p>
+<p>enum 枚举名 { 枚举成员1, 枚举成员2, …}</p>
 </blockquote>
-<p>枚举的使用：<code>枚举名 枚举变量 = 枚举元素;</code> </p>
+<p>枚举的使用：<code>枚举名 枚举变量 = 枚举元素;</code></p>
 <p>通过枚举类型的语法格式和使用，就可以进行简单的枚举使用。</p>
-<figure class="highlight cpp"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">day</span> { MON, TUE, WED, THU, FRI, SAT, SUN};</span><br><span class="line">day today = WED;</span><br></pre></td></tr></tbody></table></figure>
-
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">day</span> { MON, TUE, WED, THU, FRI, SAT, SUN};</span><br><span class="line">day today = WED;</span><br></pre></td></tr></table></figure>
 <p>既然可以使用，又为什么需要产生新枚举类呢？这就不得不提传统枚举的缺陷。</p>
 <ol>
 <li>命名冲突</li>
 </ol>
 <p>枚举值放置在同一作用域中时，两个枚举定义中的枚举量可能产生冲突。</p>
-<figure class="highlight cpp"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">Color</span> { RED, GREEN, BLUE};</span><br><span class="line"><span class="keyword">enum</span> <span class="title class_">Fruit</span> { APPLE, BANANA, ORANGE, RED};</span><br></pre></td></tr></tbody></table></figure>
-
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">Color</span> { RED, GREEN, BLUE};</span><br><span class="line"><span class="keyword">enum</span> <span class="title class_">Fruit</span> { APPLE, BANANA, ORANGE, RED};</span><br></pre></td></tr></table></figure>
 <p>在这个示例中定义了两个不同的枚举类型：<code>Color</code> 和 <code>Fruit</code>。然而它们都包含一个名为 <code>RED</code> 的枚举成员。当在同一个作用域内引用 <code>RED</code> ，编译器将无法区分是 <code>Color RED</code> 还是 <code>Fruit RED</code> ，由此编译器将产生错误。</p>
 <ol start="2">
 <li>类型转换</li>
 </ol>
 <p>传统 C++ 枚举类型的枚举值被视为整数类型，因此它们可以隐式地转换为整数，这可能导致类型安全性问题，尤其是当不同枚举类型之间的值可以互相赋值时。</p>
-<figure class="highlight cpp"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">Color</span> { RED, GREEN, BLUE};</span><br><span class="line"></span><br><span class="line">Color myColor = RED; </span><br><span class="line"><span class="type">int</span> colorValue = myColor; <span class="comment">// 枚举值隐式转换为整数</span></span><br></pre></td></tr></tbody></table></figure>
-
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">Color</span> { RED, GREEN, BLUE};</span><br><span class="line"></span><br><span class="line">Color myColor = RED; </span><br><span class="line"><span class="type">int</span> colorValue = myColor; <span class="comment">// 枚举值隐式转换为整数</span></span><br></pre></td></tr></table></figure>
 <p>在这个示例中，当我们将 <code>Color</code> 定义的枚举变量赋值给整型变量时，会发生枚举值的隐式转换。</p>
 <ol start="3">
 <li>全局作用域</li>
 </ol>
 <p>传统 C++ 枚举类型的枚举值在整个作用域内可见，这可能导致不希望的全局命名污染问题，尤其是在不同的代码模块中。当然这和命名冲突是一个问题，但在这里我们更关注在不同代码模块中。</p>
-<figure class="highlight cpp"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 文件A.cpp</span></span><br><span class="line"><span class="keyword">enum</span> <span class="title class_">Direction</span> { UP, DOWN, LEFT, RIGHT};</span><br><span class="line"></span><br><span class="line"><span class="comment">// 文件B.cpp</span></span><br><span class="line"><span class="keyword">enum</span> <span class="title class_">State</span> { UN, OFF};</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在文件B.cpp中引入了文件A.cpp中定义的Direction枚举值</span></span><br><span class="line"><span class="comment">// 这可能导致不希望的全局命名污染</span></span><br><span class="line">std::cout &lt;&lt; UP &lt;&lt; std::endl; <span class="comment">// 输出: 0</span></span><br><span class="line">std::cout &lt;&lt; UP &lt;&lt; std::endl; <span class="comment">// 输出: 0</span></span><br></pre></td></tr></tbody></table></figure>
-
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 文件A.cpp</span></span><br><span class="line"><span class="keyword">enum</span> <span class="title class_">Direction</span> { UP, DOWN, LEFT, RIGHT};</span><br><span class="line"></span><br><span class="line"><span class="comment">// 文件B.cpp</span></span><br><span class="line"><span class="keyword">enum</span> <span class="title class_">State</span> { UN, OFF};</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在文件B.cpp中引入了文件A.cpp中定义的Direction枚举值</span></span><br><span class="line"><span class="comment">// 这可能导致不希望的全局命名污染</span></span><br><span class="line">std::cout &lt;&lt; UP &lt;&lt; std::endl; <span class="comment">// 输出: 0</span></span><br><span class="line">std::cout &lt;&lt; UP &lt;&lt; std::endl; <span class="comment">// 输出: 0</span></span><br></pre></td></tr></table></figure>
 <p>因为传统枚举类型的枚举值在整个作用域内可见，所以在文件 <code>B.cpp</code> 中引入 <code>Direction</code> 枚举时，它也包含了 <code>UP</code> ，导致与文件 <code>B.cpp</code> 中定义的 <code>State</code> 枚举的 <code>ON</code> 值冲突。这就是全局命名污染问题，因为不同的枚举类型之间可能会产生意外的命名冲突，使代码难以理解和维护。</p>
 <ol start="4">
-<li>无法限制枚举的有效值<br>传统的 C++ 枚举类型无法限制变量接受的值范围，因为它们的枚举成员只是整数常量的命名表示，可以赋予枚举变量任何整数值，即使这些值不在枚举成员的范围内。</li>
+<li>无法限制枚举的有效值传统的 C++ 枚举类型无法限制变量接受的值范围，因为它们的枚举成员只是整数常量的命名表示，可以赋予枚举变量任何整数值，即使这些值不在枚举成员的范围内。</li>
 </ol>
-<figure class="highlight cpp"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">Month</span> { JANUARY = <span class="number">1</span>, FEBRUARY, MARCH, ... , DECEMBER};</span><br><span class="line"></span><br><span class="line">Month currentMonth = <span class="built_in">static_cast</span>&lt;Month&gt;(<span class="number">42</span>); <span class="comment">// 赋予一个超出范围的整数值</span></span><br><span class="line"><span class="comment">// currentMonth 现在包含了一个不在枚举范围内的值</span></span><br></pre></td></tr></tbody></table></figure>
-
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">Month</span> { JANUARY = <span class="number">1</span>, FEBRUARY, MARCH, ... , DECEMBER};</span><br><span class="line"></span><br><span class="line">Month currentMonth = <span class="built_in">static_cast</span>&lt;Month&gt;(<span class="number">42</span>); <span class="comment">// 赋予一个超出范围的整数值</span></span><br><span class="line"><span class="comment">// currentMonth 现在包含了一个不在枚举范围内的值</span></span><br></pre></td></tr></table></figure>
 <p>这种情况可能导致在程序中使用无效的枚举值，因为编译器不会阻止将任何整数值赋给枚举变量，这限制了类型安全性。</p>
-<h2 id="新枚举类（C-11）"><a href="#新枚举类（C-11）" class="headerlink" title="新枚举类（C++11）"></a>新枚举类（C++11）</h2><p>C++11 引入了一种新的枚举类型，称为”枚举类”（enum class），也被称为”强类型枚举”。枚举类是传统枚举类型的改进版本，它提供了更好的类型安全性和作用域控制。</p>
+<h2 id="新枚举类（c-11）">新枚举类（C++11）</h2>
+<p>C++11 引入了一种新的枚举类型，称为"枚举类"（enum class），也被称为"强类型枚举"。枚举类是传统枚举类型的改进版本，它提供了更好的类型安全性和作用域控制。</p>
 <p>新枚举类的语法定义格式为：</p>
 <blockquote>
-<p>enum class name { 枚举成员1, 枚举成员2, …… };</p>
+<p>enum class name { 枚举成员1, 枚举成员2, … };</p>
 </blockquote>
 <p>以下是一个枚举类的示例：</p>
-<figure class="highlight cpp"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum class</span> <span class="title class_">Color</span> { RED, GREEN, BLUE };</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>{</span><br><span class="line">    Color myColor = Color::RED;</span><br><span class="line">    <span class="comment">// myColor = 1; // error， 不能将整数值直接赋给枚举类变量</span></span><br><span class="line">    <span class="type">int</span> colorValue = <span class="built_in">static_cast</span>&lt;<span class="type">int</span>&gt;(myColor); <span class="comment">// 显式转换为整数</span></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
-
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum class</span> <span class="title class_">Color</span> { RED, GREEN, BLUE };</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>{</span><br><span class="line">    Color myColor = Color::RED;</span><br><span class="line">    <span class="comment">// myColor = 1; // error， 不能将整数值直接赋给枚举类变量</span></span><br><span class="line">    <span class="type">int</span> colorValue = <span class="built_in">static_cast</span>&lt;<span class="type">int</span>&gt;(myColor); <span class="comment">// 显式转换为整数</span></span><br><span class="line">}</span><br></pre></td></tr></table></figure>
 <p>可以看到新的枚举类作用域不再是全局的了，必须使用枚举名来限定枚举量。此外新枚举类不能隐式地转换成其它类型，但可以通过显式来转换。</p>
 <p>另外新枚举类还提供了一种语法：</p>
-<figure class="highlight cpp"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum class</span> <span class="title class_">pizza</span> : <span class="type">short</span> { Small, Medium, Large };</span><br></pre></td></tr></tbody></table></figure>
-
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum class</span> <span class="title class_">pizza</span> : <span class="type">short</span> { Small, Medium, Large };</span><br></pre></td></tr></table></figure>
 <p><code>:short</code> 将底层类型指定为 short ，底层类型必须为整型。</p>
 </div>
     </div>
@@ -553,6 +546,7 @@ mjx-container[display="true"] + br {
 
 
     <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script> 
+
 
                 </div>
             
