@@ -6,7 +6,7 @@
   <link href="https://wmjim.github.io/MyBlog/atom.xml" rel="self"/>
   
   <link href="https://wmjim.github.io/MyBlog/"/>
-  <updated>2025-01-20T18:29:57.627Z</updated>
+  <updated>2025-02-06T03:35:10.550Z</updated>
   <id>https://wmjim.github.io/MyBlog/</id>
   
   <author>
@@ -17,11 +17,36 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>解读：Arc&lt;Box&lt;[T]&gt;&gt;</title>
+    <link href="https://wmjim.github.io/MyBlog/posts/77eefbae.html"/>
+    <id>https://wmjim.github.io/MyBlog/posts/77eefbae.html</id>
+    <published>2025-02-06T03:33:08.000Z</published>
+    <updated>2025-02-06T03:35:10.550Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/hint.css/2.7.0/hint.min.css&quot;&gt;&lt;div</summary>
+        
+      
+    
+    
+    
+    <category term="编程语言" scheme="https://wmjim.github.io/MyBlog/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/"/>
+    
+    
+    <category term="rust" scheme="https://wmjim.github.io/MyBlog/tags/rust/"/>
+    
+  </entry>
+  
+  <entry>
     <title>rustlings题解</title>
     <link href="https://wmjim.github.io/MyBlog/posts/17669.html"/>
     <id>https://wmjim.github.io/MyBlog/posts/17669.html</id>
     <published>2025-01-20T16:42:04.000Z</published>
-    <updated>2025-01-20T18:29:57.627Z</updated>
+    <updated>2025-02-06T03:33:28.155Z</updated>
     
     
       

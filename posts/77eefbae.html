@@ -4,7 +4,7 @@
     <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport" />
-    <meta name="description" content="exam garding 自动评分系统 submodule 使用补充" />
+    <meta name="description" content="解读：Arc&lt;Box&lt;[T]&gt;&gt;" />
     <meta name="hexo-theme-A4" content="v1.9.6" />
     <link rel="alternate icon" type="image/webp" href="/MyBlog/img/favicon.jpg">
     <title>青山依旧在</title>
@@ -277,7 +277,7 @@ mjx-container[display="true"] + br {
         
             
                 <div class="post-main-title" style="text-align: center;">
-                    exam garding 自动评分系统 submodule 使用补充
+                    解读：Arc&lt;Box&lt;[T]&gt;&gt;
                 </div>
             
         
@@ -292,13 +292,13 @@ mjx-container[display="true"] + br {
                 
                 
                     
-                     <span>字数总计：436</span>
+                     <span>字数总计：975</span>
                 
                 
                     
                         &nbsp; | &nbsp;
                     
-                    <span>阅读估时：1分钟</span>
+                    <span>阅读估时：4分钟</span>
                 
                 
                     
@@ -315,31 +315,84 @@ mjx-container[display="true"] + br {
         
             
         
-        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/hint.css/2.7.0/hint.min.css"><div class=".article-gallery"><h2 id="引言">引言</h2>
-<p>在按照<a target="_blank" rel="noopener" href="https://github.com/LearningInfiniTensor/.github/blob/main/exam-grading-user-guide/doc.md">Exam Grading 自动测试评分系统使用教程</a>搭建 rustlings 做题环境时遇到了一些问题，这里记录一下解决方法。</p>
-<p>准备 git 环境和获取 exam-grading 代码的步骤就不再进行赘述，从添加子模块开始。</p>
-<h2 id="添加子模块">添加子模块</h2>
-<p>1、首先将上一步创建的exam-grading仓库文件拉到本地，比如我放在 <code>~/2024winter</code> 目录下。</p>
-<p>2、安装 rustlings（自己按照<a target="_blank" rel="noopener" href="https://github.com/rust-lang/rustlings">安装教程</a>的指导安装），安装完后找一个目录（我同样放在 <code>~/2024winter</code> 目录下）执行 <code>rustlings init</code> 。</p>
-<p>3、在 github 再创建一个空的私有仓库，之后将 rustlings 内容推送到该仓库（空仓库会有指导该怎样推送）。</p>
-<p>4、在 exam-grading 目录下，执行：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git submodule add &lt;target-test-repo&gt; ./rustlings</span><br></pre></td></tr></table></figure>
-<p>这里的 <code>&lt;target-test-repo&gt;</code> 是你刚刚创建的 rustlings 仓库地址（用 ssh 地址而不是 https，否则拉不下来）。</p>
-<p>5、再将 exam-grading 新增的修改推送到远程仓库。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">"add rustlings submodule"</span></span><br><span class="line">git push</span><br></pre></td></tr></table></figure>
-<p>6、打开 <a target="_blank" rel="noopener" href="https://opencamp.cn/InfiniTensor/camp/2024winter/stage/2">训练营</a> 找到 Rust 专题的晋级榜单，然后在最好几页查看自己的分数和最后提交时间，确认自己的提交是否成功。</p>
-<h2 id="后续">后续</h2>
-<p>在前面添加子模块后，后续操作就可以简化。</p>
-<p>1、做题还是在 rustlings 中做，做完题后直接提交到 rustlings 的 github 仓库。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">"done ..."</span></span><br><span class="line">git push</span><br></pre></td></tr></table></figure>
-<p>2、进入 exam-grading 目录，更新子模块</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git submodule update --remote</span><br></pre></td></tr></table></figure>
-<p>然后再提交 exam-grading 的修改。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">"done ..."</span></span><br><span class="line">git push</span><br></pre></td></tr></table></figure>
-<h2 id="参考">参考</h2>
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/hint.css/2.7.0/hint.min.css"><div class=".article-gallery"><p>在 <a target="_blank" rel="noopener" href="https://github.com/LearningInfiniTensor/learning-lm-rs">LearningInfiniTensor/learning-lm-rs</a> 项目中的 <code>src/tensor</code> 中看到了一个很有意思的 Rust 代码实践，其中 <code>data: Arc&lt;Box&lt;[T]&gt;&gt;</code> 看起来有些复杂，也因为智能指针这一块学的不太好，一时无法理解，特此记录。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">struct</span> <span class="title class_">Tensor</span>&lt;T&gt; {</span><br><span class="line">	data: Arc&lt;<span class="type">Box</span>&lt;[T]&gt;&gt;, <span class="comment">// 底层数据存储</span></span><br><span class="line">	shape: <span class="type">Vec</span>&lt;unsize&gt;,	 <span class="comment">// 形状 </span></span><br><span class="line">	offset: <span class="type">usize</span>,		   <span class="comment">// 数据偏移量</span></span><br><span class="line">	length: <span class="type">usize</span>,		   <span class="comment">// 数据长度</span></span><br><span class="line">}</span><br></pre></td></tr></table></figure>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://github.com/LearningInfiniTensor/.github/blob/main/exam-grading-user-guide/doc.md">Exam Grading 自动测试评分系统使用教程</a></li>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/Murrrphy/article/details/144730967?sharetype=blogdetail&amp;sharerId=144730967&amp;sharerefer=PC&amp;sharesource=Murrrphy&amp;spm=1011.2480.3001.8118">清华大学 大模型与人工智能系统训练营 一阶段submodule配置</a></li>
+<li><code>data: Arc&lt;Box&lt;[T]&gt;&gt;</code>：存储 <code>Tensor</code> 数据，允许多个 <code>Tensor</code> 实例共享同一个数据。</li>
+<li><code>shape: Vec&lt;unsize&gt;</code>：存储 <code>Tensor</code>的形状。</li>
+<li><code>offset: usize</code>：数据偏移量。</li>
+<li><code>length: usize</code>：数据长度。</li>
+</ul>
+<p>下面就来逐层拆解进行理解。</p>
+<h2 id="先拆解-box-t">先拆解 <code>Box&lt;[T]&gt;</code></h2>
+<p><code>Box&lt;[T]&gt;</code>是什么？</p>
+<ul>
+<li><code>Box&lt;T&gt;</code>是 Rust 的智能指针，用于 <em><em>堆上（<strong>​</strong></em>heap</em>**​ <strong>）分配数据</strong>，让 Rust 自动管理内存。</li>
+<li><code>[T]</code>是 <strong>动态数组</strong>，表示<strong>一个长度未知的切片</strong>（<em>slice</em>）。</li>
+</ul>
+<p>为什么用 <code>Box&lt;[T]&gt;</code>？</p>
+<ul>
+<li>Rust 中<strong>数组</strong>  <strong>​<code>[T; N]</code>​</strong>​<strong>长度是固定的</strong>，不能动态改变。</li>
+<li>如果需要存储 <strong>任意长度的数组</strong>，必须用<strong>切片</strong> <code>&amp;[T]</code>，但切片本身没有 <strong>所有权</strong>，因此我们用 <code>Box&lt;[T]&gt;</code> 在<strong>堆上分配数据，并获取所有权</strong>。</li>
+</ul>
+<p><strong>示例代码</strong>：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">v</span> = <span class="built_in">vec!</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>];</span><br><span class="line"><span class="keyword">let</span> <span class="variable">boxed_slice</span>: <span class="type">Box</span>&lt;[<span class="type">i32</span>]&gt; = v.<span class="title function_ invoke__">into_boxed_slice</span>(); <span class="comment">// 将 Vec&lt;T&gt; 转换为 Box&lt;[T]&gt;</span></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">"{:?}"</span>, boxed_slice); <span class="comment">// 输出：[1, 2, 3, 4]</span></span><br></pre></td></tr></table></figure>
+<p><strong>​<code>Box&lt;[T]&gt;</code>​</strong>  <strong>让</strong> <strong>​<code>Tensor</code>​</strong> <strong>能存储</strong> <strong>变长数组（动态大小）</strong> ，而不是固定大小的数组 <code>[T; N]</code>。</p>
+<h2 id="再看-arc-box-t">再看 <code>Arc&lt;Box&lt;[T]&gt;&gt;</code></h2>
+<p><strong>​<code>Arc&lt;T&gt;</code>​</strong>  <strong>是什么？</strong></p>
+<ul>
+<li><code>Arc&lt;T&gt;</code>（<em>Atomic Reference Counted</em>）是一个<strong>线程安全的引用计数智能指针</strong>。</li>
+<li>允许多个线程<strong>安全地共享同一个数据</strong>，自动进行 <strong>引用计数</strong>（<em>Reference Counting</em>），在<strong>最后一个引用被释放时才释放数据</strong>。</li>
+</ul>
+<p><strong>为什么使用</strong> <strong>​<code>Arc&lt;T&gt;</code>​</strong>​ <strong>?</strong></p>
+<ul>
+<li><code>Box&lt;T&gt;</code>只能有<strong>一个所有者</strong>，如果 <code>Tensor&lt;T&gt;</code>的多个实例需要共享 <code>data</code>，那 <code>Box&lt;T&gt;</code>​<strong>不够用</strong>。</li>
+<li><code>Arc&lt;T&gt;</code>允许多个 <code>Tensor&lt;T&gt;</code>​<strong>共享同一个数据</strong>，并在<strong>最后一个</strong> <code>Tensor</code>​<strong>被释放时才释放</strong> <code>data</code>。</li>
+<li>这样做<strong>减少了数据复制</strong>，提升性能。</li>
+</ul>
+<p><strong>示例代码</strong>：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::sync::Arc;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="variable">v</span> = <span class="built_in">vec!</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>].<span class="title function_ invoke__">into_boxed_slice</span>();</span><br><span class="line"><span class="keyword">let</span> <span class="variable">shared_data</span> = Arc::<span class="title function_ invoke__">new</span>(v);</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="variable">tensor1</span> = shared_data.<span class="title function_ invoke__">clone</span>(); <span class="comment">// 共享数据，不复制</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">tensor2</span> = shared_data.<span class="title function_ invoke__">clone</span>(); <span class="comment">// 共享数据，不复制</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">"{:?}"</span>, tensor1);</span><br><span class="line"><span class="built_in">println!</span>(<span class="string">"{:?}"</span>, tensor2);</span><br></pre></td></tr></table></figure>
+<p><code>Arc&lt;Box&lt;[T]&gt;&gt;</code> 让 <code>Tensor&lt;T&gt;</code> 的多个实例可以共享相同的数据，而不需要复制。</p>
+<h2 id="为什么不是-arc-t">为什么不是 <code>Arc&lt;[T]&gt;</code>?</h2>
+<p>Rust 的 <code>Arc&lt;T&gt;</code>要求 <code>T</code>必须是 <code>Sized</code>（已知大小的类型），而<code>[T]</code>是切片（slice），不是 <code>Sized</code>类型，Rust 不知道它的大小。</p>
+<p><code>Box&lt;[T]&gt;</code>作为一个 <code>Sized</code>类型，可以放进 <code>Arc&lt;T&gt;</code>。</p>
+<p>不过 <code>Arc&lt;[T]&gt;</code>是可用的，而且更推荐。Rust 提供了 <code>Arc::from(vec)</code> 这种方式，让 <code>Arc&lt;[T]&gt;</code> 可以创建：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::sync::Arc;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="variable">numbers</span> = Arc::<span class="title function_ invoke__">from</span>(<span class="built_in">vec!</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]); <span class="comment">// 直接创建 Arc&lt;[T]&gt;</span></span><br></pre></td></tr></table></figure>
+<p><code>Vec&lt;T&gt;</code> 内部本身就是 <strong>堆分配的数组</strong>，Rust <strong>在内部做了优化</strong>，把 <code>Vec&lt;T&gt;</code> 直接转换为 <code>Arc&lt;[T]&gt;</code>。</p>
+<p><code>Arc&lt;Box&lt;T&gt;&gt;</code>vs <code>Arc&lt;[T]&gt;</code></p>
+<table>
+<thead>
+<tr>
+<th>方式</th>
+<th>是否可用</th>
+<th>是否更推荐</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Arc&lt;[T]&gt;</code></td>
+<td>✅ <strong>可以</strong><br></td>
+<td>✅ <strong>推荐</strong></td>
+<td>直接存储共享的 <strong>静态数组</strong></td>
+</tr>
+<tr>
+<td><code>Arc&lt;Box&lt;[T]&gt;&gt;</code></td>
+<td>✅ <strong>可以</strong></td>
+<td>❌ <strong>通常不必要</strong></td>
+<td>需要手动管理 <code>Box</code></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>​<code>Arc&lt;[T]&gt;</code>​</strong>  更简洁，Rust <strong>内部优化了</strong> <strong>​<code>Arc::from(vec)</code>​</strong> ，无需 <code>Box&lt;[T]&gt;</code>。</li>
+<li><strong>​<code>Arc&lt;Box&lt;[T]&gt;&gt;</code>​</strong>  只有在 <strong>已经有</strong> <strong>​<code>Box&lt;[T]&gt;</code>​</strong>  <strong>需要共享</strong> 时才需要。</li>
+</ul>
+<h2 id="总结">总结</h2>
+<p><code>Box&lt;[T]&gt;</code>堆分配的动态数组，存储 <code>Tensor</code>的数据；<code>Arc&lt;Box&lt;[T]&gt;&gt;</code>多个 <code>Tensor</code>实例可以共享 <code>data</code>，避免重复拷贝，提高效率。适用于：</p>
+<ul>
+<li>张量（Tensor）等大数据结构。</li>
+<li>多个 <code>Tensor</code> 共享同一块数据。</li>
 </ul>
 </div>
     </div>
@@ -347,7 +400,7 @@ mjx-container[display="true"] + br {
     <div class="post-meta">
         <i>
         
-            <span>2024-12-30</span>
+            <span>2025-02-06</span>
             
                 <span>该篇文章被 meng.wang</span>
             
@@ -355,8 +408,8 @@ mjx-container[display="true"] + br {
                 <span>打上标签:
                     
                     
-                        <a href='/MyBlog/tags/rustlings/'>
-                            rustlings
+                        <a href='/MyBlog/tags/rust/'>
+                            rust
                         </a>
                     
                 </span>
@@ -365,8 +418,8 @@ mjx-container[display="true"] + br {
                 <span>归为分类:
                     
                     
-                        <a href='/MyBlog/categories/%E9%A1%B9%E7%9B%AE/'>
-                            项目
+                        <a href='/MyBlog/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/'>
+                            编程语言
                         </a>
                     
                 </span>
@@ -382,11 +435,9 @@ mjx-container[display="true"] + br {
     
             <div class="post-footer-pre-next">
                 
-                    <span>上一篇：<a href='/MyBlog/posts/77eefbae.html'>解读：Arc&lt;Box&lt;[T]&gt;&gt;</a></span>
-                
 
                 
-                    <span class="post-footer-pre-next-last-span-right">下一篇：<a href="/MyBlog/posts/5148.html">CLion 配置 EasyX</a>
+                    <span class="post-footer-pre-next-last-span-right">下一篇：<a href="/MyBlog/posts/715.html">exam garding 自动评分系统 submodule 使用补充</a>
                     </span>
                 
             </div>
