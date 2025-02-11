@@ -4,7 +4,7 @@
     <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport" />
-    <meta name="description" content="git使用前的基本配置" />
+    <meta name="description" content="Day1：环境搭建和初探Cargo" />
     <meta name="hexo-theme-A4" content="v1.9.6" />
     <link rel="alternate icon" type="image/webp" href="/MyBlog/img/favicon.jpg">
     <title>青山依旧在</title>
@@ -306,7 +306,7 @@ mjx-container[display="true"] + br {
         
             
                 <div class="post-main-title" style="text-align: center;">
-                    git使用前的基本配置
+                    Day1：环境搭建和初探Cargo
                 </div>
             
         
@@ -321,13 +321,13 @@ mjx-container[display="true"] + br {
                 
                 
                     
-                     <span>字数总计：512</span>
+                     <span>字数总计：267</span>
                 
                 
                     
                         &nbsp; | &nbsp;
                     
-                    <span>阅读估时：2分钟</span>
+                    <span>阅读估时：1分钟</span>
                 
                 
                     
@@ -344,32 +344,44 @@ mjx-container[display="true"] + br {
         
             
         
-        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/hint.css/2.7.0/hint.min.css"><div class=".article-gallery"><p>为了更好的使用体验 Git，在正式使用 Git 前需要进行一些必要的设置。</p>
-<h2 id="设置用户信息">设置用户信息</h2>
-<p>安装完 Git 之后，要做的第一件事就是设置你的用户名和邮件地址。每一个 Git 提交都会使用这些信息，它们会写入到你的每一次提交中，不可更改：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># git config --global user.name "yourname"</span></span><br><span class="line"><span class="comment"># git config --global user.email "youremail"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 示例</span></span><br><span class="line">git config --global user.name <span class="string">"ct"</span></span><br><span class="line">git config --global user.email <span class="string">"ct@163.com"</span></span><br></pre></td></tr></table></figure>
-<h2 id="设置行尾首选项">设置行尾首选项</h2>
-<p>每次按键盘上的 return 时，会插入一个称为行结束符的不可见字符。 不同的操作系统处理行结束符的方式不同。</p>
-<p>在使用 Git 和 GitHub 协作处理项目时，Git 可能产生意外结果，例如，您在 Windows 计算机上操作，而您的协作者是在 macOS 中做的更改。</p>
-<p>您可以将 Git 配置为自动处理行结束符，以便与使用不同操作系统的人员有效地协作。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Unix/Linux</span></span><br><span class="line">git config --global core.autocrlf input</span><br><span class="line">git config --global core.safecrlf <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Windows</span></span><br><span class="line">git config --global core.autocrlf <span class="literal">true</span></span><br><span class="line">git config --global core.safecrlf <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-<h2 id="设置默认分支名">设置默认分支名</h2>
-<p>分支名默认为 Master ，但是 Github 仓库默认分支名修改为了 main ，由于需要经常使用 Github ，因此修改默认分支名为 main。如果你主要是有 Gitee ，则可以不修改。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># git config --global init.defaultBranch "分支名"</span></span><br><span class="line">git config --global init.defaultBranch <span class="string">"main"</span> <span class="comment"># 为配合 github 使用</span></span><br></pre></td></tr></table></figure>
-<h2 id="设置文本编辑器">设置文本编辑器</h2>
-<p>可以配置一个你熟悉使用的编辑器作为 Git 的默认编辑器，通过下面的指令配置。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># git config --global core.editor "编辑器名"</span></span><br><span class="line">git config --global core.editor vim <span class="comment"># 终端个人比较习惯 vim 的操作</span></span><br></pre></td></tr></table></figure>
-<h2 id="检查配置信息">检查配置信息</h2>
-<p>如果想要检查你的配置，可以使用 git config --list 命令来列出所有 Git 当时能找到的配置。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ git config --list</span><br><span class="line">user.name=John Doe</span><br><span class="line">user.email=johndoe@example.com</span><br><span class="line">color.status=auto</span><br><span class="line">color.branch=auto</span><br><span class="line">color.interactive=auto</span><br><span class="line">color.diff=auto</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
-<p>当然你也可以在用户目录下的 <code>.gitconfig</code> 文件中查看所有配置。</p>
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/hint.css/2.7.0/hint.min.css"><div class=".article-gallery"><h2 id="🌱-任务拆解">🌱 任务拆解</h2>
+<pre class="mermaid">graph TD;
+  A["Day1 新手村"] --&gt; B["🛠️ 安装工具链"]
+  A --&gt; C["🎨 配置IDE"]
+  A --&gt; D["🚀 初探Cargo"]
+  B --&gt; E["📊 进度条"]
+  C --&gt; E
+  D --&gt; E
+  E --&gt;|100%| F["🏆 获得「Rust萌新」徽章"]</pre>
+<h2 id="🛠️-环境搭建">🛠️ 环境搭建</h2>
+<p><strong>安装 Rust 工具链</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl --proto <span class="string">'=https'</span> --tlsv1.2 -sSf https://sh.rustup.rs | sh</span><br></pre></td></tr></table></figure>
+<p><strong>验证安装</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">❯ rustup --version</span><br><span class="line">rustup 1.27.1 (54dd3d00f 2024-04-24)</span><br><span class="line">info: This is the version <span class="keyword">for</span> the rustup toolchain manager, not the rustc compiler.</span><br><span class="line">info: The currently active `rustc` version is `rustc 1.84.0 (9fc6b4312 2025-01-07)`</span><br><span class="line">❯ cargo --version</span><br><span class="line">cargo 1.84.0 (66221abde 2024-11-19)</span><br></pre></td></tr></table></figure>
+<p><strong>配置国内镜像（可选）</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">'[source.crates-io]</span></span><br><span class="line"><span class="string">replace-with = "ustc"</span></span><br><span class="line"><span class="string">[source.ustc]</span></span><br><span class="line"><span class="string">registry = "git://mirrors.ustc.edu.cn/crates.io-index"</span></span><br><span class="line"><span class="string">'</span> &gt;&gt; ~/.cargo/config</span><br></pre></td></tr></table></figure>
+<h2 id="🎨-配置-vscode">🎨 配置 VSCode</h2>
+<p><strong>推荐安装扩展</strong>：</p>
+<ul>
+<li>​rust-analyzer​（核心语言支持）</li>
+<li>​Even Better TOML​（配置文件高亮）</li>
+<li>​CodeLLDB​（调试器）</li>
+<li>​Dependi​（依赖管理）</li>
+</ul>
+<p><strong>创建专属配置</strong>：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// settings.json</span></span><br><span class="line"><span class="punctuation">{</span></span><br><span class="line">  <span class="attr">"rust-analyzer.check.command"</span><span class="punctuation">:</span> <span class="string">"clippy"</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">"editor.inlayHints.enabled"</span><span class="punctuation">:</span> <span class="string">"on"</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">"rustfmt.extraArgs"</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">"--edition"</span><span class="punctuation">,</span> <span class="string">"2021"</span><span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">}</span></span><br></pre></td></tr></table></figure>
+<p>✅ 成功标志：输入​let s = String::new()​时看到类型提示波浪线</p>
+<h2 id="🚀-初探cargo">🚀 初探Cargo</h2>
+<p>使用命令创建 Rust 新项目：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cargo new hello_world &amp;&amp; <span class="built_in">cd</span> hello_world</span><br><span class="line">cargo run | lolcat</span><br></pre></td></tr></table></figure>
+<p>✅ 成功标志：看到彩虹色的​Hello, world!​</p>
 </div>
     </div>
 
     <div class="post-meta">
         <i>
         
-            <span>2023-10-08</span>
+            <span>2025-02-11</span>
             
                 <span>该篇文章被 meng.wang</span>
             
@@ -377,8 +389,8 @@ mjx-container[display="true"] + br {
                 <span>打上标签:
                     
                     
-                        <a href='/MyBlog/tags/git/'>
-                            git
+                        <a href='/MyBlog/tags/rust/'>
+                            rust
                         </a>
                     
                 </span>
@@ -387,8 +399,8 @@ mjx-container[display="true"] + br {
                 <span>归为分类:
                     
                     
-                        <a href='/MyBlog/categories/%E5%B7%A5%E5%85%B7/'>
-                            工具
+                        <a href='/MyBlog/categories/Rust%E8%87%AA%E5%AD%A6%E8%AE%A1%E5%88%92/'>
+                            Rust自学计划
                         </a>
                     
                 </span>
@@ -404,11 +416,9 @@ mjx-container[display="true"] + br {
     
             <div class="post-footer-pre-next">
                 
-                    <span>上一篇：<a href='/MyBlog/posts/47078.html'>enum那些事</a></span>
-                
 
                 
-                    <span class="post-footer-pre-next-last-span-right">下一篇：<a href="/MyBlog/posts/64262.html">assert的讨论</a>
+                    <span class="post-footer-pre-next-last-span-right">下一篇：<a href="/MyBlog/posts/77eefbae.html">解读：Arc&lt;Box&lt;[T]&gt;&gt;</a>
                     </span>
                 
             </div>

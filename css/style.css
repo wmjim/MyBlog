@@ -603,7 +603,7 @@ a
 } 
 .archive-main a:hover {
     color:#000000;
-    text-decoration: underline; 
+    /* text-decoration: underline;  */
 }
 
 .index-header a:link { 
@@ -732,3 +732,12 @@ margin-left: 10px; /* 调整a标签和span之间的距离 */
     isolation:isolate;
     display: initial;
 }
+
+.mermaid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: white !important;  /* 确保背景为白色 */
+    padding: 20px; /* 增加内边距，避免紧贴 */
+    border-radius: 8px; /* 可选：让边框圆角 */
+} 

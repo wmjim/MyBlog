@@ -6,7 +6,7 @@
   <link href="https://wmjim.github.io/MyBlog/atom.xml" rel="self"/>
   
   <link href="https://wmjim.github.io/MyBlog/"/>
-  <updated>2025-02-06T03:35:10.550Z</updated>
+  <updated>2025-02-11T05:08:54.572Z</updated>
   <id>https://wmjim.github.io/MyBlog/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Day1：环境搭建和初探Cargo</title>
+    <link href="https://wmjim.github.io/MyBlog/posts/13b7e86b.html"/>
+    <id>https://wmjim.github.io/MyBlog/posts/13b7e86b.html</id>
+    <published>2025-02-11T04:40:18.000Z</published>
+    <updated>2025-02-11T05:08:54.572Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/hint.css/2.7.0/hint.min.css&quot;&gt;&lt;div</summary>
+        
+      
+    
+    
+    
+    <category term="Rust自学计划" scheme="https://wmjim.github.io/MyBlog/categories/Rust%E8%87%AA%E5%AD%A6%E8%AE%A1%E5%88%92/"/>
+    
+    
+    <category term="rust" scheme="https://wmjim.github.io/MyBlog/tags/rust/"/>
+    
+  </entry>
   
   <entry>
     <title>解读：Arc&lt;Box&lt;[T]&gt;&gt;</title>
