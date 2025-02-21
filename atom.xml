@@ -6,7 +6,7 @@
   <link href="https://wmjim.github.io/MyBlog/atom.xml" rel="self"/>
   
   <link href="https://wmjim.github.io/MyBlog/"/>
-  <updated>2025-02-12T07:56:17.060Z</updated>
+  <updated>2025-02-12T07:56:23.345Z</updated>
   <id>https://wmjim.github.io/MyBlog/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://wmjim.github.io/MyBlog/posts/8147e6c8.html"/>
     <id>https://wmjim.github.io/MyBlog/posts/8147e6c8.html</id>
     <published>2025-02-12T07:05:30.000Z</published>
-    <updated>2025-02-12T07:56:17.060Z</updated>
+    <updated>2025-02-12T07:56:23.345Z</updated>
     
     
       
@@ -71,61 +71,11 @@
   </entry>
   
   <entry>
-    <title>Day2：类型基础、类型推导和类型转换</title>
-    <link href="https://wmjim.github.io/MyBlog/posts/1d271108.html"/>
-    <id>https://wmjim.github.io/MyBlog/posts/1d271108.html</id>
-    <published>2025-02-11T05:16:37.000Z</published>
-    <updated>2025-02-11T13:37:57.313Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/hint.css/2.7.0/hint.min.css&quot;&gt;&lt;div</summary>
-        
-      
-    
-    
-    
-    <category term="Rust自学计划" scheme="https://wmjim.github.io/MyBlog/categories/Rust%E8%87%AA%E5%AD%A6%E8%AE%A1%E5%88%92/"/>
-    
-    
-    <category term="rust" scheme="https://wmjim.github.io/MyBlog/tags/rust/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Day1：环境搭建和初探Cargo</title>
-    <link href="https://wmjim.github.io/MyBlog/posts/13b7e86b.html"/>
-    <id>https://wmjim.github.io/MyBlog/posts/13b7e86b.html</id>
-    <published>2025-02-11T04:40:18.000Z</published>
-    <updated>2025-02-11T08:59:35.260Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/hint.css/2.7.0/hint.min.css&quot;&gt;&lt;div</summary>
-        
-      
-    
-    
-    
-    <category term="Rust自学计划" scheme="https://wmjim.github.io/MyBlog/categories/Rust%E8%87%AA%E5%AD%A6%E8%AE%A1%E5%88%92/"/>
-    
-    
-    <category term="rust" scheme="https://wmjim.github.io/MyBlog/tags/rust/"/>
-    
-  </entry>
-  
-  <entry>
     <title>解读：Arc&lt;Box&lt;[T]&gt;&gt;</title>
     <link href="https://wmjim.github.io/MyBlog/posts/77eefbae.html"/>
     <id>https://wmjim.github.io/MyBlog/posts/77eefbae.html</id>
     <published>2025-02-06T03:33:08.000Z</published>
-    <updated>2025-02-11T08:59:32.132Z</updated>
+    <updated>2025-02-21T09:11:14.020Z</updated>
     
     
       
@@ -523,6 +473,31 @@
     <category term="tool" scheme="https://wmjim.github.io/MyBlog/tags/tool/"/>
     
     <category term="ssh" scheme="https://wmjim.github.io/MyBlog/tags/ssh/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>第一篇博客的诞生</title>
+    <link href="https://wmjim.github.io/MyBlog/posts/34796.html"/>
+    <id>https://wmjim.github.io/MyBlog/posts/34796.html</id>
+    <published>2023-09-17T11:34:48.000Z</published>
+    <updated>2025-01-20T18:12:43.471Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/hint.css/2.7.0/hint.min.css&quot;&gt;&lt;div</summary>
+        
+      
+    
+    
+    
+    <category term="博客" scheme="https://wmjim.github.io/MyBlog/categories/%E5%8D%9A%E5%AE%A2/"/>
+    
+    
+    <category term="blog" scheme="https://wmjim.github.io/MyBlog/tags/blog/"/>
     
   </entry>
   

@@ -321,7 +321,7 @@ mjx-container[display="true"] + br {
                 
                 
                     
-                     <span>字数总计：975</span>
+                     <span>字数总计：976</span>
                 
                 
                     
@@ -347,7 +347,7 @@ mjx-container[display="true"] + br {
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/hint.css/2.7.0/hint.min.css"><div class=".article-gallery"><p>在 <a target="_blank" rel="noopener" href="https://github.com/LearningInfiniTensor/learning-lm-rs">LearningInfiniTensor/learning-lm-rs</a> 项目中的 <code>src/tensor</code> 中看到了一个很有意思的 Rust 代码实践，其中 <code>data: Arc&lt;Box&lt;[T]&gt;&gt;</code> 看起来有些复杂，也因为智能指针这一块学的不太好，一时无法理解，特此记录。</p>
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">struct</span> <span class="title class_">Tensor</span>&lt;T&gt; {</span><br><span class="line">	data: Arc&lt;<span class="type">Box</span>&lt;[T]&gt;&gt;, <span class="comment">// 底层数据存储</span></span><br><span class="line">	shape: <span class="type">Vec</span>&lt;unsize&gt;,	 <span class="comment">// 形状 </span></span><br><span class="line">	offset: <span class="type">usize</span>,		   <span class="comment">// 数据偏移量</span></span><br><span class="line">	length: <span class="type">usize</span>,		   <span class="comment">// 数据长度</span></span><br><span class="line">}</span><br></pre></td></tr></table></figure>
 <ul>
-<li><code>data: Arc&lt;Box&lt;[T]&gt;&gt;</code>：存储 <code>Tensor</code> 数据，允许多个 <code>Tensor</code> 实例共享同一个数据。</li>
+<li><code>data: Arc&lt;Box&lt;[T]&gt;&gt;</code>：存储 <code>Tensor</code> 数据，<code>Arc</code> 允许多个 <code>Tensor</code> 实例共享同一个数据。</li>
 <li><code>shape: Vec&lt;unsize&gt;</code>：存储 <code>Tensor</code>的形状。</li>
 <li><code>offset: usize</code>：数据偏移量。</li>
 <li><code>length: usize</code>：数据长度。</li>
@@ -356,7 +356,7 @@ mjx-container[display="true"] + br {
 <h2 id="先拆解-box-t">先拆解 <code>Box&lt;[T]&gt;</code></h2>
 <p><code>Box&lt;[T]&gt;</code>是什么？</p>
 <ul>
-<li><code>Box&lt;T&gt;</code>是 Rust 的智能指针，用于 <em><em>堆上（<strong>​</strong></em>heap</em>**​ <strong>）分配数据</strong>，让 Rust 自动管理内存。</li>
+<li><code>Box&lt;T&gt;</code>是 Rust 的智能指针，用于 <strong>堆上（heap）分配数据</strong>，让 Rust 自动管理内存。</li>
 <li><code>[T]</code>是 <strong>动态数组</strong>，表示<strong>一个长度未知的切片</strong>（<em>slice</em>）。</li>
 </ul>
 <p>为什么用 <code>Box&lt;[T]&gt;</code>？</p>
@@ -464,7 +464,7 @@ mjx-container[display="true"] + br {
     
             <div class="post-footer-pre-next">
                 
-                    <span>上一篇：<a href='/MyBlog/posts/13b7e86b.html'>Day1：环境搭建和初探Cargo</a></span>
+                    <span>上一篇：<a href='/MyBlog/posts/593d6317.html'>实现SwiGLU算子</a></span>
                 
 
                 
