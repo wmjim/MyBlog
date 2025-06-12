@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport" />
+    <meta name="description" content="Rust语言|Rust注释和文档" />
+    <meta name="hexo-theme-A4" content="v1.9.8" />
+    <link rel="alternate icon" type="image/webp" href="/MyBlog/img/favicon.jpg">
+    <title>青山依旧在</title>
+
+    
+        
+<link rel="stylesheet" href="/MyBlog/css/highlight/style1.css">
+
+        
+<link rel="stylesheet" href="/MyBlog/css/reset.css">
+
+        
+<link rel="stylesheet" href="/MyBlog/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/MyBlog/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+        
+        
+<link rel="stylesheet" href="/MyBlog/css/ui.css">
+ 
+        
+<link rel="stylesheet" href="/MyBlog/css/style.css">
+
+
+        
+            <!--返回顶部css-->
+            
+<link rel="stylesheet" href="/MyBlog/css/returnToTop.css">
+
+            
+<link rel="stylesheet" href="/MyBlog/css/unicons.css">
+
+        
+        
+            <!--目录-->
+            
+<link rel="stylesheet" href="/MyBlog/css/toc.css">
+
+        
+    
+
+    
+        
+<link rel="stylesheet" href="/MyBlog/css/returnToLastPage.css">
+
+    
+    
+   
+<link rel="stylesheet" href="/MyBlog/css/lightgallery-bundle.min.css">
+
+
+   
+        
+<link rel="stylesheet" href="/MyBlog/css/custom.css">
+
+    
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+    
+    
+
+    
+    
+
+
+
+    
+
+    
+    
+
+
+
+
+    <style>
+        .archive-main a:hover {
+            text-decoration: none; 
+        }
+    </style>
+
+    
+    
+
+    
+    <body>
+        <script src="/js/darkmode-js.min.js"></script>
+        
+        <script>
+            const options = {
+                bottom: '40px', // default: '32px'
+                right: 'unset', // default: '32px'
+                left: '42px', // default: 'unset'
+                time: '0.3s', // default: '0.3s'
+                mixColor: '#fff', // default: '#fff'
+                backgroundColor: ' #e4e4e4 ',  // default: '#fff'
+                buttonColorDark: '#100f2c',  // default: '#100f2c'
+                buttonColorLight: '#fff', // default: '#fff'
+                saveInCookies: true, // default: true,
+                label: '🌓', // default: ''
+                autoMatchOsTheme: true // default: true
+            }
+            const darkmode = new Darkmode(options);
+            darkmode.showWidget();
+        </script>
+        
+        
+            
+                <div class="left-toc-container">
+                    <nav id="toc" class="bs-docs-sidebar"></nav>
+                </div>
+            
+        
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+
+
+<div class="header">
+    <div class="header-container">
+        <style>
+            .header-img {
+                width: 56px;
+                height: auto;
+                object-fit: cover; /* 保持图片比例 */
+                transition: transform 0.3s ease-in-out; 
+                border-radius: 50%; 
+            }
+            
+            .header-img:hover {
+                animation: rotateAnimation 2s linear infinite; /* 悬停旋转动画 */
+            }
+            @keyframes rotateAnimation {
+                0% {
+                    transform: rotate(0deg);
+                }
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
+            
+        </style>
+        <img 
+            alt="^-^" 
+            cache-control="max-age=86400" 
+            class="header-img" 
+            src="/MyBlog/img/favicon.jpg" 
+        />
+        <div class="header-content">
+            <a class="logo" href="/MyBlog/">青山依旧在</a> 
+            <span class="description"></span> 
+        </div>
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/MyBlog/">首页</a></li>
+            
+        
+            
+                <li><a href="/MyBlog/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/MyBlog/about/">关于</a></li>
+            
+        
+            
+                <li><a href="/MyBlog/tags/">标签</a></li>
+            
+        
+            
+                <li><a href="/MyBlog/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+    
+
+    
+        
+            
+                <div class="post-main-title" style="text-align: center;">
+                    Rust语言|Rust注释和文档
+                </div>
+            
+        
+      
+    
+
+    
+
+        
+            <div class="post-head-meta-center">
+        
+                
+                    <span>最近更新：2025-01-21</span> 
+                
+                
+                    
+                        &nbsp; | &nbsp;
+                    
+                     <span>字数总计：877</span>
+                
+                
+                    
+                        &nbsp; | &nbsp;
+                    
+                    <span>阅读估时：3分钟</span>
+                
+                
+                    
+                        &nbsp; | &nbsp;
+                    
+                    <span id="busuanzi_container_page_pv">
+                        阅读量：<span id="busuanzi_value_page_pv"></span>次
+                    </span>
+                
+            </div>
+    
+
+    <div class="post-md">
+        
+            
+                <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%B3%A8%E9%87%8A%E7%9A%84%E7%A7%8D%E7%B1%BB"><span class="post-toc-text">注释的种类</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E4%BB%A3%E7%A0%81%E6%B3%A8%E9%87%8A"><span class="post-toc-text">代码注释</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%A1%8C%E6%B3%A8%E9%87%8A"><span class="post-toc-text">行注释</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%9D%97%E6%B3%A8%E9%87%8A"><span class="post-toc-text">块注释</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%96%87%E6%A1%A3%E6%B3%A8%E9%87%8A"><span class="post-toc-text">文档注释</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%96%87%E6%A1%A3%E8%A1%8C%E6%B3%A8%E9%87%8A"><span class="post-toc-text">文档行注释</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%96%87%E6%A1%A3%E5%9D%97%E6%B3%A8%E9%87%8A"><span class="post-toc-text">文档块注释</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%96%87%E6%A1%A3%E6%B3%A8%E9%87%8A%E6%B3%A8%E6%84%8F%E9%A1%B9"><span class="post-toc-text">文档注释注意项</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%9F%A5%E7%9C%8B%E6%96%87%E6%A1%A3%E6%B3%A8%E9%87%8A"><span class="post-toc-text">查看文档注释</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%96%87%E6%A1%A3%E6%B3%A8%E9%87%8A%E6%A0%87%E9%A2%98%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B8%B8%E7%94%A8%E8%AF%AD%E6%B3%95"><span class="post-toc-text">文档注释标题的一些常用语法</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%8C%85%E5%92%8C%E6%A8%A1%E5%9D%97%E6%B3%A8%E9%87%8A"><span class="post-toc-text">包和模块注释</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%80%BB%E7%BB%93"><span class="post-toc-text">总结</span></a></li></ol>
+            
+        
+        <div class=".article-gallery"><h2 id="注释的种类"><a href="#注释的种类" class="headerlink" title="注释的种类"></a>注释的种类</h2><p>在 Rust 中，注释分为三类：</p>
+<ul>
+<li><strong>代码注释</strong>：用于说明某一块代码的功能。读者往往是同一个项目的协作开发者。</li>
+<li><strong>文档注释</strong>：用于对项目进行描述，公共 API 等用户关心的功能进行介绍，同时还能提供示例代码，读者往往是想要了解项目的人。</li>
+<li><strong>包和模块注释</strong>：用于说明当前包和模块的功能，方便用户迅速了解一个项目。</li>
+</ul>
+<h2 id="代码注释"><a href="#代码注释" class="headerlink" title="代码注释"></a>代码注释</h2><p>代码注释方式有两种：</p>
+<h3 id="行注释"><a href="#行注释" class="headerlink" title="行注释"></a>行注释</h3><blockquote>
+<p><strong>行注释</strong>：以两个斜线 <code>//</code> 开始，注释内容直到改行结束。</p>
+</blockquote>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这是一个行内注释</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="块注释"><a href="#块注释" class="headerlink" title="块注释"></a>块注释</h3><blockquote>
+<p><strong>块注释</strong>：以 <code>/*</code> 开始，以 <code>*/</code> 结束，可以跨越多行。</p>
+</blockquote>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* 这是一个</span></span><br><span class="line"><span class="comment">* 块注释</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="文档注释"><a href="#文档注释" class="headerlink" title="文档注释"></a>文档注释</h2><p>在 Rust 中，文档注释（Documentation Comments）是一种特殊的注释，它们被设计用于生成 HTML 文档，这些 HTML 文档展示公有 API 文档注释的内容。</p>
+<h3 id="文档行注释"><a href="#文档行注释" class="headerlink" title="文档行注释"></a>文档行注释</h3><p><code>///</code> 是用于创建文档行注释的一种特殊注释方式，通常放置在 <strong>函数</strong>、<strong>结构体</strong>、<strong>枚举</strong>、<strong>方法</strong> 等定义的上方。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// `add_one` 将指定值加 1</span></span><br><span class="line"><span class="comment">///</span></span><br><span class="line"><span class="comment">/// # Example</span></span><br><span class="line"><span class="comment">///</span></span><br><span class="line"><span class="comment">/// ```</span></span><br><span class="line"><span class="comment">/// let = arg = 5;</span></span><br><span class="line"><span class="comment">/// let answer = my_crate::add_one(arg);</span></span><br><span class="line"><span class="comment">/// </span></span><br><span class="line"><span class="comment">/// assert_eq(6, answer);</span></span><br><span class="line"><span class="comment">///```</span></span><br><span class="line"><span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">add_one</span>(x: <span class="type">i32</span>) <span class="punctuation">-&gt;</span> <span class="type">i32</span> &#123;</span><br><span class="line">    x + <span class="number">1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="文档块注释"><a href="#文档块注释" class="headerlink" title="文档块注释"></a>文档块注释</h3><p><code>/** ... */</code> 是用于创建文档块注释的一种特殊注释方式，通常放置在 <strong>函数</strong>、<strong>结构体</strong>、<strong>枚举</strong>、<strong>方法</strong> 等定义的上方。</p>
+<p>(<strong>注意</strong>：这里由于文章 markdown 代码块解析的问题，我在文档块注释的 “&#96;&#96;&#96;” 的前面加上了 <code>///</code>，而实际的文档块注释是不需要的。)</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** `add_two` 将指定值加 2</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">/// ```</span></span><br><span class="line"><span class="comment">let arg = 5;</span></span><br><span class="line"><span class="comment">let answer = my_crate::add_two(arg);</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">assert_eq!(7, answer);</span></span><br><span class="line"><span class="comment">///```</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">add_two</span>(x: <span class="type">i32</span>) <span class="punctuation">-&gt;</span> <span class="type">i32</span> &#123;</span><br><span class="line">    x + <span class="number">2</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="文档注释注意项"><a href="#文档注释注意项" class="headerlink" title="文档注释注意项"></a>文档注释注意项</h3><ol>
+<li>文档注释需要位于 <code>lib</code> 类型的包中，例如 <code>src/lib.rs</code>。</li>
+<li>文档注释可以使用 markdown 语法，例如 <code># Examples</code> 的标题，以及 <code>```</code> 代码块高亮。</li>
+<li>被注释的对象需要使用 <code>pub</code> 对外可见，文档注释是给用户看的，内部细节不应该暴露。</li>
+</ol>
+<h3 id="查看文档注释"><a href="#查看文档注释" class="headerlink" title="查看文档注释"></a>查看文档注释</h3><p>运行 <code>cargo doc</code> 可以直接生成 <code>HTML</code> 文档，放入 <code>target/doc</code> 目录下。</p>
+<p>运行 <code>cargo doc --open</code> 可以在生成文档后，自动在浏览器打开网页。</p>
+<p>上面的文档行注释和文档块注释示例，生成的最终效果如图所示：</p>
+<p><a target="_blank" rel="noopener" href="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/20231231165817.png" class="gallery-item" style="box-shadow: none;"> <img src="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/20231231165817.png"></a></p>
+<p><a target="_blank" rel="noopener" href="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/20231231165837.png" class="gallery-item" style="box-shadow: none;"> <img src="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/20231231165837.png"></a></p>
+<p><a target="_blank" rel="noopener" href="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/20231231165900.png" class="gallery-item" style="box-shadow: none;"> <img src="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/20231231165900.png"></a></p>
+<h3 id="文档注释标题的一些常用语法"><a href="#文档注释标题的一些常用语法" class="headerlink" title="文档注释标题的一些常用语法"></a>文档注释标题的一些常用语法</h3><ul>
+<li><code># Examples</code>：用于包含示例代码块的标题。</li>
+<li><code># Panics</code>：用于描述函数可能引发的 panic 情况。</li>
+<li><code># Errors</code>：用于描述函数可能返回的错误情况。</li>
+<li><code># Safety</code>：用于描述使用 unsafe 代码时的使用条件。</li>
+</ul>
+<h2 id="包和模块注释"><a href="#包和模块注释" class="headerlink" title="包和模块注释"></a>包和模块注释</h2><p>在 Rust 中，包（Package）和模块（Module）的注释通常放置在源文件的顶部，用于描述包或模块的基本信息和功能。</p>
+<p>包级别的注释也分为两种：行注释 <code>//!</code> 和块注释 <code>/*! ... */</code> 。</p>
+<p>在 <code>src/lib.rs</code> 包根的最上方，添加：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*! lib包是world_hello二进制包的依赖包，</span></span><br><span class="line"><span class="comment"> 里面包含了compute等有用模块 */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">pub</span> <span class="keyword">mod</span> compute;</span><br></pre></td></tr></table></figure>
+
+<p>再在该包根的子模块 <code>src/compute.rs</code>，添加：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//! 计算一些你口算算不出来的复杂算术题</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/// `add_one`将指定值加1</span></span><br><span class="line"><span class="comment">///</span></span><br></pre></td></tr></table></figure>
+
+<p>运行 <code>cargo doc --open</code> 查看效果：</p>
+<p><a target="_blank" rel="noopener" href="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/20231231171548.png" class="gallery-item" style="box-shadow: none;"> <img src="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/20231231171548.png"></a></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在 Rust 中，注释分为三个主要类型：代码注释、文档注释、包和模块注释，每个注释类型都拥有两种形式：行注释和块注释。</p>
+</div>
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2023-12-31</span>
+            
+                <span>该篇文章被 meng.wang</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/MyBlog/tags/rust/'>
+                            rust
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/MyBlog/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/'>
+                            编程语言
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    <br>
+    
+    
+        
+            
+    
+            <div class="post-footer-pre-next">
+                
+                    <span>上一篇：<a href='/MyBlog/posts/55060.html'>存储持续性、作用域和链接性</a></span>
+                
+
+                
+                    <span class="post-footer-pre-next-last-span-right">下一篇：<a href="/MyBlog/posts/27136.html">Rust格式化输出</a>
+                    </span>
+                
+            </div>
+    
+        
+    
+
+     
+</div>
+
+
+
+                                      
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            © 1949-2025 China 
+
+            
+                
+
+            
+                
+                    / <a href="/MyBlog/friends/"> 友链 </a>
+                
+
+            
+                
+                    / <a href="/MyBlog/support/"> 支持 </a>
+                
+
+            
+        </span>
+       
+    
+</div>
+
+
+
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+                <span class="footer-last-span-right"><i>本站由<a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/index.html">Hexo</a>驱动｜使用<a target="_blank" rel="noopener" href="https://github.com/HiNinoJay/hexo-theme-A4">Hexo-theme-A4</a>主题</i></span>
+            
+    
+</div>
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+
+    <!--目录-->
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript" ></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" type="text/javascript" ></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tocify/1.9.0/javascripts/jquery.tocify.min.js" type="text/javascript" ></script>
+        
+<script src="/MyBlog/js/toc.js"></script>
+
+    
+
+    
+<script src="/MyBlog/js/randomHeaderContent.js"></script>
+
+    <!--回到顶部按钮-->
+    
+        
+<script src="/MyBlog/js/returnToTop.js"></script>
+
+    
+
+    
+        
+<script src="/MyBlog/js/returnToLastPage.js"></script>
+
+    
+
+
+
+
+
+<script src="/MyBlog/js/lightgallery/lightgallery.umd.min.js"></script>
+
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-thumbnail.umd.min.js"></script>
+
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-fullscreen.umd.min.js"></script>
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-autoplay.umd.min.js"></script>
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-zoom.umd.min.js"></script>
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-rotate.umd.min.js"></script>
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-paper.umd.min.js"></script>
+
+
+
+
+<script type="text/javascript">
+     
+    if (typeof lightGallery !== "undefined") {
+        var options1 = {
+            selector: '.gallery-item',
+            plugins: [lgThumbnail, lgFullscreen, lgAutoplay, lgZoom, lgRotate, lgPager], // 启用插件
+            thumbnail: true,          // 显示缩略图
+            zoom: true,               // 启用缩放功
+            rotate: true,             // 启用旋转功能能
+            autoplay: true,        // 启用自动播放功能
+            fullScreen: true,      // 启用全屏功能
+            pager: false, //页码,
+            zoomFromOrigin: true,   // 从原始位置缩放
+            actualSize: true,       // 启用查看实际大小的功能
+            enableZoomAfter: 300,    // 延迟缩放，确保图片加载完成后可缩放
+        };
+        lightGallery(document.getElementsByClassName('.article-gallery')[0], options1); // 修复选择器
+    }
+    
+</script>
+
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script> 
+
+                </div>
+            
+            
+                <!-- 回到顶部的按钮-->  
+                <div class="progress-wrap shadow-drop-2-bottom">
+                    <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+                        <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98"/>
+                    </svg>
+                </div>
+            
+            
+                <!-- 返回的按钮-->  
+                <div class="return-to-last-progress-wrap shadow-drop-2-bottom">
+                    <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+                        <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98"/>
+                    </svg>
+                </div>
+            
+    </body>
+</html>
+<script src="/MyBlog/js/emojiHandler.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    wrapEmojis('.paper');
+  });
+</script>

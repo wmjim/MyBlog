@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport" />
+    <meta name="description" content="Rust类型系统中的复制语义与移动语义" />
+    <meta name="hexo-theme-A4" content="v1.9.8" />
+    <link rel="alternate icon" type="image/webp" href="/MyBlog/img/favicon.jpg">
+    <title>青山依旧在</title>
+
+    
+        
+<link rel="stylesheet" href="/MyBlog/css/highlight/style1.css">
+
+        
+<link rel="stylesheet" href="/MyBlog/css/reset.css">
+
+        
+<link rel="stylesheet" href="/MyBlog/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/MyBlog/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+        
+        
+<link rel="stylesheet" href="/MyBlog/css/ui.css">
+ 
+        
+<link rel="stylesheet" href="/MyBlog/css/style.css">
+
+
+        
+            <!--返回顶部css-->
+            
+<link rel="stylesheet" href="/MyBlog/css/returnToTop.css">
+
+            
+<link rel="stylesheet" href="/MyBlog/css/unicons.css">
+
+        
+        
+            <!--目录-->
+            
+<link rel="stylesheet" href="/MyBlog/css/toc.css">
+
+        
+    
+
+    
+        
+<link rel="stylesheet" href="/MyBlog/css/returnToLastPage.css">
+
+    
+    
+   
+<link rel="stylesheet" href="/MyBlog/css/lightgallery-bundle.min.css">
+
+
+   
+        
+<link rel="stylesheet" href="/MyBlog/css/custom.css">
+
+    
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+    
+    
+
+    
+    
+
+
+
+    
+
+    
+    
+
+
+
+
+    <style>
+        .archive-main a:hover {
+            text-decoration: none; 
+        }
+    </style>
+
+    
+    
+
+    
+    <body>
+        <script src="/js/darkmode-js.min.js"></script>
+        
+        <script>
+            const options = {
+                bottom: '40px', // default: '32px'
+                right: 'unset', // default: '32px'
+                left: '42px', // default: 'unset'
+                time: '0.3s', // default: '0.3s'
+                mixColor: '#fff', // default: '#fff'
+                backgroundColor: ' #e4e4e4 ',  // default: '#fff'
+                buttonColorDark: '#100f2c',  // default: '#100f2c'
+                buttonColorLight: '#fff', // default: '#fff'
+                saveInCookies: true, // default: true,
+                label: '🌓', // default: ''
+                autoMatchOsTheme: true // default: true
+            }
+            const darkmode = new Darkmode(options);
+            darkmode.showWidget();
+        </script>
+        
+        
+            
+                <div class="left-toc-container">
+                    <nav id="toc" class="bs-docs-sidebar"></nav>
+                </div>
+            
+        
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+
+
+<div class="header">
+    <div class="header-container">
+        <style>
+            .header-img {
+                width: 56px;
+                height: auto;
+                object-fit: cover; /* 保持图片比例 */
+                transition: transform 0.3s ease-in-out; 
+                border-radius: 50%; 
+            }
+            
+            .header-img:hover {
+                animation: rotateAnimation 2s linear infinite; /* 悬停旋转动画 */
+            }
+            @keyframes rotateAnimation {
+                0% {
+                    transform: rotate(0deg);
+                }
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
+            
+        </style>
+        <img 
+            alt="^-^" 
+            cache-control="max-age=86400" 
+            class="header-img" 
+            src="/MyBlog/img/favicon.jpg" 
+        />
+        <div class="header-content">
+            <a class="logo" href="/MyBlog/">青山依旧在</a> 
+            <span class="description"></span> 
+        </div>
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/MyBlog/">首页</a></li>
+            
+        
+            
+                <li><a href="/MyBlog/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/MyBlog/about/">关于</a></li>
+            
+        
+            
+                <li><a href="/MyBlog/tags/">标签</a></li>
+            
+        
+            
+                <li><a href="/MyBlog/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+    
+
+    
+        
+            
+                <div class="post-main-title" style="text-align: center;">
+                    Rust类型系统中的复制语义与移动语义
+                </div>
+            
+        
+      
+    
+
+    
+
+        
+            <div class="post-head-meta-center">
+        
+                
+                    <span>最近更新：2025-02-23</span> 
+                
+                
+                    
+                        &nbsp; | &nbsp;
+                    
+                     <span>字数总计：3.8k</span>
+                
+                
+                    
+                        &nbsp; | &nbsp;
+                    
+                    <span>阅读估时：17分钟</span>
+                
+                
+                    
+                        &nbsp; | &nbsp;
+                    
+                    <span id="busuanzi_container_page_pv">
+                        阅读量：<span id="busuanzi_value_page_pv"></span>次
+                    </span>
+                
+            </div>
+    
+
+    <div class="post-md">
+        
+            
+                <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%A4%8D%E5%88%B6%E8%AF%AD%E4%B9%89%E4%B8%8E%E7%A7%BB%E5%8A%A8%E8%AF%AD%E4%B9%89"><span class="post-toc-text">复制语义与移动语义</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Copy-trait-%E5%92%8C-Clone-trait-%E4%B8%8E%E5%A4%8D%E5%88%B6%E8%AF%AD%E4%B9%89%E5%92%8C%E7%A7%BB%E5%8A%A8%E8%AF%AD%E4%B9%89%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="post-toc-text">Copy trait  和 Clone trait 与复制语义和移动语义的关系</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="post-toc-text">基本数据类型</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%A4%8D%E5%90%88%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="post-toc-text">复合数据类型</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%95%B0%E7%BB%84"><span class="post-toc-text">数组</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%85%83%E7%A5%96"><span class="post-toc-text">元祖</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%88%87%E7%89%87"><span class="post-toc-text">切片</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%BB%93%E6%9E%84%E4%BD%93"><span class="post-toc-text">结构体</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%9E%9A%E4%B8%BE"><span class="post-toc-text">枚举</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%81%94%E5%90%88%E4%BD%93"><span class="post-toc-text">联合体</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%B1%BB%E5%9E%8B"><span class="post-toc-text">字符串类型</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%AD%97%E9%9D%A2%E9%87%8F%E5%92%8C%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%88%87%E7%89%87-str"><span class="post-toc-text">字符串字面量和字符串切片 &amp;str</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#String"><span class="post-toc-text">String</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Vec"><span class="post-toc-text">Vec</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Option"><span class="post-toc-text">Option</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Result"><span class="post-toc-text">Result&lt;T, E&gt;</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88"><span class="post-toc-text">智能指针</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%8E%9F%E5%A7%8B%E6%8C%87%E9%92%88"><span class="post-toc-text">原始指针</span></a></li></ol>
+            
+        
+        <div class=".article-gallery"><h2 id="复制语义与移动语义"><a href="#复制语义与移动语义" class="headerlink" title="复制语义与移动语义"></a>复制语义与移动语义</h2><ul>
+<li><p><strong>复制语义</strong>：当变量赋值或传参时，<strong>隐式按位复制值本身</strong>，原始变量仍有效。</p>
+<ul>
+<li><strong>条件</strong>：类型需要实现 <code>Copy</code> trait 。</li>
+</ul>
+</li>
+<li><p><strong>移动语义</strong>：当变量赋值或传参时，<strong>转移所有权</strong>至新变量，原始变量失效。</p>
+<ul>
+<li><strong>条件</strong>：未实现 <code>Copy</code> trait 。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 复制语义</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">a</span> = <span class="number">42</span>;      <span class="comment">// i32 实现 Copy</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">b</span> = a;       <span class="comment">// 复制值，a 仍可用</span></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;&#123;a&#125;&quot;</span>); <span class="comment">// 合法</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 移动语义</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">s1</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line"><span class="keyword">let</span> <span class="variable">s2</span> = s1;     <span class="comment">// 移动所有权，s1 失效</span></span><br><span class="line"><span class="comment">// println!(&quot;&#123;s1&#125;&quot;); // 编译错误：s1 已被移动</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Copy-trait-和-Clone-trait-与复制语义和移动语义的关系"><a href="#Copy-trait-和-Clone-trait-与复制语义和移动语义的关系" class="headerlink" title="Copy trait  和 Clone trait 与复制语义和移动语义的关系"></a>Copy trait  和 Clone trait 与复制语义和移动语义的关系</h3><p>复制语义确实要求类型实现 <code>Copy</code> trait，移动语义发生在未实现 <code>Copy</code> trait 的类型中。</p>
+<p><code>Clone</code> trait允许显式复制，即使类型没有实现 <code>Copy</code> trait，也可以通过 <code>clone</code> 方法进行深拷贝，但这不属于隐式的复制语义。</p>
+<p><strong>Clone 的作用</strong>：</p>
+<ul>
+<li>对<strong>非</strong> <strong><code>Copy</code></strong> <strong>类型</strong>（如 <code>String</code>），通过 <code>.clone()</code> <strong>显式深拷贝</strong>数据，避免移动所有权。</li>
+<li>对<strong>已实现</strong> <strong><code>Copy</code></strong> <strong>的类型</strong>（如 <code>i32</code>），<code>.clone()</code> 等价于普通复制，但通常直接使用隐式复制更高效。</li>
+</ul>
+<h2 id="基本数据类型"><a href="#基本数据类型" class="headerlink" title="基本数据类型"></a>基本数据类型</h2><p>在 Rust 中，<strong>整型、浮点型、字符型、布尔型</strong>均实现了 <code>Copy</code> trait，赋值时会触发<strong>复制语义</strong>（按位复制值，原始变量仍可用）。</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>复制语义</th>
+<th>移动语义</th>
+<th><code>Copy</code> trait</th>
+<th><code>Clone</code> trait</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>整型</td>
+<td>✅</td>
+<td>❌</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>浮点型</td>
+<td>✅</td>
+<td>❌</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>字符型</td>
+<td>✅</td>
+<td>❌</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>布尔型</td>
+<td>✅</td>
+<td>❌</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+</tbody></table>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">a</span> = <span class="number">42</span>;      <span class="comment">// i32 类型</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">b</span> = a;       <span class="comment">// 复制语义：a 的值被复制到 b</span></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;a = &#123;&#125;, b = &#123;&#125;&quot;</span>, a, b); <span class="comment">// 合法：a 仍有效</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="variable">x</span> = <span class="number">3.14</span>;    <span class="comment">// f64 类型</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">y</span> = x;       <span class="comment">// 复制语义：x 的值被复制到 y</span></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;x = &#123;&#125;, y = &#123;&#125;&quot;</span>, x, y); <span class="comment">// 合法：x 仍有效</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="variable">c1</span> = <span class="string">&#x27;🦀&#x27;</span>;    <span class="comment">// char 类型（4字节 Unicode）</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">c2</span> = c1;      <span class="comment">// 复制语义：c1 的值被复制到 c2</span></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;c1 = &#123;&#125;, c2 = &#123;&#125;&quot;</span>, c1, c2); <span class="comment">// 合法：c1 仍有效</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="variable">flag1</span> = <span class="literal">true</span>; <span class="comment">// bool 类型</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">flag2</span> = flag1; <span class="comment">// 复制语义：flag1 的值被复制到 flag2</span></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;flag1 = &#123;&#125;, flag2 = &#123;&#125;&quot;</span>, flag1, flag2); <span class="comment">// 合法：flag1 仍有效</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="复合数据类型"><a href="#复合数据类型" class="headerlink" title="复合数据类型"></a>复合数据类型</h2><h3 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h3><table>
+<thead>
+<tr>
+<th>数组的复制语义</th>
+<th>数组的移动语义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>数组元素类型必须实现 <code>Copy</code> trait</td>
+<td>数组元素类型未实现 <code>Copy</code> trait</td>
+</tr>
+<tr>
+<td>赋值或传参时触发<strong>隐式按位复制</strong>，原始数组仍有效</td>
+<td>赋值或传参时触发<strong>所有权转移</strong>，原始数组失效</td>
+</tr>
+</tbody></table>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1. 数组的复制语义</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">a</span> = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]; 		<span class="comment">// 元素类型为 i32（实现 Copy）</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">b</span> = a;         		<span class="comment">// 隐式复制，a 仍有效</span></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;a: &#123;:?&#125;&quot;</span>, a); <span class="comment">// 合法</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. 数组的移动语义</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">a</span> = [<span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>), <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;world&quot;</span>)]; <span class="comment">// 元素为 String（未实现 Copy）</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">b</span> = a;         			<span class="comment">// 移动所有权，a 失效</span></span><br><span class="line"><span class="comment">// println!(&quot;a: &#123;:?&#125;&quot;, a); 	// 编译错误：value borrowed after move</span></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;b: &#123;:?&#125;&quot;</span>, b);    	<span class="comment">// 合法</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 3. 数组的显式克隆（数组元素类型实现 Clone trait）</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">a</span> = [<span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>), <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;world&quot;</span>)];</span><br><span class="line"><span class="keyword">let</span> <span class="variable">b</span> = a.<span class="title function_ invoke__">clone</span>(); 		<span class="comment">// 显式深拷贝（要求元素实现 Clone）</span></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;a: &#123;:?&#125;&quot;</span>, a); <span class="comment">// 合法</span></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;b: &#123;:?&#125;&quot;</span>, b); <span class="comment">// 合法</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="元祖"><a href="#元祖" class="headerlink" title="元祖"></a>元祖</h3><table>
+<thead>
+<tr>
+<th>元组的复制语义</th>
+<th>元组的移动语义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>元组所有元素类型必须实现<code>Copy</code> trait</td>
+<td>元祖至少一个元素类型未实现<code>Copy</code> trait</td>
+</tr>
+<tr>
+<td>赋值或传参时触发<strong>隐式按位复制</strong>，原始元组仍有效</td>
+<td>赋值或传参时触发<strong>所有权转移</strong>，原始元组失效</td>
+</tr>
+</tbody></table>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1. 元祖的复制语义</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">t1</span> = (<span class="number">42</span>, <span class="number">3.14</span>, <span class="string">&#x27;🦀&#x27;</span>); 	<span class="comment">// 元素均为 Copy 类型（i32, f64, char）</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">t2</span> = t1;              	<span class="comment">// 隐式复制，t1 仍有效</span></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;t1: &#123;:?&#125;&quot;</span>, t1); 	<span class="comment">// 合法</span></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;t2: &#123;:?&#125;&quot;</span>, t2); 	<span class="comment">// 合法</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. 元祖的移动语义</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">t1</span> = (<span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>), <span class="number">42</span>); <span class="comment">// 元素含 String（非 Copy）</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">t2</span> = t1;                          <span class="comment">// 移动所有权，t1 失效</span></span><br><span class="line"><span class="comment">// println!(&quot;t1: &#123;:?&#125;&quot;, t1);          // 编译错误：value borrowed after move</span></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;t2: &#123;:?&#125;&quot;</span>, t2);             <span class="comment">// 合法</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 3. 元祖的显式克隆（元组的所有元素均实现 Clone trait）</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">t1</span> = (<span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>), <span class="built_in">vec!</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]); <span class="comment">// 元素均实现 Clone</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">t2</span> = t1.<span class="title function_ invoke__">clone</span>(); 		<span class="comment">// 显式深拷贝</span></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;t1: &#123;:?&#125;&quot;</span>, t1); 	<span class="comment">// 合法</span></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;t2: &#123;:?&#125;&quot;</span>, t2); 	<span class="comment">// 合法</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 4. （）空元祖默认实现了 Copy 和 Clone trait，因其不包含任何数据</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">t1</span> = ();</span><br><span class="line"><span class="keyword">let</span> <span class="variable">t2</span> = t1; <span class="comment">// 隐式复制</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="切片"><a href="#切片" class="headerlink" title="切片"></a>切片</h3><table>
+<thead>
+<tr>
+<th><strong>特性</strong></th>
+<th>不可变切片 <code>&amp;[T]</code></th>
+<th>可变切片 <code>&amp;mut [T]</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>默认语义</strong></td>
+<td>复制语义（<code>Copy</code> trait）</td>
+<td>移动语义（未实现 <code>Copy</code>）</td>
+</tr>
+<tr>
+<td><strong>克隆行为</strong></td>
+<td><code>.clone()</code> 等价于隐式复制</td>
+<td>无 <code>Clone</code> 实现</td>
+</tr>
+</tbody></table>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 不可变切片的复制语义</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">arr</span> = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];</span><br><span class="line"><span class="keyword">let</span> <span class="variable">slice1</span> = &amp;arr[<span class="number">1</span>..<span class="number">4</span>]; <span class="comment">// 指向 [2, 3, 4]</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">slice2</span> = slice1;     <span class="comment">// 隐式复制，slice1 仍有效</span></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;&#123;:?&#125;, &#123;:?&#125;&quot;</span>, slice1, slice2); <span class="comment">// 合法</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 不可变切片 &amp;[T] 的显式克隆</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">slice3</span> = slice1.<span class="title function_ invoke__">clone</span>(); <span class="comment">// 等价于 slice3 = slice1</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 可变切片的移动语义</span></span><br><span class="line"><span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">arr</span> = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"><span class="keyword">let</span> <span class="variable">mut_slice1</span> = &amp;<span class="keyword">mut</span> arr[..];</span><br><span class="line"><span class="keyword">let</span> <span class="variable">mut_slice2</span> = mut_slice1; <span class="comment">// 移动语义，mut_slice1 失效</span></span><br><span class="line"><span class="comment">// mut_slice1[0] = 10; // 编译错误：value borrowed after move</span></span><br><span class="line">mut_slice2[<span class="number">0</span>] = <span class="number">10</span>;    <span class="comment">// 合法</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="结构体"><a href="#结构体" class="headerlink" title="结构体"></a>结构体</h3><table>
+<thead>
+<tr>
+<th>结构体的复制语义</th>
+<th>结构体的移动语义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1. 结构体所有字段均实现 <code>Copy</code> trait<br />2. 结构体显式标注 <code>#[derive(Copy, Clone)]</code></td>
+<td>1. 结构体<strong>未实现</strong> <strong><code>Copy</code></strong> <strong>trait</strong><br />2. 即使所有字段均为 <code>Copy</code> 类型，但未显式标注 <code>Copy</code><br />3. 结构体包含<strong>至少一个非</strong> <strong><code>Copy</code></strong> <strong>字段</strong></td>
+</tr>
+<tr>
+<td>赋值或传参时触发<strong>隐式按位复制</strong>，原始结构体仍有效</td>
+<td>赋值或传参时触发<strong>所有权转移</strong>，原始结构体失效</td>
+</tr>
+</tbody></table>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1. 结构体的复制语义</span></span><br><span class="line"><span class="meta">#[derive(Debug, Copy, Clone)]</span> <span class="comment">// 必须显式实现 Copy</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Point</span> &#123;</span><br><span class="line">	x: <span class="type">i32</span>,</span><br><span class="line">	y: <span class="type">i32</span>, <span class="comment">// i32 实现 Copy</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="variable">p1</span> = Point &#123; x: <span class="number">1</span>, y: <span class="number">2</span> &#125;;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">p2</span> = p1; 				<span class="comment">// 隐式复制，p1 仍有效</span></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;p1: &#123;:?&#125;&quot;</span>, p1); 	<span class="comment">// 合法</span></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;p2: &#123;:?&#125;&quot;</span>, p2); 	<span class="comment">// 合法</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. 结构体的移动语义</span></span><br><span class="line"><span class="meta">#[derive(Debug)]</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Data</span> &#123;</span><br><span class="line">	id: <span class="type">i32</span>, 		<span class="comment">// i32 实现 Copy </span></span><br><span class="line">	value: <span class="type">String</span>, 	<span class="comment">// String 非 Copy</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="variable">d1</span> = Data &#123; id: <span class="number">1</span>, value: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;test&quot;</span>) &#125;;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">d2</span> = d1; 					<span class="comment">// 移动所有权，d1 失效</span></span><br><span class="line"><span class="comment">// println!(&quot;d1: &#123;:?&#125;&quot;, d1); 	// 编译错误：value borrowed after move</span></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;d2: &#123;:?&#125;&quot;</span>, d2);    	<span class="comment">// 合法</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 3. 结构体的显式克隆（结构体标注 #[derive(Clone)]，且所有字段实现 Clone）</span></span><br><span class="line"><span class="meta">#[derive(Debug, Clone)]</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Data</span> &#123;</span><br><span class="line">    id: <span class="type">i32</span>,		<span class="comment">// i32 实现 Clone</span></span><br><span class="line">    value: <span class="type">String</span>, 	<span class="comment">// String 实现 Clone</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="variable">d1</span> = Data &#123; id: <span class="number">1</span>, value: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;test&quot;</span>) &#125;;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">d2</span> = d1.<span class="title function_ invoke__">clone</span>(); 		<span class="comment">// 显式深拷贝</span></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;d1: &#123;:?&#125;&quot;</span>, d1); 	<span class="comment">// 合法</span></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;d2: &#123;:?&#125;&quot;</span>, d2); 	<span class="comment">// 合法</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 4. 空结构体需显式标注 #[derive(Copy, Clone)]</span></span><br><span class="line"><span class="meta">#[derive(Debug, Copy, Clone)]</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Empty</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="variable">e1</span> = Empty;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">e2</span> = e1; <span class="comment">// 隐式复制</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="枚举"><a href="#枚举" class="headerlink" title="枚举"></a>枚举</h3><table>
+<thead>
+<tr>
+<th>枚举的复制语义</th>
+<th>枚举的移动语义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1. 枚举的所有变体字段均实现 <code>Copy</code> trait<br />2. 枚举显式标注 <code>#[derive(Copy, Clone)]</code></td>
+<td>1. 枚举<strong>未实现</strong> <strong><code>Copy</code></strong> <strong>trait</strong><br />2. 即使所有字段均为 <code>Copy</code> 类型，但未显式标注 <code>Copy</code><br />3. 枚举包含<strong>至少一个非</strong> <strong><code>Copy</code></strong> <strong>字段</strong></td>
+</tr>
+<tr>
+<td>赋值或传参时触发<strong>隐式按位复制</strong>，原始枚举值仍有效</td>
+<td>赋值或传参时触发<strong>所有权转移</strong>，原始结构体失效</td>
+</tr>
+</tbody></table>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1. 枚举的复制语义</span></span><br><span class="line"><span class="meta">#[derive(Debug, Copy, Clone)]</span> <span class="comment">// 必须显式标注 Copy</span></span><br><span class="line"><span class="keyword">enum</span> <span class="title class_">Status</span> &#123;</span><br><span class="line">    Ready,                  <span class="comment">// 无字段（隐式 Copy）</span></span><br><span class="line">    <span class="title function_ invoke__">Progress</span>(<span class="type">u32</span>),          <span class="comment">// u32 实现 Copy</span></span><br><span class="line">    Done &#123; code: <span class="type">i32</span> &#125;,     <span class="comment">// i32 实现 Copy</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="variable">s1</span> = Status::Done &#123; code: <span class="number">200</span> &#125;;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">s2</span> = s1;           		<span class="comment">// 隐式复制，s1 仍有效</span></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;s1: &#123;:?&#125;&quot;</span>, s1); 	<span class="comment">// 合法</span></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;s2: &#123;:?&#125;&quot;</span>, s2); 	<span class="comment">// 合法</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. 枚举的移动语义</span></span><br><span class="line"><span class="meta">#[derive(Debug)]</span></span><br><span class="line"><span class="keyword">enum</span> <span class="title class_">Message</span> &#123;</span><br><span class="line">    <span class="title function_ invoke__">Text</span>(<span class="type">String</span>),    <span class="comment">// String 非 Copy</span></span><br><span class="line">    Quit,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="variable">m1</span> = Message::<span class="title function_ invoke__">Text</span>(<span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>));</span><br><span class="line"><span class="keyword">let</span> <span class="variable">m2</span> = m1;     				<span class="comment">// 移动所有权，m1 失效</span></span><br><span class="line"><span class="comment">// println!(&quot;m1: &#123;:?&#125;&quot;, m1); 	// 编译错误：value borrowed after move</span></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;m2: &#123;:?&#125;&quot;</span>, m2);    	<span class="comment">// 合法</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 3. 枚举的显式克隆（枚举标注 #[derive(Clone)]，且所有变体字段实现 Clone）</span></span><br><span class="line"><span class="meta">#[derive(Debug, Clone)]</span></span><br><span class="line"><span class="keyword">enum</span> <span class="title class_">Data</span> &#123;</span><br><span class="line">    <span class="title function_ invoke__">Number</span>(<span class="type">i32</span>),</span><br><span class="line">    <span class="title function_ invoke__">Buffer</span>(<span class="type">Vec</span>&lt;<span class="type">u8</span>&gt;), <span class="comment">// Vec 实现 Clone</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="variable">d1</span> = Data::<span class="title function_ invoke__">Buffer</span>(<span class="built_in">vec!</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]);</span><br><span class="line"><span class="keyword">let</span> <span class="variable">d2</span> = d1.<span class="title function_ invoke__">clone</span>(); 		<span class="comment">// 显式深拷贝</span></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;d1: &#123;:?&#125;&quot;</span>, d1); 	<span class="comment">// 合法</span></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;d2: &#123;:?&#125;&quot;</span>, d2); 	<span class="comment">// 合法</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 4. 无字段枚举（默认可安全实现 Copy，但需显式标注）</span></span><br><span class="line"><span class="meta">#[derive(Copy, Clone, Debug)]</span></span><br><span class="line"><span class="keyword">enum</span> <span class="title class_">Direction</span> &#123;</span><br><span class="line">    Up,</span><br><span class="line">    Down,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="variable">d1</span> = Direction::Up;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">d2</span> = d1; <span class="comment">// 隐式复制</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="联合体"><a href="#联合体" class="headerlink" title="联合体"></a>联合体</h3><table>
+<thead>
+<tr>
+<th>联合体的复制语义</th>
+<th>联合体的移动语义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1. 所有字段类型均支持 <code>Copy</code> trait<br />2. 手动实现 <code>Copy</code> 和 <code>Clone</code>（无法通过 <code>#[derive]</code> 自动派生）</td>
+<td>1. 联合体未实现 <code>Copy</code> trait（默认情况）<br />2. 包含非 <code>Copy</code> 字段<br /></td>
+</tr>
+<tr>
+<td>赋值或传参会执行<strong>内存按位复制</strong></td>
+<td>赋值或传参后，原始联合体<strong>失效</strong></td>
+</tr>
+</tbody></table>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1. 联合体的复制语义</span></span><br><span class="line"><span class="meta">#[repr(C)]</span></span><br><span class="line"><span class="keyword">union</span> <span class="title class_">IntOrFloat</span> &#123;</span><br><span class="line">    i: <span class="type">u32</span>,</span><br><span class="line">    f: <span class="type">f32</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 手动实现 Copy 和 Clone（需确保安全性）</span></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Copy</span> <span class="keyword">for</span> <span class="title class_">IntOrFloat</span> &#123;&#125;</span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Clone</span> <span class="keyword">for</span> <span class="title class_">IntOrFloat</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">clone</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="keyword">Self</span> &#123;</span><br><span class="line">        *<span class="keyword">self</span> <span class="comment">// 按位复制</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="variable">u1</span> = IntOrFloat &#123; i: <span class="number">42</span> &#125;;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">u2</span> = u1; <span class="comment">// 隐式复制（因实现 Copy）</span></span><br><span class="line"><span class="keyword">unsafe</span> &#123;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;u1.i = &#123;&#125;&quot;</span>, u1.i); <span class="comment">// 合法</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;u2.i = &#123;&#125;&quot;</span>, u2.i); <span class="comment">// 合法</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. 联合体的移动语义</span></span><br><span class="line"><span class="meta">#[repr(C)]</span></span><br><span class="line"><span class="keyword">union</span> <span class="title class_">Data</span> &#123;</span><br><span class="line">    num: <span class="type">i32</span>,</span><br><span class="line">    ptr: *<span class="keyword">const</span> <span class="type">u8</span>, <span class="comment">// 裸指针是 Copy，但解引用需 unsafe</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="variable">d1</span> = Data &#123; num: <span class="number">42</span> &#125;;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">d2</span> = d1; <span class="comment">// 移动语义（未实现 Copy）</span></span><br><span class="line"><span class="comment">// unsafe &#123; println!(&quot;&#123;&#125;&quot;, d1.num) &#125;; // 编译错误：d1 已被移动</span></span><br><span class="line"><span class="keyword">unsafe</span> &#123; <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, d2.num) &#125;;    <span class="comment">// 合法</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 3. 联合体的显式克隆（需手动实现 Clone）</span></span><br><span class="line"><span class="meta">#[repr(C)]</span></span><br><span class="line"><span class="keyword">union</span> <span class="title class_">SafeUnion</span> &#123;</span><br><span class="line">    a: <span class="type">u32</span>,</span><br><span class="line">    b: <span class="type">f32</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Clone</span> <span class="keyword">for</span> <span class="title class_">SafeUnion</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">clone</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="keyword">Self</span> &#123;</span><br><span class="line">        <span class="comment">// 假设当前活跃字段是 `a`</span></span><br><span class="line">        <span class="keyword">unsafe</span> &#123; SafeUnion &#123; a: <span class="keyword">self</span>.a &#125; &#125; <span class="comment">// 按位复制</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="variable">u1</span> = SafeUnion &#123; a: <span class="number">42</span> &#125;;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">u2</span> = u1.<span class="title function_ invoke__">clone</span>(); <span class="comment">// 显式克隆</span></span><br><span class="line"><span class="keyword">unsafe</span> &#123;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;u1.a = &#123;&#125;&quot;</span>, u1.a); <span class="comment">// 合法</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;u2.a = &#123;&#125;&quot;</span>, u2.a); <span class="comment">// 合法</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="字符串类型"><a href="#字符串类型" class="headerlink" title="字符串类型"></a>字符串类型</h2><h3 id="字符串字面量和字符串切片-str"><a href="#字符串字面量和字符串切片-str" class="headerlink" title="字符串字面量和字符串切片 &amp;str"></a>字符串字面量和字符串切片 &amp;str</h3><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>复制语义</th>
+<th>移动语义</th>
+<th><code>Copy</code> trait</th>
+<th><code>Clone</code> trait</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>字符串字面量</td>
+<td>✅</td>
+<td>❌</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>字符串切片 <code>&amp;str</code></td>
+<td>✅</td>
+<td>❌</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+</tbody></table>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1. 字符串切片的复制语义</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">s1</span> = <span class="string">&quot;hello&quot;</span>;        <span class="comment">// 类型：&amp;&#x27;static str</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">s2</span> = s1;             <span class="comment">// 复制语义（按位复制胖指针）</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. 字符串字面量的显式克隆</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">s1</span> = <span class="string">&quot;hello&quot;</span>; 		<span class="comment">// 字符串字面量，类型为 &amp;&#x27;static str</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">s2</span> = s1.<span class="title function_ invoke__">clone</span>(); 	<span class="comment">// 复制 s1，s2 与 s1 指向相同的内存</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 3. 字符串切片的显式克隆</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">s</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;world&quot;</span>);</span><br><span class="line"><span class="keyword">let</span> <span class="variable">slice1</span> = &amp;s; 				<span class="comment">// 字符串切片，类型为 &amp;str</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">slice2</span> = slice1.<span class="title function_ invoke__">clone</span>(); 	<span class="comment">// 复制 slice1，slice2 与 slice1 指向相同的堆内存</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="String"><a href="#String" class="headerlink" title="String"></a>String</h3><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>复制语义</th>
+<th>移动语义</th>
+<th><code>Copy</code> trait</th>
+<th><code>Clone</code> trait</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>字符串 <code>String</code></td>
+<td>❌</td>
+<td>✅</td>
+<td>❌</td>
+<td>✅</td>
+</tr>
+</tbody></table>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1. String 类型的移动语义</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">s1</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>); <span class="comment">// 堆内存分配</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">s2</span> = s1;                    <span class="comment">// 移动语义，s1 失效</span></span><br><span class="line"><span class="comment">// println!(&quot;&#123;&#125;&quot;, s1); 			// 编译错误：s1 已被移动</span></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, s2); 			<span class="comment">// 合法</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. String 类型的显式克隆</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">s1</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line"><span class="keyword">let</span> <span class="variable">s2</span> = s1.<span class="title function_ invoke__">clone</span>(); 	<span class="comment">// 深拷贝，s1 和 s2 均有效</span></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, s1); 	<span class="comment">// 合法</span></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, s2); 	<span class="comment">// 合法</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Vec"><a href="#Vec" class="headerlink" title="Vec"></a>Vec<T></h2><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>复制语义</th>
+<th>移动语义</th>
+<th><code>Copy</code> trait</th>
+<th><code>Clone</code> trait</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Vec</code></td>
+<td>❌</td>
+<td>✅</td>
+<td>❌</td>
+<td><code>Vec&lt;T&gt;</code> 实现了 <code>Clone</code> trait，但要求 <code>T</code> 也实现 <code>Clone</code></td>
+</tr>
+</tbody></table>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1. Vec 类型的移动语义</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">v1</span> = <span class="built_in">vec!</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]; 	<span class="comment">// 堆内存分配</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">v2</span> = v1;            	<span class="comment">// 移动语义，v1 失效</span></span><br><span class="line"><span class="comment">// println!(&quot;&#123;:?&#125;&quot;, v1); 	// 编译错误：value borrowed after move</span></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;&#123;:?&#125;&quot;</span>, v2);   	<span class="comment">// 合法</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. Vec 类型的显式克隆</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">v1</span> = <span class="built_in">vec!</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"><span class="keyword">let</span> <span class="variable">v2</span> = v1.<span class="title function_ invoke__">clone</span>(); <span class="comment">// 深拷贝堆数据</span></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;v1: &#123;:?&#125;, v2: &#123;:?&#125;&quot;</span>, v1, v2); <span class="comment">// 均合法</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Option"><a href="#Option" class="headerlink" title="Option"></a>Option<T></h2><table>
+<thead>
+<tr>
+<th><code>Option&lt;T&gt;</code>的复制语义</th>
+<th><code>Option&lt;T&gt;</code>的移动语义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1. <code>T</code> 实现 <code>Copy</code> trait <br />2. <code>Option&lt;T&gt;</code> 自动实现 <code>Copy</code></td>
+<td>1. 联合体未实现<code>Copy</code> trait（默认情况）<br />2. 包含非<code>Copy</code> 字段</td>
+</tr>
+<tr>
+<td>赋值或传参时<strong>隐式复制内部值</strong>，原变量仍有效</td>
+<td>赋值或传参后，原始联合体<strong>失效</strong></td>
+</tr>
+</tbody></table>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1. Option&lt;T&gt; 的复制语义</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">num1</span> = <span class="title function_ invoke__">Some</span>(<span class="number">42</span>);</span><br><span class="line"><span class="keyword">let</span> <span class="variable">num2</span> = num1;          <span class="comment">// 复制语义（i32 是 Copy）</span></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;&#123;:?&#125;, &#123;:?&#125;&quot;</span>, num1, num2); <span class="comment">// 合法</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. Option&lt;T&gt; 的移动语义</span></span><br><span class="line"><span class="comment">// 示例 1：T 未实现 Copy（如 String）</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">opt1</span> = <span class="title function_ invoke__">Some</span>(<span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>));</span><br><span class="line"><span class="keyword">let</span> <span class="variable">opt2</span> = opt1;          <span class="comment">// 移动语义，opt1 失效</span></span><br><span class="line"><span class="comment">// println!(&quot;&#123;:?&#125;&quot;, opt1); // 编译错误：value borrowed after move</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 3. Option&lt;T&gt; 的显式克隆（T 实现 Clone trait → Option&lt;T&gt; 自动实现 Clone）</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">s_opt1</span> = <span class="title function_ invoke__">Some</span>(<span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;world&quot;</span>));</span><br><span class="line"><span class="keyword">let</span> <span class="variable">s_opt2</span> = s_opt1.<span class="title function_ invoke__">clone</span>(); <span class="comment">// 显式克隆 String</span></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;&#123;:?&#125;, &#123;:?&#125;&quot;</span>, s_opt1, s_opt2); <span class="comment">// 合法</span></span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th><strong>Trait</strong></th>
+<th><code>Option&lt;T&gt;</code> 的实现条件</th>
+<th>行为</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong><code>Copy</code></strong></td>
+<td><code>T</code> 实现 <code>Copy</code> → <code>Option&lt;T&gt;</code> 自动实现 <code>Copy</code></td>
+<td>隐式按位复制（包括内部值）</td>
+</tr>
+<tr>
+<td><strong><code>Clone</code></strong></td>
+<td><code>T</code> 实现 <code>Clone</code> → <code>Option&lt;T&gt;</code> 自动实现 <code>Clone</code></td>
+<td>显式调用 <code>.clone()</code> 递归克隆内部值</td>
+</tr>
+</tbody></table>
+<h2 id="Result"><a href="#Result" class="headerlink" title="Result&lt;T, E&gt;"></a>Result&lt;T, E&gt;</h2><table>
+<thead>
+<tr>
+<th><strong>Trait</strong></th>
+<th><code>Result&lt;T, E&gt;</code> 的实现条件</th>
+<th>行为</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong><code>Copy</code></strong></td>
+<td><code>T: Copy</code> 且 <code>E: Copy</code> → 自动实现 <code>Copy</code></td>
+<td>隐式按位复制（包括内部值）</td>
+</tr>
+<tr>
+<td><strong><code>Clone</code></strong></td>
+<td><code>T: Clone</code> 且 <code>E: Clone</code> → 自动实现 <code>Clone</code></td>
+<td>显式调用 <code>.clone()</code> 递归克隆内部值</td>
+</tr>
+</tbody></table>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1. Result&lt;T, E&gt; 的复制语义</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">num_res</span>: <span class="type">Result</span>&lt;<span class="type">i32</span>, <span class="type">i32</span>&gt; = <span class="title function_ invoke__">Ok</span>(<span class="number">42</span>);</span><br><span class="line"><span class="keyword">let</span> <span class="variable">num_res_copy</span> = num_res; <span class="comment">// 隐式复制（i32 是 Copy）</span></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;&#123;:?&#125;, &#123;:?&#125;&quot;</span>, num_res, num_res_copy); <span class="comment">// 合法</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. Result&lt;T, E&gt; 的移动语义</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">res1</span>: <span class="type">Result</span>&lt;<span class="type">String</span>, <span class="type">i32</span>&gt; = <span class="title function_ invoke__">Ok</span>(<span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>));</span><br><span class="line"><span class="keyword">let</span> <span class="variable">res2</span> = res1;          <span class="comment">// 移动语义，res1 失效</span></span><br><span class="line"><span class="comment">// println!(&quot;&#123;:?&#125;&quot;, res1); // 编译错误：value borrowed after move</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 3. Result&lt;T, E&gt; 的显式克隆</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">s_res</span> = <span class="title function_ invoke__">Ok</span>(<span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;world&quot;</span>));</span><br><span class="line"><span class="keyword">let</span> <span class="variable">s_res_clone</span> = s_res.<span class="title function_ invoke__">clone</span>(); <span class="comment">// 显式克隆 String</span></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;&#123;:?&#125;, &#123;:?&#125;&quot;</span>, s_res, s_res_clone); <span class="comment">// 合法</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="智能指针"><a href="#智能指针" class="headerlink" title="智能指针"></a>智能指针</h2><table>
+<thead>
+<tr>
+<th>特性</th>
+<th><code>Box&lt;T&gt;</code></th>
+<th><code>Rc&lt;T&gt;</code></th>
+<th><code>Arc&lt;T&gt;</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>默认语义</td>
+<td>移动语义</td>
+<td>移动语义</td>
+<td>移动语义</td>
+</tr>
+<tr>
+<td><code>Copy</code> Trait</td>
+<td>❌</td>
+<td>❌</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><code>Clone</code> Trait</td>
+<td>✅（需 <code>T: Clone</code>）</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+</tbody></table>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1. Box&lt;T&gt; 的移动语义</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">box1</span> = <span class="type">Box</span>::<span class="title function_ invoke__">new</span>(<span class="number">42</span>); <span class="comment">// 堆内存分配</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">box2</span> = box1;         <span class="comment">// 移动语义，box1 失效</span></span><br><span class="line"><span class="comment">// println!(&quot;&#123;&#125;&quot;, box1); // 编译错误：value borrowed after move</span></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, box2);    <span class="comment">// 合法</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. Box&lt;T&gt; 的显式克隆（T 需实现 Clone trait）</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">box1</span> = <span class="type">Box</span>::<span class="title function_ invoke__">new</span>(<span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>));</span><br><span class="line"><span class="keyword">let</span> <span class="variable">box2</span> = box1.<span class="title function_ invoke__">clone</span>(); <span class="comment">// 深拷贝 String（堆数据）</span></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;, &#123;&#125;&quot;</span>, box1, box2); <span class="comment">// 合法</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 1. Rc&lt;T&gt; 的移动语义</span></span><br><span class="line"><span class="keyword">use</span> std::rc::Rc;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="variable">rc1</span> = Rc::<span class="title function_ invoke__">new</span>(<span class="number">42</span>); <span class="comment">// 堆内存分配，引用计数 = 1</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">rc2</span> = rc1;         <span class="comment">// 移动语义，rc1 失效</span></span><br><span class="line"><span class="comment">// println!(&quot;&#123;&#125;&quot;, rc1); // 编译错误：value borrowed after move</span></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, rc2);   <span class="comment">// 合法，引用计数仍为 1</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. Rc&lt;T&gt; 的显式克隆</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">rc1</span> = Rc::<span class="title function_ invoke__">new</span>(<span class="number">42</span>);</span><br><span class="line"><span class="keyword">let</span> <span class="variable">rc2</span> = rc1.<span class="title function_ invoke__">clone</span>(); <span class="comment">// 引用计数 +1 → 2</span></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;, &#123;&#125;&quot;</span>, rc1, rc2); <span class="comment">// 合法，引用计数 = 2</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 1. Arc&lt;T&gt; 的移动语义</span></span><br><span class="line"><span class="keyword">use</span> std::sync::Arc;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="variable">arc1</span> = Arc::<span class="title function_ invoke__">new</span>(<span class="number">42</span>); <span class="comment">// 堆内存分配，引用计数 = 1</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">arc2</span> = arc1;         <span class="comment">// 移动语义，arc1 失效</span></span><br><span class="line"><span class="comment">// println!(&quot;&#123;&#125;&quot;, arc1); // 编译错误：value borrowed after move</span></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, arc2);    <span class="comment">// 合法，引用计数仍为 1</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. Arc&lt;T&gt; 的显式克隆</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">arc1</span> = Arc::<span class="title function_ invoke__">new</span>(<span class="number">42</span>);</span><br><span class="line"><span class="keyword">let</span> <span class="variable">arc2</span> = arc1.<span class="title function_ invoke__">clone</span>(); <span class="comment">// 引用计数 +1 → 2</span></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;, &#123;&#125;&quot;</span>, arc1, arc2); <span class="comment">// 合法，引用计数 = 2</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="原始指针"><a href="#原始指针" class="headerlink" title="原始指针"></a>原始指针</h2><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>复制语义</th>
+<th>移动语义</th>
+<th><code>Copy</code> trait</th>
+<th><code>Clone</code> trait</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>*const T</code></td>
+<td>✅</td>
+<td>❌</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>*mut T</code></td>
+<td>✅</td>
+<td>❌</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+</tbody></table>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1. 原始指针的复制语义</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">x</span> = <span class="number">42</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">ptr1</span>: *<span class="keyword">const</span> <span class="type">i32</span> = &amp;x <span class="keyword">as</span> *<span class="keyword">const</span> <span class="type">i32</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">ptr2</span> = ptr1; <span class="comment">// 隐式复制指针值</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">unsafe</span> &#123;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;ptr1: &#123;&#125;&quot;</span>, *ptr1); <span class="comment">// 42</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;ptr2: &#123;&#125;&quot;</span>, *ptr2); <span class="comment">// 42</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. 原始指针的显式克隆</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">x</span> = <span class="number">42</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">ptr1</span>: *<span class="keyword">const</span> <span class="type">i32</span> = &amp;x;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">ptr2</span> = ptr1.<span class="title function_ invoke__">clone</span>(); <span class="comment">// 显式克隆</span></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;ptr1: &#123;:p&#125;, ptr2: &#123;:p&#125;&quot;</span>, ptr1, ptr2); <span class="comment">// 输出相同的地址</span></span><br></pre></td></tr></table></figure>
+</div>
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2025-02-23</span>
+            
+                <span>该篇文章被 meng.wang</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/MyBlog/tags/rust/'>
+                            rust
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/MyBlog/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/'>
+                            编程语言
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    <br>
+    
+    
+        
+            
+    
+            <div class="post-footer-pre-next">
+                
+
+                
+                    <span class="post-footer-pre-next-last-span-right">下一篇：<a href="/MyBlog/posts/59704c71.html">实现Llama模型参数加载</a>
+                    </span>
+                
+            </div>
+    
+        
+    
+
+     
+</div>
+
+
+
+                                      
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            © 1949-2025 China 
+
+            
+                
+
+            
+                
+                    / <a href="/MyBlog/friends/"> 友链 </a>
+                
+
+            
+                
+                    / <a href="/MyBlog/support/"> 支持 </a>
+                
+
+            
+        </span>
+       
+    
+</div>
+
+
+
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+                <span class="footer-last-span-right"><i>本站由<a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/index.html">Hexo</a>驱动｜使用<a target="_blank" rel="noopener" href="https://github.com/HiNinoJay/hexo-theme-A4">Hexo-theme-A4</a>主题</i></span>
+            
+    
+</div>
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+
+    <!--目录-->
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript" ></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" type="text/javascript" ></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tocify/1.9.0/javascripts/jquery.tocify.min.js" type="text/javascript" ></script>
+        
+<script src="/MyBlog/js/toc.js"></script>
+
+    
+
+    
+<script src="/MyBlog/js/randomHeaderContent.js"></script>
+
+    <!--回到顶部按钮-->
+    
+        
+<script src="/MyBlog/js/returnToTop.js"></script>
+
+    
+
+    
+        
+<script src="/MyBlog/js/returnToLastPage.js"></script>
+
+    
+
+
+
+
+
+<script src="/MyBlog/js/lightgallery/lightgallery.umd.min.js"></script>
+
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-thumbnail.umd.min.js"></script>
+
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-fullscreen.umd.min.js"></script>
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-autoplay.umd.min.js"></script>
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-zoom.umd.min.js"></script>
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-rotate.umd.min.js"></script>
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-paper.umd.min.js"></script>
+
+
+
+
+<script type="text/javascript">
+     
+    if (typeof lightGallery !== "undefined") {
+        var options1 = {
+            selector: '.gallery-item',
+            plugins: [lgThumbnail, lgFullscreen, lgAutoplay, lgZoom, lgRotate, lgPager], // 启用插件
+            thumbnail: true,          // 显示缩略图
+            zoom: true,               // 启用缩放功
+            rotate: true,             // 启用旋转功能能
+            autoplay: true,        // 启用自动播放功能
+            fullScreen: true,      // 启用全屏功能
+            pager: false, //页码,
+            zoomFromOrigin: true,   // 从原始位置缩放
+            actualSize: true,       // 启用查看实际大小的功能
+            enableZoomAfter: 300,    // 延迟缩放，确保图片加载完成后可缩放
+        };
+        lightGallery(document.getElementsByClassName('.article-gallery')[0], options1); // 修复选择器
+    }
+    
+</script>
+
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script> 
+
+                </div>
+            
+            
+                <!-- 回到顶部的按钮-->  
+                <div class="progress-wrap shadow-drop-2-bottom">
+                    <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+                        <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98"/>
+                    </svg>
+                </div>
+            
+            
+                <!-- 返回的按钮-->  
+                <div class="return-to-last-progress-wrap shadow-drop-2-bottom">
+                    <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+                        <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98"/>
+                    </svg>
+                </div>
+            
+    </body>
+</html>
+<script src="/MyBlog/js/emojiHandler.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    wrapEmojis('.paper');
+  });
+</script>

@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport" />
+    <meta name="description" content="解读：Arc&lt;Box&lt;[T]&gt;&gt;" />
+    <meta name="hexo-theme-A4" content="v1.9.8" />
+    <link rel="alternate icon" type="image/webp" href="/MyBlog/img/favicon.jpg">
+    <title>青山依旧在</title>
+
+    
+        
+<link rel="stylesheet" href="/MyBlog/css/highlight/style1.css">
+
+        
+<link rel="stylesheet" href="/MyBlog/css/reset.css">
+
+        
+<link rel="stylesheet" href="/MyBlog/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/MyBlog/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+        
+        
+<link rel="stylesheet" href="/MyBlog/css/ui.css">
+ 
+        
+<link rel="stylesheet" href="/MyBlog/css/style.css">
+
+
+        
+            <!--返回顶部css-->
+            
+<link rel="stylesheet" href="/MyBlog/css/returnToTop.css">
+
+            
+<link rel="stylesheet" href="/MyBlog/css/unicons.css">
+
+        
+        
+            <!--目录-->
+            
+<link rel="stylesheet" href="/MyBlog/css/toc.css">
+
+        
+    
+
+    
+        
+<link rel="stylesheet" href="/MyBlog/css/returnToLastPage.css">
+
+    
+    
+   
+<link rel="stylesheet" href="/MyBlog/css/lightgallery-bundle.min.css">
+
+
+   
+        
+<link rel="stylesheet" href="/MyBlog/css/custom.css">
+
+    
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+    
+    
+
+    
+    
+
+
+
+    
+
+    
+    
+
+
+
+
+    <style>
+        .archive-main a:hover {
+            text-decoration: none; 
+        }
+    </style>
+
+    
+    
+
+    
+    <body>
+        <script src="/js/darkmode-js.min.js"></script>
+        
+        <script>
+            const options = {
+                bottom: '40px', // default: '32px'
+                right: 'unset', // default: '32px'
+                left: '42px', // default: 'unset'
+                time: '0.3s', // default: '0.3s'
+                mixColor: '#fff', // default: '#fff'
+                backgroundColor: ' #e4e4e4 ',  // default: '#fff'
+                buttonColorDark: '#100f2c',  // default: '#100f2c'
+                buttonColorLight: '#fff', // default: '#fff'
+                saveInCookies: true, // default: true,
+                label: '🌓', // default: ''
+                autoMatchOsTheme: true // default: true
+            }
+            const darkmode = new Darkmode(options);
+            darkmode.showWidget();
+        </script>
+        
+        
+            
+                <div class="left-toc-container">
+                    <nav id="toc" class="bs-docs-sidebar"></nav>
+                </div>
+            
+        
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+
+
+<div class="header">
+    <div class="header-container">
+        <style>
+            .header-img {
+                width: 56px;
+                height: auto;
+                object-fit: cover; /* 保持图片比例 */
+                transition: transform 0.3s ease-in-out; 
+                border-radius: 50%; 
+            }
+            
+            .header-img:hover {
+                animation: rotateAnimation 2s linear infinite; /* 悬停旋转动画 */
+            }
+            @keyframes rotateAnimation {
+                0% {
+                    transform: rotate(0deg);
+                }
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
+            
+        </style>
+        <img 
+            alt="^-^" 
+            cache-control="max-age=86400" 
+            class="header-img" 
+            src="/MyBlog/img/favicon.jpg" 
+        />
+        <div class="header-content">
+            <a class="logo" href="/MyBlog/">青山依旧在</a> 
+            <span class="description"></span> 
+        </div>
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/MyBlog/">首页</a></li>
+            
+        
+            
+                <li><a href="/MyBlog/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/MyBlog/about/">关于</a></li>
+            
+        
+            
+                <li><a href="/MyBlog/tags/">标签</a></li>
+            
+        
+            
+                <li><a href="/MyBlog/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+    
+
+    
+        
+            
+                <div class="post-main-title" style="text-align: center;">
+                    解读：Arc&lt;Box&lt;[T]&gt;&gt;
+                </div>
+            
+        
+      
+    
+
+    
+
+        
+            <div class="post-head-meta-center">
+        
+                
+                    <span>最近更新：2025-02-23</span> 
+                
+                
+                    
+                        &nbsp; | &nbsp;
+                    
+                     <span>字数总计：991</span>
+                
+                
+                    
+                        &nbsp; | &nbsp;
+                    
+                    <span>阅读估时：4分钟</span>
+                
+                
+                    
+                        &nbsp; | &nbsp;
+                    
+                    <span id="busuanzi_container_page_pv">
+                        阅读量：<span id="busuanzi_value_page_pv"></span>次
+                    </span>
+                
+            </div>
+    
+
+    <div class="post-md">
+        
+            
+                <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%85%88%E6%8B%86%E8%A7%A3-Box"><span class="post-toc-text">先拆解 Box&lt;[T]&gt;</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%86%8D%E7%9C%8B-Arc"><span class="post-toc-text">再看 Arc&lt;Box&lt;[T]&gt;&gt;</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E6%98%AF-Arc"><span class="post-toc-text">为什么不是 Arc&lt;[T]&gt;?</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%80%BB%E7%BB%93"><span class="post-toc-text">总结</span></a></li></ol>
+            
+        
+        <div class=".article-gallery"><p>在 <a target="_blank" rel="noopener" href="https://github.com/LearningInfiniTensor/learning-lm-rs">LearningInfiniTensor&#x2F;learning-lm-rs</a> 项目中的 <code>src/tensor</code> 中看到了一个很有意思的 Rust 代码实践，其中 <code>data: Arc&lt;Box&lt;[T]&gt;&gt;</code> 看起来有些复杂，也因为智能指针这一块学的不太好，一时无法理解，特此记录。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">struct</span> <span class="title class_">Tensor</span>&lt;T&gt; &#123;</span><br><span class="line">	data: Arc&lt;<span class="type">Box</span>&lt;[T]&gt;&gt;, <span class="comment">// 底层数据存储</span></span><br><span class="line">	shape: <span class="type">Vec</span>&lt;unsize&gt;,	 <span class="comment">// 形状 </span></span><br><span class="line">	offset: <span class="type">usize</span>,		   <span class="comment">// 数据偏移量</span></span><br><span class="line">	length: <span class="type">usize</span>,		   <span class="comment">// 数据长度</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>data: Arc&lt;Box&lt;[T]&gt;&gt;</code>：存储 <code>Tensor</code> 数据，<code>Arc</code> 允许多个 <code>Tensor</code> 实例共享同一个数据。</li>
+<li><code>shape: Vec&lt;unsize&gt;</code>：存储 <code>Tensor</code>的形状。</li>
+<li><code>offset: usize</code>：数据偏移量。</li>
+<li><code>length: usize</code>：数据长度。</li>
+</ul>
+<p>下面就来逐层拆解进行理解。</p>
+<h2 id="先拆解-Box"><a href="#先拆解-Box" class="headerlink" title="先拆解 Box&lt;[T]&gt;"></a>先拆解 <code>Box&lt;[T]&gt;</code></h2><p><code>Box&lt;[T]&gt;</code>是什么？</p>
+<ul>
+<li><code>Box&lt;T&gt;</code>是 Rust 的智能指针，用于 <strong>堆上（heap）分配数据</strong>，让 Rust 自动管理内存。</li>
+<li><code>[T]</code>是 <strong>动态数组</strong>，表示<strong>一个长度未知的切片</strong>（<em>slice</em>）。</li>
+</ul>
+<p>为什么用 <code>Box&lt;[T]&gt;</code>？</p>
+<ul>
+<li>Rust 中<strong>数组</strong>  <strong>​<code>[T; N]</code>​</strong>​<strong>长度是固定的</strong>，不能动态改变。</li>
+<li>如果需要存储 <strong>任意长度的数组</strong>，必须用<strong>切片</strong> <code>&amp;[T]</code>，但切片本身没有 <strong>所有权</strong>，因此我们用 <code>Box&lt;[T]&gt;</code> 在<strong>堆上分配数据，并获取所有权</strong>。</li>
+</ul>
+<p><strong>示例代码</strong>：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">v</span> = <span class="built_in">vec!</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>];</span><br><span class="line"><span class="keyword">let</span> <span class="variable">boxed_slice</span>: <span class="type">Box</span>&lt;[<span class="type">i32</span>]&gt; = v.<span class="title function_ invoke__">into_boxed_slice</span>(); <span class="comment">// 将 Vec&lt;T&gt; 转换为 Box&lt;[T]&gt;</span></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;&#123;:?&#125;&quot;</span>, boxed_slice); <span class="comment">// 输出：[1, 2, 3, 4]</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>​<code>Box&lt;[T]&gt;</code>​</strong>  <strong>让</strong> <strong>​<code>Tensor</code>​</strong> <strong>能存储</strong> <strong>变长数组（动态大小）</strong> ，而不是固定大小的数组 <code>[T; N]</code>。</p>
+<h2 id="再看-Arc"><a href="#再看-Arc" class="headerlink" title="再看 Arc&lt;Box&lt;[T]&gt;&gt;"></a>再看 <code>Arc&lt;Box&lt;[T]&gt;&gt;</code></h2><p><strong>​<code>Arc&lt;T&gt;</code>​</strong>  <strong>是什么？</strong></p>
+<ul>
+<li><code>Arc&lt;T&gt;</code>（<em>Atomic Reference Counted</em>）是一个<strong>线程安全的引用计数智能指针</strong>。</li>
+<li>允许多个线程<strong>安全地共享同一个数据</strong>，自动进行 <strong>引用计数</strong>（<em>Reference Counting</em>），在<strong>最后一个引用被释放时才释放数据</strong>。</li>
+</ul>
+<p><strong>为什么使用</strong> <strong>​<code>Arc&lt;T&gt;</code>​</strong>​ <strong>?</strong></p>
+<ul>
+<li><code>Box&lt;T&gt;</code>只能有<strong>一个所有者</strong>，如果 <code>Tensor&lt;T&gt;</code>的多个实例需要共享 <code>data</code>，那 <code>Box&lt;T&gt;</code>​<strong>不够用</strong>。</li>
+<li><code>Arc&lt;T&gt;</code>允许多个 <code>Tensor&lt;T&gt;</code>​<strong>共享同一个数据</strong>，并在<strong>最后一个</strong> <code>Tensor</code>​<strong>被释放时才释放</strong> <code>data</code>。</li>
+<li>这样做<strong>减少了数据复制</strong>，提升性能。</li>
+</ul>
+<p><strong>示例代码</strong>：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::sync::Arc;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="variable">v</span> = <span class="built_in">vec!</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>].<span class="title function_ invoke__">into_boxed_slice</span>();</span><br><span class="line"><span class="keyword">let</span> <span class="variable">shared_data</span> = Arc::<span class="title function_ invoke__">new</span>(v);</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="variable">tensor1</span> = shared_data.<span class="title function_ invoke__">clone</span>(); <span class="comment">// 共享数据，不复制</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">tensor2</span> = shared_data.<span class="title function_ invoke__">clone</span>(); <span class="comment">// 共享数据，不复制</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;&#123;:?&#125;&quot;</span>, tensor1);</span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;&#123;:?&#125;&quot;</span>, tensor2);</span><br></pre></td></tr></table></figure>
+
+<p><code>Arc&lt;Box&lt;[T]&gt;&gt;</code> 让 <code>Tensor&lt;T&gt;</code> 的多个实例可以共享相同的数据，而不需要复制。</p>
+<h2 id="为什么不是-Arc"><a href="#为什么不是-Arc" class="headerlink" title="为什么不是 Arc&lt;[T]&gt;?"></a>为什么不是 <code>Arc&lt;[T]&gt;</code>?</h2><p>Rust 的 <code>Arc&lt;T&gt;</code>要求 <code>T</code>必须是 <code>Sized</code>（已知大小的类型），而<code>[T]</code>是切片（slice），不是 <code>Sized</code>类型，Rust 不知道它的大小。</p>
+<p><code>Box&lt;[T]&gt;</code>作为一个 <code>Sized</code>类型，可以放进 <code>Arc&lt;T&gt;</code>。</p>
+<p>不过 <code>Arc&lt;[T]&gt;</code>是可用的，而且更推荐。Rust 提供了 <code>Arc::from(vec)</code> 这种方式，让 <code>Arc&lt;[T]&gt;</code> 可以创建：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::sync::Arc;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="variable">numbers</span> = Arc::<span class="title function_ invoke__">from</span>(<span class="built_in">vec!</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]); <span class="comment">// 直接创建 Arc&lt;[T]&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>Vec&lt;T&gt;</code> 内部本身就是 <strong>堆分配的数组</strong>，Rust <strong>在内部做了优化</strong>，把 <code>Vec&lt;T&gt;</code> 直接转换为 <code>Arc&lt;[T]&gt;</code>。</p>
+<p><code>Arc&lt;Box&lt;T&gt;&gt;</code>vs <code>Arc&lt;[T]&gt;</code></p>
+<table>
+<thead>
+<tr>
+<th>方式</th>
+<th>是否可用</th>
+<th>是否更推荐</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Arc&lt;[T]&gt;</code></td>
+<td>✅ <strong>可以</strong><br /></td>
+<td>✅ <strong>推荐</strong></td>
+<td>直接存储共享的 <strong>静态数组</strong></td>
+</tr>
+<tr>
+<td><code>Arc&lt;Box&lt;[T]&gt;&gt;</code></td>
+<td>✅ <strong>可以</strong></td>
+<td>❌ <strong>通常不必要</strong></td>
+<td>需要手动管理 <code>Box</code></td>
+</tr>
+</tbody></table>
+<ul>
+<li><strong>​<code>Arc&lt;[T]&gt;</code>​</strong>  更简洁，Rust <strong>内部优化了</strong> <strong>​<code>Arc::from(vec)</code>​</strong> ，无需 <code>Box&lt;[T]&gt;</code>。</li>
+<li><strong>​<code>Arc&lt;Box&lt;[T]&gt;&gt;</code>​</strong>  只有在 <strong>已经有</strong> <strong>​<code>Box&lt;[T]&gt;</code>​</strong>  <strong>需要共享</strong> 时才需要。</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><code>Box&lt;[T]&gt;</code>堆分配的动态数组，存储 <code>Tensor</code>的数据；<code>Arc&lt;Box&lt;[T]&gt;&gt;</code>多个 <code>Tensor</code>实例可以共享 <code>data</code>，避免重复拷贝，提高效率。适用于：</p>
+<ul>
+<li>张量（Tensor）等大数据结构。</li>
+<li>多个 <code>Tensor</code> 共享同一块数据。</li>
+</ul>
+</div>
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2025-02-06</span>
+            
+                <span>该篇文章被 meng.wang</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/MyBlog/tags/rust/'>
+                            rust
+                        </a>
+                    
+                        <a href='/MyBlog/tags/InfiniTensor/'>
+                            InfiniTensor
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/MyBlog/categories/%E9%A1%B9%E7%9B%AE/'>
+                            项目
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    <br>
+    
+    
+        
+            
+    
+            <div class="post-footer-pre-next">
+                
+                    <span>上一篇：<a href='/MyBlog/posts/593d6317.html'>实现SwiGLU算子</a></span>
+                
+
+                
+                    <span class="post-footer-pre-next-last-span-right">下一篇：<a href="/MyBlog/posts/715.html">exam garding 自动评分系统 submodule 使用补充</a>
+                    </span>
+                
+            </div>
+    
+        
+    
+
+     
+</div>
+
+
+
+                                      
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            © 1949-2025 China 
+
+            
+                
+
+            
+                
+                    / <a href="/MyBlog/friends/"> 友链 </a>
+                
+
+            
+                
+                    / <a href="/MyBlog/support/"> 支持 </a>
+                
+
+            
+        </span>
+       
+    
+</div>
+
+
+
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+                <span class="footer-last-span-right"><i>本站由<a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/index.html">Hexo</a>驱动｜使用<a target="_blank" rel="noopener" href="https://github.com/HiNinoJay/hexo-theme-A4">Hexo-theme-A4</a>主题</i></span>
+            
+    
+</div>
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+
+    <!--目录-->
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript" ></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" type="text/javascript" ></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tocify/1.9.0/javascripts/jquery.tocify.min.js" type="text/javascript" ></script>
+        
+<script src="/MyBlog/js/toc.js"></script>
+
+    
+
+    
+<script src="/MyBlog/js/randomHeaderContent.js"></script>
+
+    <!--回到顶部按钮-->
+    
+        
+<script src="/MyBlog/js/returnToTop.js"></script>
+
+    
+
+    
+        
+<script src="/MyBlog/js/returnToLastPage.js"></script>
+
+    
+
+
+
+
+
+<script src="/MyBlog/js/lightgallery/lightgallery.umd.min.js"></script>
+
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-thumbnail.umd.min.js"></script>
+
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-fullscreen.umd.min.js"></script>
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-autoplay.umd.min.js"></script>
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-zoom.umd.min.js"></script>
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-rotate.umd.min.js"></script>
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-paper.umd.min.js"></script>
+
+
+
+
+<script type="text/javascript">
+     
+    if (typeof lightGallery !== "undefined") {
+        var options1 = {
+            selector: '.gallery-item',
+            plugins: [lgThumbnail, lgFullscreen, lgAutoplay, lgZoom, lgRotate, lgPager], // 启用插件
+            thumbnail: true,          // 显示缩略图
+            zoom: true,               // 启用缩放功
+            rotate: true,             // 启用旋转功能能
+            autoplay: true,        // 启用自动播放功能
+            fullScreen: true,      // 启用全屏功能
+            pager: false, //页码,
+            zoomFromOrigin: true,   // 从原始位置缩放
+            actualSize: true,       // 启用查看实际大小的功能
+            enableZoomAfter: 300,    // 延迟缩放，确保图片加载完成后可缩放
+        };
+        lightGallery(document.getElementsByClassName('.article-gallery')[0], options1); // 修复选择器
+    }
+    
+</script>
+
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script> 
+
+                </div>
+            
+            
+                <!-- 回到顶部的按钮-->  
+                <div class="progress-wrap shadow-drop-2-bottom">
+                    <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+                        <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98"/>
+                    </svg>
+                </div>
+            
+            
+                <!-- 返回的按钮-->  
+                <div class="return-to-last-progress-wrap shadow-drop-2-bottom">
+                    <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+                        <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98"/>
+                    </svg>
+                </div>
+            
+    </body>
+</html>
+<script src="/MyBlog/js/emojiHandler.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    wrapEmojis('.paper');
+  });
+</script>

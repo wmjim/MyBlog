@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport" />
+    <meta name="description" content="用 LaTex 语法排版数学公式" />
+    <meta name="hexo-theme-A4" content="v1.9.8" />
+    <link rel="alternate icon" type="image/webp" href="/MyBlog/img/favicon.jpg">
+    <title>青山依旧在</title>
+
+    
+        
+<link rel="stylesheet" href="/MyBlog/css/highlight/style1.css">
+
+        
+<link rel="stylesheet" href="/MyBlog/css/reset.css">
+
+        
+<link rel="stylesheet" href="/MyBlog/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/MyBlog/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+        
+        
+<link rel="stylesheet" href="/MyBlog/css/ui.css">
+ 
+        
+<link rel="stylesheet" href="/MyBlog/css/style.css">
+
+
+        
+            <!--返回顶部css-->
+            
+<link rel="stylesheet" href="/MyBlog/css/returnToTop.css">
+
+            
+<link rel="stylesheet" href="/MyBlog/css/unicons.css">
+
+        
+        
+            <!--目录-->
+            
+<link rel="stylesheet" href="/MyBlog/css/toc.css">
+
+        
+    
+
+    
+        
+<link rel="stylesheet" href="/MyBlog/css/returnToLastPage.css">
+
+    
+    
+   
+<link rel="stylesheet" href="/MyBlog/css/lightgallery-bundle.min.css">
+
+
+   
+        
+<link rel="stylesheet" href="/MyBlog/css/custom.css">
+
+    
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+    
+    
+
+    
+    
+
+
+
+    
+
+    
+    
+
+
+
+
+    <style>
+        .archive-main a:hover {
+            text-decoration: none; 
+        }
+    </style>
+
+    
+    
+
+    
+    <body>
+        <script src="/js/darkmode-js.min.js"></script>
+        
+        <script>
+            const options = {
+                bottom: '40px', // default: '32px'
+                right: 'unset', // default: '32px'
+                left: '42px', // default: 'unset'
+                time: '0.3s', // default: '0.3s'
+                mixColor: '#fff', // default: '#fff'
+                backgroundColor: ' #e4e4e4 ',  // default: '#fff'
+                buttonColorDark: '#100f2c',  // default: '#100f2c'
+                buttonColorLight: '#fff', // default: '#fff'
+                saveInCookies: true, // default: true,
+                label: '🌓', // default: ''
+                autoMatchOsTheme: true // default: true
+            }
+            const darkmode = new Darkmode(options);
+            darkmode.showWidget();
+        </script>
+        
+        
+            
+                <div class="left-toc-container">
+                    <nav id="toc" class="bs-docs-sidebar"></nav>
+                </div>
+            
+        
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+
+
+<div class="header">
+    <div class="header-container">
+        <style>
+            .header-img {
+                width: 56px;
+                height: auto;
+                object-fit: cover; /* 保持图片比例 */
+                transition: transform 0.3s ease-in-out; 
+                border-radius: 50%; 
+            }
+            
+            .header-img:hover {
+                animation: rotateAnimation 2s linear infinite; /* 悬停旋转动画 */
+            }
+            @keyframes rotateAnimation {
+                0% {
+                    transform: rotate(0deg);
+                }
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
+            
+        </style>
+        <img 
+            alt="^-^" 
+            cache-control="max-age=86400" 
+            class="header-img" 
+            src="/MyBlog/img/favicon.jpg" 
+        />
+        <div class="header-content">
+            <a class="logo" href="/MyBlog/">青山依旧在</a> 
+            <span class="description"></span> 
+        </div>
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/MyBlog/">首页</a></li>
+            
+        
+            
+                <li><a href="/MyBlog/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/MyBlog/about/">关于</a></li>
+            
+        
+            
+                <li><a href="/MyBlog/tags/">标签</a></li>
+            
+        
+            
+                <li><a href="/MyBlog/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+    
+
+    
+        
+            
+                <div class="post-main-title" style="text-align: center;">
+                    用 LaTex 语法排版数学公式
+                </div>
+            
+        
+      
+    
+
+    
+
+        
+            <div class="post-head-meta-center">
+        
+                
+                    <span>最近更新：2025-01-21</span> 
+                
+                
+                    
+                        &nbsp; | &nbsp;
+                    
+                     <span>字数总计：1.4k</span>
+                
+                
+                    
+                        &nbsp; | &nbsp;
+                    
+                    <span>阅读估时：6分钟</span>
+                
+                
+                    
+                        &nbsp; | &nbsp;
+                    
+                    <span id="busuanzi_container_page_pv">
+                        阅读量：<span id="busuanzi_value_page_pv"></span>次
+                    </span>
+                
+            </div>
+    
+
+    <div class="post-md">
+        
+            
+                <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E8%A1%8C%E5%86%85%E5%85%AC%E5%BC%8F%E4%B8%8E%E8%A1%8C%E9%97%B4%E5%85%AC%E5%BC%8F"><span class="post-toc-text">行内公式与行间公式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%A1%8C%E5%86%85%E5%85%AC%E5%BC%8F"><span class="post-toc-text">行内公式</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%A1%8C%E9%97%B4%E5%85%AC%E5%BC%8F"><span class="post-toc-text">行间公式</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%9F%BA%E6%9C%AC%E5%85%83%E7%B4%A0"><span class="post-toc-text">基本元素</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%B8%8C%E8%85%8A%E5%AD%97%E6%AF%8D"><span class="post-toc-text">希腊字母</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%B8%80%E8%88%AC%E7%AC%A6%E5%8F%B7"><span class="post-toc-text">一般符号</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%B8%8A%E4%B8%8B%E6%A0%87%E5%92%8C%E6%A0%B9%E5%8F%B7"><span class="post-toc-text">上下标和根号</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%88%86%E6%95%B0"><span class="post-toc-text">分数</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="post-toc-text">运算符</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%A4%9A%E8%A1%8C%E5%85%AC%E5%BC%8F"><span class="post-toc-text">多行公式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E9%95%BF%E5%85%AC%E5%BC%8F"><span class="post-toc-text">长公式</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%85%AC%E5%BC%8F%E7%BB%84"><span class="post-toc-text">公式组</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%85%AC%E5%BC%8F%E5%88%86%E6%94%AF"><span class="post-toc-text">公式分支</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#TODO"><span class="post-toc-text">TODO</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%80%BB%E7%BB%93"><span class="post-toc-text">总结</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E6%A1%A3"><span class="post-toc-text">参考文档</span></a></li></ol>
+            
+        
+        <div class=".article-gallery"><p>在开头我先放一个好用的在线 LaTex 公式编辑器，在编辑复杂的 LaTex 公式时，没必要自己一点一点吭呲语法。</p>
+<p>令人惊喜的是还有一份，LaTex 入门资料🙂我自己找的，还不错。</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.latexlive.com/">LaTeX公式编辑器</a></li>
+<li>1010入门攻略</li>
+</ul>
+<blockquote>
+<p>链接：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1Dmoc0Mnc-8HaY1mIDBeLfw?pwd=yyyy">https://pan.baidu.com/s/1Dmoc0Mnc-8HaY1mIDBeLfw?pwd=yyyy</a><br>提取码：yyyy</p>
+</blockquote>
+<h2 id="行内公式与行间公式"><a href="#行内公式与行间公式" class="headerlink" title="行内公式与行间公式"></a>行内公式与行间公式</h2><p>LaTex 数学公式有两种排版方式：</p>
+<ol>
+<li>与文字混排，称为<strong>行内公式</strong>。</li>
+<li>单独列为一行排版，称为<strong>行间公式</strong>。</li>
+</ol>
+<h3 id="行内公式"><a href="#行内公式" class="headerlink" title="行内公式"></a>行内公式</h3><p>行内公式由一对 <code>$</code> 符号包裹。</p>
+<figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">The Pythagorean theorem is <span class="built_in">$</span>a<span class="built_in">^</span>2 + b<span class="built_in">^</span>2 = c<span class="built_in">^</span>2<span class="built_in">$</span>。</span><br></pre></td></tr></table></figure>
+<p>The Pythagorean theorem is $a^2 + b^2 &#x3D; c^2$。</p>
+<h3 id="行间公式"><a href="#行间公式" class="headerlink" title="行间公式"></a>行间公式</h3><p>行间公式则由 <code>$$</code> 符号包裹，记最简单方便的。</p>
+<figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">那么请问 <span class="built_in">$</span><span class="built_in">$</span> 1+1=2 <span class="built_in">$</span><span class="built_in">$</span> 这个结果是否是正确的？</span><br></pre></td></tr></table></figure>
+<p>那么请问 $$ 1+1&#x3D;2 $$ 这个结果是否是正确的？</p>
+<h2 id="基本元素"><a href="#基本元素" class="headerlink" title="基本元素"></a>基本元素</h2><h3 id="希腊字母"><a href="#希腊字母" class="headerlink" title="希腊字母"></a>希腊字母</h3><p>英文字母在数学模式下可以直接输入，而希腊字母则需要使用如下表的命令进行输入，注意区分大小写希腊字母的命令首字母。</p>
+<table>
+<thead>
+<tr>
+<th>符号</th>
+<th>中文发音</th>
+<th>语法</th>
+<th>符号</th>
+<th>中文发音</th>
+<th>语法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>$\alpha$</td>
+<td>阿尔法</td>
+<td>\alpha</td>
+<td>$\mu$</td>
+<td>缪（mou）</td>
+<td>\mu</td>
+</tr>
+<tr>
+<td>$\beta$</td>
+<td>贝塔</td>
+<td>\beta</td>
+<td>$\nu$</td>
+<td>纽</td>
+<td>\nu</td>
+</tr>
+<tr>
+<td>$\gamma$</td>
+<td>伽马（ga）</td>
+<td>\gamma</td>
+<td>$\Gamma$</td>
+<td>伽马</td>
+<td>\Gamma</td>
+</tr>
+<tr>
+<td>$\delta$</td>
+<td>德尔塔</td>
+<td>\delta</td>
+<td>$\Delta$</td>
+<td>德尔塔</td>
+<td>\Delta</td>
+</tr>
+<tr>
+<td>$\epsilon$</td>
+<td>伊普西龙</td>
+<td>\epsilon</td>
+<td>$\varepsilon$</td>
+<td>伊普西龙</td>
+<td>\varepsilon</td>
+</tr>
+<tr>
+<td>$\theta$</td>
+<td>西塔</td>
+<td>\theta</td>
+<td>$\Theta$</td>
+<td>西塔</td>
+<td>\Theta</td>
+</tr>
+<tr>
+<td>$\lambda$</td>
+<td>拉姆达</td>
+<td>\lambda</td>
+<td>$\Lambda$</td>
+<td>拉姆达</td>
+<td>\Lambda</td>
+</tr>
+<tr>
+<td>$\xi$</td>
+<td>克西</td>
+<td>\xi</td>
+<td>$\Xi$</td>
+<td>克西</td>
+<td>\Xi</td>
+</tr>
+<tr>
+<td>$\pi$</td>
+<td>派</td>
+<td>\pi</td>
+<td>$\Pi$</td>
+<td>派</td>
+<td>\Pi</td>
+</tr>
+<tr>
+<td>$\sigma$</td>
+<td>西格玛</td>
+<td>\sigma</td>
+<td>$\Sigma$</td>
+<td>西格玛</td>
+<td>\Sigma</td>
+</tr>
+<tr>
+<td>$\upsilon$</td>
+<td>尤普西隆</td>
+<td>\upsilon</td>
+<td>$\Upsilon$</td>
+<td>尤普西隆</td>
+<td>\Upsilon</td>
+</tr>
+<tr>
+<td>$\phi$</td>
+<td>费</td>
+<td>\phi</td>
+<td>$\Phi$</td>
+<td>费</td>
+<td>\Phi</td>
+</tr>
+<tr>
+<td>$\psi$</td>
+<td>普西</td>
+<td>\psi</td>
+<td>$\Psi$</td>
+<td>普西</td>
+<td>\Psi</td>
+</tr>
+<tr>
+<td>$\omega$</td>
+<td>欧米伽</td>
+<td>\omega</td>
+<td>$\Omega$</td>
+<td>欧米伽</td>
+<td>\Omega</td>
+</tr>
+<tr>
+<td>$\zeta$</td>
+<td>泽塔</td>
+<td>\zeta</td>
+<td>$\eta$</td>
+<td>伊塔</td>
+<td>\eta</td>
+</tr>
+<tr>
+<td>$\vartheta$</td>
+<td>泰塔</td>
+<td>\vartheta</td>
+<td>$\iota$</td>
+<td>艾塔</td>
+<td>\iota</td>
+</tr>
+<tr>
+<td>$\kappa$</td>
+<td>卡帕</td>
+<td>\kappa</td>
+<td>$o$</td>
+<td>欧</td>
+<td>o</td>
+</tr>
+<tr>
+<td>$\varpi$</td>
+<td>渥</td>
+<td>\varpi</td>
+<td>$\tau$</td>
+<td>陶</td>
+<td>\tau</td>
+</tr>
+<tr>
+<td>$\rho$</td>
+<td>肉</td>
+<td>\rho</td>
+<td>$\varrho$</td>
+<td>肉</td>
+<td>\varrho</td>
+</tr>
+<tr>
+<td>$\varphi$</td>
+<td>费</td>
+<td>\varphi</td>
+<td>$\chi$</td>
+<td>凯</td>
+<td>\chi</td>
+</tr>
+<tr>
+<td>$\varsigma$</td>
+<td>西格玛</td>
+<td>\varsigma</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="一般符号"><a href="#一般符号" class="headerlink" title="一般符号"></a>一般符号</h3><h3 id="上下标和根号"><a href="#上下标和根号" class="headerlink" title="上下标和根号"></a>上下标和根号</h3><p>在 LaTex 中指数或上标用 <code>^</code> 表示，下标用 <code>_</code> 表示，根号用 <code>\sqrt</code> 表示。</p>
+<p>上下标如果多于一个字母或符号，需要用一对 <code>&#123;&#125;</code> 括起来。</p>
+<p>导数符号 <code>&#39;</code> 是一类特殊的上标，适当连用时表达多阶导数，也能在其后连用上标。</p>
+<table>
+<thead>
+<tr>
+<th>描述</th>
+<th>符号</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>指数或上标</td>
+<td>^</td>
+<td>x^2 &#x3D;&#x3D;&gt; $x^2$</td>
+</tr>
+<tr>
+<td>小标</td>
+<td>_</td>
+<td>x_2 &#x3D;&#x3D;&gt; $x_2$</td>
+</tr>
+<tr>
+<td>根号</td>
+<td>\sqrt</td>
+<td>\sqrt  &#x3D;&#x3D;&gt; $\sqrt{x}$<br>  \sqrt[3]{x} &#x3D;&#x3D;&gt; $\sqrt[3]{x}$</td>
+</tr>
+<tr>
+<td>多个符号或字母的上下标</td>
+<td>{}</td>
+<td>x_{ij}^2  &#x3D;&#x3D;&gt; $x_{ij}^2$</td>
+</tr>
+<tr>
+<td>一阶导数</td>
+<td><code>&#39;</code></td>
+<td>f’(x) &#x3D; 2x &#x3D;&#x3D;&gt; $f’(x)&#x3D;2x$</td>
+</tr>
+<tr>
+<td>二阶导数</td>
+<td><code>&#39;&#39;</code></td>
+<td>f’’(x) &#x3D; 2 &#x3D;&#x3D;&gt; $f’’(x) &#x3D; 2$</td>
+</tr>
+</tbody></table>
+<h3 id="分数"><a href="#分数" class="headerlink" title="分数"></a>分数</h3><p>分数使用 <code>\frac</code> 表示，它会根据环境而自动调整字号。<br>如：在行间公式中小一点，在独立公式中大一点。<br>可以人工修改分数字号，如：<code>\dfrac</code> 命令把分数的字号设置为 <strong>独立公式</strong> 大小；而 <code>\tfrac</code> 命令则把字号设置为 <strong>行间公式</strong> 的大小。</p>
+<figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">$</span></span><br><span class="line">    行间公式：<span class="keyword">\frac</span>&#123;1&#125;&#123;2&#125; <span class="keyword">\\</span></span><br><span class="line">    dfrac：<span class="keyword">\dfrac</span>&#123;1&#125;&#123;2&#125;</span><br><span class="line"><span class="built_in">$</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">\[</span></span><br><span class="line">    <span class="built_in">$</span>独立公式：<span class="keyword">\frac</span>&#123;1&#125;&#123;2&#125; <span class="keyword">\\</span></span><br><span class="line">    tfrac：<span class="keyword">\tfrac</span>&#123;1&#125;&#123;2&#125;</span><br><span class="line"><span class="keyword">\]</span></span><br></pre></td></tr></table></figure>
+
+<p>$<br>    行间公式：\frac{1}{2} \<br>    dfrac：\dfrac{1}{2}<br>$</p>
+<p>[<br>    $独立公式：\frac{1}{2} \<br>    tfrac：\tfrac{1}{2}<br>]</p>
+<h3 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h3><p>小运算符如：<code>+</code>、<code>-</code>、<code>*</code>、<code>/</code>、<code>=</code>等可以直接输入，而大运算符则需要特殊命令进行输入。</p>
+<table>
+<thead>
+<tr>
+<th><strong>符号</strong></th>
+<th><strong>符号名</strong></th>
+<th><strong>语法</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>$\pm$</td>
+<td>加减</td>
+<td>\pm</td>
+</tr>
+<tr>
+<td>$\times$</td>
+<td>乘号</td>
+<td>\times</td>
+</tr>
+<tr>
+<td>$\div$</td>
+<td>除号</td>
+<td>\div %}</td>
+</tr>
+<tr>
+<td>$\cdot$</td>
+<td>中心点</td>
+<td>\cdot</td>
+</tr>
+<tr>
+<td>$\cap$</td>
+<td>交集</td>
+<td>\cap</td>
+</tr>
+<tr>
+<td>$\cup$</td>
+<td>并集</td>
+<td>\cup</td>
+</tr>
+<tr>
+<td>$\in$</td>
+<td>属于</td>
+<td>\in</td>
+</tr>
+<tr>
+<td>$\not\in$</td>
+<td>不属于</td>
+<td>\not\in</td>
+</tr>
+<tr>
+<td>$\subseteq$</td>
+<td>子集</td>
+<td>\subseteq</td>
+</tr>
+<tr>
+<td>$\geq$</td>
+<td>大于等于</td>
+<td>\geq</td>
+</tr>
+<tr>
+<td>$\leq$</td>
+<td>小于等于</td>
+<td>\leq</td>
+</tr>
+<tr>
+<td>$\neq$</td>
+<td>不等于</td>
+<td>\neq</td>
+</tr>
+<tr>
+<td>$\approx$</td>
+<td>约等于</td>
+<td>\approx</td>
+</tr>
+<tr>
+<td>$\equiv$</td>
+<td>恒等于</td>
+<td>\equiv</td>
+</tr>
+</tbody></table>
+<h2 id="多行公式"><a href="#多行公式" class="headerlink" title="多行公式"></a>多行公式</h2><p>当需要使用到多行公式时，就需要用到 <strong>amsmath</strong> 提供的一些多行公式环境。</p>
+<h3 id="长公式"><a href="#长公式" class="headerlink" title="长公式"></a>长公式</h3><p>无需对齐的长公式使用 <strong>multline</strong> 环境，需要对齐的长公式使用 <strong>split</strong> 环境。它们本身并不能独立使用，必须包含在其它数学环境内，因此也称其为<strong>次环境</strong>。<br>使用 <code>\\</code> 和 <code>&amp;</code> 来分别作为分行和设置对齐的位置。</p>
+<ul>
+<li>无对齐长公式</li>
+</ul>
+<figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\begin</span>&#123;multline*&#125;</span><br><span class="line">x = a+b+c+&#123;&#125; <span class="keyword">\\</span></span><br><span class="line">d+e+f+g</span><br><span class="line"><span class="keyword">\end</span>&#123;multline*&#125;</span><br></pre></td></tr></table></figure>
+
+<p>$$\begin{multline*}<br> x &#x3D; a+b+c+{} \<br> d+e+f+g<br>\end{multline*}$$</p>
+<ul>
+<li>对齐长公式</li>
+</ul>
+<figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\begin</span>&#123;split&#125;</span><br><span class="line">    x=&#123;&#125; <span class="built_in">&amp;</span>a+b+c+&#123;&#125; <span class="keyword">\\</span></span><br><span class="line">        <span class="built_in">&amp;</span>d+e+f+g</span><br><span class="line"><span class="keyword">\end</span>&#123;split&#125;</span><br></pre></td></tr></table></figure>
+<p>$$\begin{split}<br>x&#x3D;{} &amp;a+b+c+{} \<br>&amp;d+e+f+g<br>\end{split}$$</p>
+<h3 id="公式组"><a href="#公式组" class="headerlink" title="公式组"></a>公式组</h3><p>无需对齐的公式组使用 <strong>gather</strong> 环境，需要对齐的公式组使用 <strong>align</strong> 环境。</p>
+<ul>
+<li>无对齐公式组</li>
+</ul>
+<figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\begin</span>&#123;gather&#125;</span><br><span class="line">    a=b+c+d <span class="keyword">\\</span></span><br><span class="line">    x=y+z</span><br><span class="line"><span class="keyword">\end</span>&#123;gather&#125;</span><br></pre></td></tr></table></figure>
+<p>$$\begin{gather*}<br>a&#x3D;b+c+d \<br>x&#x3D;y+z<br>\end{gather*}$$</p>
+<ul>
+<li>对齐公式组</li>
+</ul>
+<figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\begin</span>&#123;align&#125;</span><br><span class="line">    a <span class="built_in">&amp;</span>=b+c+d <span class="keyword">\\</span></span><br><span class="line">    x <span class="built_in">&amp;</span>=y+z</span><br><span class="line"><span class="keyword">\end</span>&#123;align&#125;</span><br></pre></td></tr></table></figure>
+<p>$$\begin{align}<br>a &amp;&#x3D;b+c+d \<br>x &amp;&#x3D;y+z<br>\end{align}$$</p>
+<p>其中 <strong>multline</strong>，<strong>gather</strong>，<strong>align</strong> 等环境都有带 <code>*</code> 的版本，不生成公式编号，例如 <code>\begin&#123;gahter*&#125; ... \end&#123;gather*&#125;</code>。</p>
+<h3 id="公式分支"><a href="#公式分支" class="headerlink" title="公式分支"></a>公式分支</h3><p>分段函数使用 <strong>cases</strong> 次环境。</p>
+<ul>
+<li>分支公式</li>
+</ul>
+<figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">y=<span class="keyword">\begin</span>&#123;case&#125;</span><br><span class="line">-x,<span class="keyword">\quad</span> <span class="built_in">&amp;</span> x<span class="keyword">\leq</span> 0 <span class="keyword">\\</span></span><br><span class="line">x, <span class="keyword">\quad</span> <span class="built_in">&amp;</span> x&gt;0 <span class="keyword">\end</span>&#123;case&#125;</span><br></pre></td></tr></table></figure>
+<p>$y&#x3D;\begin{cases}<br>-x,\quad &amp; x\leq 0 \<br>x, \quad &amp; x&gt;0 \end{cases}$</p>
+<h2 id="TODO"><a href="#TODO" class="headerlink" title="TODO"></a>TODO</h2><p>以上我觉得够用了，暂时写这么多，关于更多我用到再总结吧。</p>
+<ul>
+<li>矩阵</li>
+<li>更多的运算符</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>学习 LaTex，我认为先学习 LaTex 数学公式语法是非常有用的，学完就可以在平时的笔记中（markdown文档）应用起来。至于其它等需要写论文再进行学习和使用吧！</p>
+<h2 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h2><ul>
+<li>lnotes2</li>
+<li>lshort-zh-cn</li>
+</ul>
+</div>
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2023-11-04</span>
+            
+                <span>该篇文章被 meng.wang</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/MyBlog/tags/LaTex/'>
+                            LaTex
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/MyBlog/categories/%E5%B7%A5%E5%85%B7/'>
+                            工具
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    <br>
+    
+    
+        
+            
+    
+            <div class="post-footer-pre-next">
+                
+                    <span>上一篇：<a href='/MyBlog/posts/48914.html'>Rust开发的Vim配置</a></span>
+                
+
+                
+                    <span class="post-footer-pre-next-last-span-right">下一篇：<a href="/MyBlog/posts/26849.html">vector那些事</a>
+                    </span>
+                
+            </div>
+    
+        
+    
+
+     
+</div>
+
+
+
+                                      
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            © 1949-2025 China 
+
+            
+                
+
+            
+                
+                    / <a href="/MyBlog/friends/"> 友链 </a>
+                
+
+            
+                
+                    / <a href="/MyBlog/support/"> 支持 </a>
+                
+
+            
+        </span>
+       
+    
+</div>
+
+
+
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+                <span class="footer-last-span-right"><i>本站由<a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/index.html">Hexo</a>驱动｜使用<a target="_blank" rel="noopener" href="https://github.com/HiNinoJay/hexo-theme-A4">Hexo-theme-A4</a>主题</i></span>
+            
+    
+</div>
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+
+    <!--目录-->
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript" ></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" type="text/javascript" ></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tocify/1.9.0/javascripts/jquery.tocify.min.js" type="text/javascript" ></script>
+        
+<script src="/MyBlog/js/toc.js"></script>
+
+    
+
+    
+<script src="/MyBlog/js/randomHeaderContent.js"></script>
+
+    <!--回到顶部按钮-->
+    
+        
+<script src="/MyBlog/js/returnToTop.js"></script>
+
+    
+
+    
+        
+<script src="/MyBlog/js/returnToLastPage.js"></script>
+
+    
+
+
+
+
+
+<script src="/MyBlog/js/lightgallery/lightgallery.umd.min.js"></script>
+
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-thumbnail.umd.min.js"></script>
+
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-fullscreen.umd.min.js"></script>
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-autoplay.umd.min.js"></script>
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-zoom.umd.min.js"></script>
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-rotate.umd.min.js"></script>
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-paper.umd.min.js"></script>
+
+
+
+
+<script type="text/javascript">
+     
+    if (typeof lightGallery !== "undefined") {
+        var options1 = {
+            selector: '.gallery-item',
+            plugins: [lgThumbnail, lgFullscreen, lgAutoplay, lgZoom, lgRotate, lgPager], // 启用插件
+            thumbnail: true,          // 显示缩略图
+            zoom: true,               // 启用缩放功
+            rotate: true,             // 启用旋转功能能
+            autoplay: true,        // 启用自动播放功能
+            fullScreen: true,      // 启用全屏功能
+            pager: false, //页码,
+            zoomFromOrigin: true,   // 从原始位置缩放
+            actualSize: true,       // 启用查看实际大小的功能
+            enableZoomAfter: 300,    // 延迟缩放，确保图片加载完成后可缩放
+        };
+        lightGallery(document.getElementsByClassName('.article-gallery')[0], options1); // 修复选择器
+    }
+    
+</script>
+
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script> 
+
+                </div>
+            
+            
+                <!-- 回到顶部的按钮-->  
+                <div class="progress-wrap shadow-drop-2-bottom">
+                    <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+                        <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98"/>
+                    </svg>
+                </div>
+            
+            
+                <!-- 返回的按钮-->  
+                <div class="return-to-last-progress-wrap shadow-drop-2-bottom">
+                    <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+                        <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98"/>
+                    </svg>
+                </div>
+            
+    </body>
+</html>
+<script src="/MyBlog/js/emojiHandler.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    wrapEmojis('.paper');
+  });
+</script>

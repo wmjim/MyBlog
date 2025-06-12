@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport" />
+    <meta name="description" content="递归解析" />
+    <meta name="hexo-theme-A4" content="v1.9.8" />
+    <link rel="alternate icon" type="image/webp" href="/MyBlog/img/favicon.jpg">
+    <title>青山依旧在</title>
+
+    
+        
+<link rel="stylesheet" href="/MyBlog/css/highlight/style1.css">
+
+        
+<link rel="stylesheet" href="/MyBlog/css/reset.css">
+
+        
+<link rel="stylesheet" href="/MyBlog/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/MyBlog/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+        
+        
+<link rel="stylesheet" href="/MyBlog/css/ui.css">
+ 
+        
+<link rel="stylesheet" href="/MyBlog/css/style.css">
+
+
+        
+            <!--返回顶部css-->
+            
+<link rel="stylesheet" href="/MyBlog/css/returnToTop.css">
+
+            
+<link rel="stylesheet" href="/MyBlog/css/unicons.css">
+
+        
+        
+            <!--目录-->
+            
+<link rel="stylesheet" href="/MyBlog/css/toc.css">
+
+        
+    
+
+    
+        
+<link rel="stylesheet" href="/MyBlog/css/returnToLastPage.css">
+
+    
+    
+   
+<link rel="stylesheet" href="/MyBlog/css/lightgallery-bundle.min.css">
+
+
+   
+        
+<link rel="stylesheet" href="/MyBlog/css/custom.css">
+
+    
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+    
+    
+
+    
+    
+
+
+
+    
+
+    
+    
+
+
+
+
+    <style>
+        .archive-main a:hover {
+            text-decoration: none; 
+        }
+    </style>
+
+    
+    
+
+    
+    <body>
+        <script src="/js/darkmode-js.min.js"></script>
+        
+        <script>
+            const options = {
+                bottom: '40px', // default: '32px'
+                right: 'unset', // default: '32px'
+                left: '42px', // default: 'unset'
+                time: '0.3s', // default: '0.3s'
+                mixColor: '#fff', // default: '#fff'
+                backgroundColor: ' #e4e4e4 ',  // default: '#fff'
+                buttonColorDark: '#100f2c',  // default: '#100f2c'
+                buttonColorLight: '#fff', // default: '#fff'
+                saveInCookies: true, // default: true,
+                label: '🌓', // default: ''
+                autoMatchOsTheme: true // default: true
+            }
+            const darkmode = new Darkmode(options);
+            darkmode.showWidget();
+        </script>
+        
+        
+            
+                <div class="left-toc-container">
+                    <nav id="toc" class="bs-docs-sidebar"></nav>
+                </div>
+            
+        
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+
+
+<div class="header">
+    <div class="header-container">
+        <style>
+            .header-img {
+                width: 56px;
+                height: auto;
+                object-fit: cover; /* 保持图片比例 */
+                transition: transform 0.3s ease-in-out; 
+                border-radius: 50%; 
+            }
+            
+            .header-img:hover {
+                animation: rotateAnimation 2s linear infinite; /* 悬停旋转动画 */
+            }
+            @keyframes rotateAnimation {
+                0% {
+                    transform: rotate(0deg);
+                }
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
+            
+        </style>
+        <img 
+            alt="^-^" 
+            cache-control="max-age=86400" 
+            class="header-img" 
+            src="/MyBlog/img/favicon.jpg" 
+        />
+        <div class="header-content">
+            <a class="logo" href="/MyBlog/">青山依旧在</a> 
+            <span class="description"></span> 
+        </div>
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/MyBlog/">首页</a></li>
+            
+        
+            
+                <li><a href="/MyBlog/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/MyBlog/about/">关于</a></li>
+            
+        
+            
+                <li><a href="/MyBlog/tags/">标签</a></li>
+            
+        
+            
+                <li><a href="/MyBlog/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+    
+
+    
+        
+            
+                <div class="post-main-title" style="text-align: center;">
+                    递归解析
+                </div>
+            
+        
+      
+    
+
+    
+
+        
+            <div class="post-head-meta-center">
+        
+                
+                    <span>最近更新：2025-01-21</span> 
+                
+                
+                    
+                        &nbsp; | &nbsp;
+                    
+                     <span>字数总计：796</span>
+                
+                
+                    
+                        &nbsp; | &nbsp;
+                    
+                    <span>阅读估时：3分钟</span>
+                
+                
+                    
+                        &nbsp; | &nbsp;
+                    
+                    <span id="busuanzi_container_page_pv">
+                        阅读量：<span id="busuanzi_value_page_pv"></span>次
+                    </span>
+                
+            </div>
+    
+
+    <div class="post-md">
+        
+            
+                <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E9%80%92%E5%BD%92%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="post-toc-text">递归的概念</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%A6%82%E4%BD%95%E7%90%86%E8%A7%A3%E9%80%92%E5%BD%92"><span class="post-toc-text">如何理解递归</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%AE%80%E5%8D%95%E4%BE%8B%E5%AD%90"><span class="post-toc-text">简单例子</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%A0%91%E9%80%92%E5%BD%92"><span class="post-toc-text">树递归</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%90%86%E8%A7%A3%E8%B0%83%E7%94%A8%E6%A0%88"><span class="post-toc-text">理解调用栈</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E9%80%92%E5%BD%92%E7%9A%84%E5%BA%94%E7%94%A8"><span class="post-toc-text">递归的应用</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="post-toc-text">参考资料</span></a></li></ol>
+            
+        
+        <div class=".article-gallery"><blockquote>
+<p>To iterate is Human, to recurse divine.</p>
+<p>——Laurence Peter Deutsch</p>
+</blockquote>
+<h2 id="递归的概念"><a href="#递归的概念" class="headerlink" title="递归的概念"></a>递归的概念</h2><p><strong>递归</strong>（Recursion），在数学和计算机科学中，是指在函数的定义中使用函数自身的方法。</p>
+<p>递归的实现主要包含两个过程：</p>
+<ul>
+<li><p><strong>递</strong>：程序不断深入地调用自身，通常传入更小或更简化的参数，直到达到“终止条件”。</p>
+</li>
+<li><p><strong>归</strong>：触发终止条件后，程序从最深层的递归函数开始逐层返回，汇聚每一层的结果。</p>
+</li>
+</ul>
+<p>递归三步走：</p>
+<ol>
+<li><strong>写出递推公式</strong>：找到将原问题分解为子问题的规律，并且根据规律写出递推公式。</li>
+<li><strong>明确终止条件</strong>：推敲出递归的终止条件，以及递归终止时的处理办法。</li>
+<li>将递推公式和终止条件<strong>翻译成代码</strong>。</li>
+</ol>
+<p>递归函数的一般代码形式：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">func</span>(<span class="params">传入数值</span>):</span><br><span class="line">    <span class="keyword">if</span> 终止条件:</span><br><span class="line">        <span class="keyword">return</span> 最小子问题解</span><br><span class="line">    <span class="keyword">return</span> func(缩小规模)</span><br></pre></td></tr></table></figure>
+
+<h2 id="如何理解递归"><a href="#如何理解递归" class="headerlink" title="如何理解递归"></a>如何理解递归</h2><h3 id="简单例子"><a href="#简单例子" class="headerlink" title="简单例子"></a>简单例子</h3><blockquote>
+<p>计算$n!$。</p>
+</blockquote>
+<p>其代码实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">factorial</span>(<span class="params">n</span>):</span><br><span class="line">    <span class="keyword">if</span> n == <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> n * factorial(n-<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+<p>最好的理解这个递归过程的办法就是把式子展开：<br>$$<br>\begin{split}&amp;f(6) \<br>&amp;&#x3D; 6 * f(5) \<br>&amp;&#x3D; 6 * (5 * f(4)) \<br>&amp;&#x3D; 6 * (5 * (4 * f(3))) \<br>&amp;&#x3D; 6 * (5 * (4 * (3 * f(2))) \<br>&amp;&#x3D; 6 * (5 * (4 * (3 * (2 * f(1))))) \<br>&amp;&#x3D; 6 * (5 * (4 * (3 * (2 * 1))) \<br>&amp;&#x3D; 6 * (5 * (4 * (3 * 2) \<br>&amp;&#x3D; 6 * (5 * (4 * 6) \<br>&amp;&#x3D; 6 * (5 * 24) \<br>&amp;&#x3D; 6 * 120 \<br>&amp;&#x3D; 720<br>\end{split}<br>$$<br>先递进，再回归，这就是递归。</p>
+<h3 id="树递归"><a href="#树递归" class="headerlink" title="树递归"></a>树递归</h3><p>对于任何递归问题，都可以画一个递归树，显示每一层的递归调用及其关系。</p>
+<blockquote>
+<p>给定一个斐波那契数列$0,1,1,2,3,5,8,13,…$，求该数列的第$n$个数字。</p>
+</blockquote>
+<p>设斐波那契数列的第$n$个数字为$f(n)$，易得下面两个结论：</p>
+<ol>
+<li>数列的前两个数字为$f(1) &#x3D; 0$和$f(2) &#x3D; 1$。</li>
+<li>数列中的每个数字是前两个数字的和，即$f(n)&#x3D;f(n-1) + f(n-2)$。</li>
+</ol>
+<p>根据这两个结论，我们可以得到递归公式：</p>
+<p>$$<br>f(n) &#x3D; \left{\begin{matrix}<br>0 &amp; n&#x3D;1 \<br>1 &amp; n&#x3D;2 \<br>f(n-1) + f(n-2) &amp; n &gt; 2<br>\end{matrix}\right.<br>$$</p>
+<p>书写其简单代码为：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">fibonacci</span>(<span class="params">n</span>):</span><br><span class="line">    <span class="keyword">if</span> n == <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">elif</span> n == <span class="number">2</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> fibonacci(n-<span class="number">1</span>) + fibonacci(n-<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+
+<p>根据这个递归公式，以计算<code>fibonacci(4)</code>为例可以画出递归树：</p>
+<p><a target="_blank" rel="noopener" href="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/drawio.png" class="gallery-item" style="box-shadow: none;"> <img src="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/drawio.png"></a></p>
+<h3 id="理解调用栈"><a href="#理解调用栈" class="headerlink" title="理解调用栈"></a>理解调用栈</h3><p>在程序执行中，递归是利用堆栈来实现的。每一次递推都需要一个栈空间来保存调用记录，每当进入一次函数调用，栈空间就会加一层栈帧。每一次回归，栈空间就会减一层栈帧。由于系统中的栈空间大小不是无限的，所以，如果递归调用的次数过多，会导致栈空间溢出。</p>
+<h2 id="递归的应用"><a href="#递归的应用" class="headerlink" title="递归的应用"></a>递归的应用</h2><p>在 力扣（LeetCode）平台上有专项的递归算法练习题目：<a target="_blank" rel="noopener" href="https://leetcode.cn/tag/recursion/problemset/">递归 - 力扣 (LeetCode)</a></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/31412436/answer/738989709">对于递归有什么好的理解方法？—— 知乎 - 方应杭</a></li>
+<li><a target="_blank" rel="noopener" href="https://algo.itcharge.cn/09.Algorithm-Base/02.Recursive-Algorithm/01.Recursive-Algorithm/">《算法通关手册》—— 01.递归算法知识</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.hello-algo.com/chapter_computational_complexity/iteration_and_recursion/#3_1">《Hello，算法》—— 2.2 递归与迭代</a></li>
+</ul>
+</div>
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2024-03-09</span>
+            
+                <span>该篇文章被 meng.wang</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/MyBlog/tags/algo/'>
+                            algo
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/MyBlog/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/'>
+                            数据结构
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    <br>
+    
+    
+        
+            
+    
+            <div class="post-footer-pre-next">
+                
+                    <span>上一篇：<a href='/MyBlog/posts/5148.html'>CLion 配置 EasyX</a></span>
+                
+
+                
+                    <span class="post-footer-pre-next-last-span-right">下一篇：<a href="/MyBlog/posts/15885.html">本地搭建ChatGLM3详细教程</a>
+                    </span>
+                
+            </div>
+    
+        
+    
+
+     
+</div>
+
+
+
+                                      
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            © 1949-2025 China 
+
+            
+                
+
+            
+                
+                    / <a href="/MyBlog/friends/"> 友链 </a>
+                
+
+            
+                
+                    / <a href="/MyBlog/support/"> 支持 </a>
+                
+
+            
+        </span>
+       
+    
+</div>
+
+
+
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+                <span class="footer-last-span-right"><i>本站由<a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/index.html">Hexo</a>驱动｜使用<a target="_blank" rel="noopener" href="https://github.com/HiNinoJay/hexo-theme-A4">Hexo-theme-A4</a>主题</i></span>
+            
+    
+</div>
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+
+    <!--目录-->
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript" ></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" type="text/javascript" ></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tocify/1.9.0/javascripts/jquery.tocify.min.js" type="text/javascript" ></script>
+        
+<script src="/MyBlog/js/toc.js"></script>
+
+    
+
+    
+<script src="/MyBlog/js/randomHeaderContent.js"></script>
+
+    <!--回到顶部按钮-->
+    
+        
+<script src="/MyBlog/js/returnToTop.js"></script>
+
+    
+
+    
+        
+<script src="/MyBlog/js/returnToLastPage.js"></script>
+
+    
+
+
+
+
+
+<script src="/MyBlog/js/lightgallery/lightgallery.umd.min.js"></script>
+
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-thumbnail.umd.min.js"></script>
+
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-fullscreen.umd.min.js"></script>
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-autoplay.umd.min.js"></script>
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-zoom.umd.min.js"></script>
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-rotate.umd.min.js"></script>
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-paper.umd.min.js"></script>
+
+
+
+
+<script type="text/javascript">
+     
+    if (typeof lightGallery !== "undefined") {
+        var options1 = {
+            selector: '.gallery-item',
+            plugins: [lgThumbnail, lgFullscreen, lgAutoplay, lgZoom, lgRotate, lgPager], // 启用插件
+            thumbnail: true,          // 显示缩略图
+            zoom: true,               // 启用缩放功
+            rotate: true,             // 启用旋转功能能
+            autoplay: true,        // 启用自动播放功能
+            fullScreen: true,      // 启用全屏功能
+            pager: false, //页码,
+            zoomFromOrigin: true,   // 从原始位置缩放
+            actualSize: true,       // 启用查看实际大小的功能
+            enableZoomAfter: 300,    // 延迟缩放，确保图片加载完成后可缩放
+        };
+        lightGallery(document.getElementsByClassName('.article-gallery')[0], options1); // 修复选择器
+    }
+    
+</script>
+
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script> 
+
+                </div>
+            
+            
+                <!-- 回到顶部的按钮-->  
+                <div class="progress-wrap shadow-drop-2-bottom">
+                    <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+                        <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98"/>
+                    </svg>
+                </div>
+            
+            
+                <!-- 返回的按钮-->  
+                <div class="return-to-last-progress-wrap shadow-drop-2-bottom">
+                    <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+                        <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98"/>
+                    </svg>
+                </div>
+            
+    </body>
+</html>
+<script src="/MyBlog/js/emojiHandler.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    wrapEmojis('.paper');
+  });
+</script>

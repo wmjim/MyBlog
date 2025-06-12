@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport" />
+    <meta name="description" content="Rust开发的Vim配置" />
+    <meta name="hexo-theme-A4" content="v1.9.8" />
+    <link rel="alternate icon" type="image/webp" href="/MyBlog/img/favicon.jpg">
+    <title>青山依旧在</title>
+
+    
+        
+<link rel="stylesheet" href="/MyBlog/css/highlight/style1.css">
+
+        
+<link rel="stylesheet" href="/MyBlog/css/reset.css">
+
+        
+<link rel="stylesheet" href="/MyBlog/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/MyBlog/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+        
+        
+<link rel="stylesheet" href="/MyBlog/css/ui.css">
+ 
+        
+<link rel="stylesheet" href="/MyBlog/css/style.css">
+
+
+        
+            <!--返回顶部css-->
+            
+<link rel="stylesheet" href="/MyBlog/css/returnToTop.css">
+
+            
+<link rel="stylesheet" href="/MyBlog/css/unicons.css">
+
+        
+        
+            <!--目录-->
+            
+<link rel="stylesheet" href="/MyBlog/css/toc.css">
+
+        
+    
+
+    
+        
+<link rel="stylesheet" href="/MyBlog/css/returnToLastPage.css">
+
+    
+    
+   
+<link rel="stylesheet" href="/MyBlog/css/lightgallery-bundle.min.css">
+
+
+   
+        
+<link rel="stylesheet" href="/MyBlog/css/custom.css">
+
+    
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+    
+    
+
+    
+    
+
+
+
+    
+
+    
+    
+
+
+
+
+    <style>
+        .archive-main a:hover {
+            text-decoration: none; 
+        }
+    </style>
+
+    
+    
+
+    
+    <body>
+        <script src="/js/darkmode-js.min.js"></script>
+        
+        <script>
+            const options = {
+                bottom: '40px', // default: '32px'
+                right: 'unset', // default: '32px'
+                left: '42px', // default: 'unset'
+                time: '0.3s', // default: '0.3s'
+                mixColor: '#fff', // default: '#fff'
+                backgroundColor: ' #e4e4e4 ',  // default: '#fff'
+                buttonColorDark: '#100f2c',  // default: '#100f2c'
+                buttonColorLight: '#fff', // default: '#fff'
+                saveInCookies: true, // default: true,
+                label: '🌓', // default: ''
+                autoMatchOsTheme: true // default: true
+            }
+            const darkmode = new Darkmode(options);
+            darkmode.showWidget();
+        </script>
+        
+        
+            
+                <div class="left-toc-container">
+                    <nav id="toc" class="bs-docs-sidebar"></nav>
+                </div>
+            
+        
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+
+
+<div class="header">
+    <div class="header-container">
+        <style>
+            .header-img {
+                width: 56px;
+                height: auto;
+                object-fit: cover; /* 保持图片比例 */
+                transition: transform 0.3s ease-in-out; 
+                border-radius: 50%; 
+            }
+            
+            .header-img:hover {
+                animation: rotateAnimation 2s linear infinite; /* 悬停旋转动画 */
+            }
+            @keyframes rotateAnimation {
+                0% {
+                    transform: rotate(0deg);
+                }
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
+            
+        </style>
+        <img 
+            alt="^-^" 
+            cache-control="max-age=86400" 
+            class="header-img" 
+            src="/MyBlog/img/favicon.jpg" 
+        />
+        <div class="header-content">
+            <a class="logo" href="/MyBlog/">青山依旧在</a> 
+            <span class="description"></span> 
+        </div>
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/MyBlog/">首页</a></li>
+            
+        
+            
+                <li><a href="/MyBlog/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/MyBlog/about/">关于</a></li>
+            
+        
+            
+                <li><a href="/MyBlog/tags/">标签</a></li>
+            
+        
+            
+                <li><a href="/MyBlog/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+    
+
+    
+        
+            
+                <div class="post-main-title" style="text-align: center;">
+                    Rust开发的Vim配置
+                </div>
+            
+        
+      
+    
+
+    
+
+        
+            <div class="post-head-meta-center">
+        
+                
+                    <span>最近更新：2025-01-21</span> 
+                
+                
+                    
+                        &nbsp; | &nbsp;
+                    
+                     <span>字数总计：2.8k</span>
+                
+                
+                    
+                        &nbsp; | &nbsp;
+                    
+                    <span>阅读估时：11分钟</span>
+                
+                
+                    
+                        &nbsp; | &nbsp;
+                    
+                    <span id="busuanzi_container_page_pv">
+                        阅读量：<span id="busuanzi_value_page_pv"></span>次
+                    </span>
+                
+            </div>
+    
+
+    <div class="post-md">
+        
+            
+                <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Vim-%E7%9A%84%E5%AE%89%E8%A3%85"><span class="post-toc-text">Vim 的安装</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%8F%92%E4%BB%B6%E7%AE%A1%E7%90%86%E5%99%A8"><span class="post-toc-text">插件管理器</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%8F%92%E4%BB%B6%E7%AE%A1%E7%90%86%E5%99%A8%E7%9A%84%E9%80%89%E6%8B%A9"><span class="post-toc-text">插件管理器的选择</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%AE%89%E8%A3%85-vim-plug"><span class="post-toc-text">安装 vim-plug</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#vim-plug-%E5%AE%89%E8%A3%85%E6%8F%92%E4%BB%B6%E7%9A%84-4-%E7%A7%8D%E6%96%B9%E5%BC%8F"><span class="post-toc-text">vim-plug 安装插件的 4 种方式</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#vim-plug-%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8"><span class="post-toc-text">vim-plug 命令使用</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE%E6%8E%A8%E8%8D%90"><span class="post-toc-text">常用配置推荐</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%8E%A8%E8%8D%90%E6%8F%92%E4%BB%B6"><span class="post-toc-text">推荐插件</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Rust-vim"><span class="post-toc-text">Rust.vim</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#vim-lsp-%E5%92%8C-vim-lsp-settings"><span class="post-toc-text">vim-lsp 和 vim-lsp-settings</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%B8%BB%E9%A2%98%EF%BC%9Amolokai"><span class="post-toc-text">主题：molokai</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#NERDTree"><span class="post-toc-text">NERDTree</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#minimap-Vim"><span class="post-toc-text">minimap. Vim</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#NERD-Commenter"><span class="post-toc-text">NERD Commenter</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%80%BB%E7%BB%93"><span class="post-toc-text">总结</span></a></li></ol>
+            
+        
+        <div class=".article-gallery"><h2 id="Vim-的安装"><a href="#Vim-的安装" class="headerlink" title="Vim 的安装"></a>Vim 的安装</h2><p>首先检查你的系统中是否安装 Vim，如果没有安装的话，则在终端执行如下命令进行安装：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt-get install vim</span><br></pre></td></tr></table></figure>
+<h2 id="插件管理器"><a href="#插件管理器" class="headerlink" title="插件管理器"></a>插件管理器</h2><h3 id="插件管理器的选择"><a href="#插件管理器的选择" class="headerlink" title="插件管理器的选择"></a>插件管理器的选择</h3><p>Vim 的插件管理也是有许多种的，而我选择的是 <a target="_blank" rel="noopener" href="https://github.com/junegunn/vim-plug">vim-plug</a> 。</p>
+<p>vim-plug 是一款轻量级，且功能强大，且易于使用的插件管理器，对我这种喜欢简单的人自是极其友好的。</p>
+<p><a target="_blank" rel="noopener" href="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/202312040058223.gif" class="gallery-item" style="box-shadow: none;"> <img src="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/202312040058223.gif"></a></p>
+<h3 id="安装-vim-plug"><a href="#安装-vim-plug" class="headerlink" title="安装 vim-plug"></a>安装 vim-plug</h3><p><strong>1. 使用 curl 命令下载 vim-plug 源码：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -fLo ~/.vim/autoload/plug.vim --create-dirs \</span><br><span class="line">    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim</span><br></pre></td></tr></table></figure>
+
+<p><strong>2. 使用 vim-plug 的目录结构规划如下，之后安装的插件将存放在 plugged 目录中：</strong></p>
+<p><a target="_blank" rel="noopener" href="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/202312040058691.jpeg" class="gallery-item" style="box-shadow: none;"> <img src="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/202312040058691.jpeg"></a></p>
+<p><strong>3. 在 <code>~/.vimrc</code> 配置文件中增加 plug-vim 部分：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">call plug#begin(&#x27;~/.vim/plugged&#x27;)</span><br><span class="line">&quot; plug list</span><br><span class="line"></span><br><span class="line">call plug#end()</span><br></pre></td></tr></table></figure>
+
+<p>在 <code>call plug#begin(&#39;~/.vim/plugged&#39;)</code> 和 <code>call plug#end()</code> 之间使用 <code>Plug</code> 命令列出插件。</p>
+<h3 id="vim-plug-安装插件的-4-种方式"><a href="#vim-plug-安装插件的-4-种方式" class="headerlink" title="vim-plug 安装插件的 4 种方式"></a>vim-plug 安装插件的 4 种方式</h3><p>下面介绍在 <code>~/.vimrc</code> 配置文件中安装插件 4 种方式：</p>
+<p><strong>1. 安装在 vim-scripts 仓库插件</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Plug <span class="string">&#x27;PluginName&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>PluginName</code> 中的 <code>空格</code> 使用 <code>-</code> 替换。</p>
+<p>示例：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Plug <span class="string">&#x27;L9&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>执行这个指令的时候，首先检查该插件是否已经下载到本地，如果没有下载，则会使用 git 下载，下载的方式如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git -C ~/.vim/plugged <span class="built_in">clone</span> --recursive https://github.com/vim-scripts/L9.git</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>--recursive</code>是顺便把子模块的代码也一起下载到<code>~/.vim/plugged/L9</code>目录中。</li>
+</ul>
+<p>然后才是安装该插件。</p>
+<blockquote>
+<p>要注意的是：安装插件不等于下载插件，安装插件是对该插件资源的管理， 你自己下载下来，放到对应的位置，但是你没有配置该指令，就不会安装，它的功能你也就用不了，这就是插件管理器的作用， 插件管理器不仅仅是下载插件代码的。这个要搞清楚。</p>
+</blockquote>
+<p><strong>2. 安装在 GitHub 仓库中的插件</strong></p>
+<p>如果您要安装的插件在 GitHub 仓库中， 那么，配置的格式如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Plug <span class="string">&#x27;userName/repoName&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>示例：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Plug <span class="string">&#x27;tpope/vim-fugitive&#x27;</span></span><br><span class="line">Plug <span class="string">&#x27;Lokaltog/vim-easymotion&#x27;</span></span><br><span class="line">Plug <span class="string">&#x27;rstacruz/sparkup&#x27;</span>, &#123;<span class="string">&#x27;rtp&#x27;</span>: <span class="string">&#x27;vim/&#x27;</span>&#125;</span><br><span class="line">Plug <span class="string">&#x27;tpope/vim-rails.git&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>执行这个指令的时候，首先检测该插件是否已经下载到本地了，如果没有下载， 就会使用 git 下载，下载的方式如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git -C ~/.vim/plugged <span class="built_in">clone</span> --recursive https://github.com/tpope/vim-fugitive.git</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>--recursive</code>是顺便把子模块的代码也一起下载到<code>~/.vim/plugged/vim-fugitive</code>目录中。</li>
+</ul>
+<p><strong><mark style="background: #BBFABBA6;">3. 安装在非 GitHub 仓库，但使用 git 管理的插件</mark></strong></p>
+<p>如果您要安装的插件使用 git 管理的，但是它并不在 GitHub 仓库中， 那么配置的格式如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Plug <span class="string">&#x27;git://...&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>示例：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Plug <span class="string">&#x27;git:https://gitee.com/mirrors/youcompleteme.git&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>执行这个指令的时候，首先检测该插件是否已经下载到本地了，如果没有下载， 就会使用 git 下载，下载的方式如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git -C ~/.vim/plugged <span class="built_in">clone</span> --recursive https://gitee.com/mirrors/youcompleteme.git</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>--recursive</code>是顺便把子模块的代码也一起下载到<code>~/.vim/plugged/youcompleteme</code>目录中。</li>
+</ul>
+<p><strong>4. 安装在本地文件系统中的插件</strong></p>
+<p>如果您要安装的插件在本地的文件系统中，那么配置的格式如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Plug <span class="string">&#x27;file://...&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>示例：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Plug <span class="string">&#x27;file:///Users/gmarik/path/to/plugin&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="vim-plug-命令使用"><a href="#vim-plug-命令使用" class="headerlink" title="vim-plug 命令使用"></a>vim-plug 命令使用</h3><p>vim-plug 提供了下面的命令用来管理插件，在 Vim 的<mark style="background: #BBFABBA6;">底行模式</mark>下输入如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:PlugInstall</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>PlugInstall [name...]</code></td>
+<td>安装指定<code>pluginName</code>的插件。如果没有指定<code>pluginName</code>，就安装在<code>~/.vimrc</code>配置文件中配置的插件。</td>
+</tr>
+<tr>
+<td><code>PlugUpdate [name...]</code></td>
+<td>更新指定<code>pluginName</code>的插件。如果没有指定<code>pluginName</code>，就更新所有已经安装了的插件。</td>
+</tr>
+<tr>
+<td><code>PlugClean</code></td>
+<td>卸载已经安装，但是没有在 <code>~/.vimrc</code> 中配置的插件</td>
+</tr>
+<tr>
+<td><code>PlugStatus</code></td>
+<td>查看插件的状态</td>
+</tr>
+<tr>
+<td><code>PlugUpgrade</code></td>
+<td>更新 vim-plug 自己</td>
+</tr>
+</tbody></table>
+<h2 id="常用配置推荐"><a href="#常用配置推荐" class="headerlink" title="常用配置推荐"></a>常用配置推荐</h2><p>以下常用配置是参考<a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/">阮一峰</a> 的 <a target="_blank" rel="noopener" href="https://ruanyifeng.com/blog/2018/09/vimrc.html">Vim 配置入门</a>。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot; === vim 基础配置</span></span><br><span class="line"><span class="string">set nocompatible                        &quot;</span> 不与 Vi 兼容</span><br><span class="line">syntax on                               <span class="string">&quot; 打开语法高亮</span></span><br><span class="line"><span class="string">set showmode                            &quot;</span> 底部显示当前模式</span><br><span class="line"><span class="built_in">set</span> showcmd                             <span class="string">&quot; 底部显示当前指令</span></span><br><span class="line"><span class="string">set encoding = utf-8                    &quot;</span> 使用 utf-8 编码</span><br><span class="line"><span class="built_in">set</span> t_Co = 256                          <span class="string">&quot; 启用 256 色</span></span><br><span class="line"><span class="string">filetype indent on                      &quot;</span> 开启文件类型检查</span><br><span class="line"></span><br><span class="line"><span class="built_in">set</span> autoindent                          <span class="string">&quot; 缩进一致</span></span><br><span class="line"><span class="string">set tabstop = 2                         &quot;</span> 按下 tab 键，显示的空格数</span><br><span class="line"><span class="built_in">set</span> shiftwidth = 4                      <span class="string">&quot; 缩进字符数</span></span><br><span class="line"><span class="string">set expandtab                           &quot;</span> 自动将 tab 转为空格</span><br><span class="line"><span class="built_in">set</span> softtabstop = 2                     <span class="string">&quot; tab 转为空格数</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">set number                              &quot;</span> 显示行号</span><br><span class="line"><span class="built_in">set</span> cursorline                          <span class="string">&quot; 光标所在行高亮</span></span><br><span class="line"><span class="string">set textwidth = 80                      &quot;</span> 设置行宽</span><br><span class="line"><span class="built_in">set</span> wrap                                <span class="string">&quot; 自动折行</span></span><br><span class="line"><span class="string">set linebreak                           &quot;</span> 遇到指定符号发生折行</span><br><span class="line"><span class="built_in">set</span> wrapmargin = 2                      <span class="string">&quot; 折行处与编辑窗口右边缘空出的字符数</span></span><br><span class="line"><span class="string">set scrolloff = 5                       &quot;</span> 垂直滚动时，光标距离顶部/底部的位置</span><br><span class="line"><span class="built_in">set</span> sidescrolloff = 15                  <span class="string">&quot; 水平滚动时，光标距离行首/行尾的位置</span></span><br><span class="line"><span class="string">set laststatus = 2                      &quot;</span> 是否显示状态栏。0：不显示；1：多窗口显示；2：显示</span><br><span class="line"><span class="built_in">set</span> ruler                               <span class="string">&quot; 状态栏显示光标位置</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">set showmatch                           &quot;</span> 光标遇到 ([&#123; 自动高亮另一个括号</span><br><span class="line"><span class="built_in">set</span> hlsearch                            <span class="string">&quot; 搜索时，高亮显示匹配结果</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">set spell spelllang = en_us             &quot;</span> 英文单词拼写检查</span><br><span class="line"><span class="built_in">set</span> nobackup                            <span class="string">&quot; 不创建备份文件</span></span><br><span class="line"><span class="string">set noswapfile                          &quot;</span> 不创建交换文件</span><br><span class="line"><span class="built_in">set</span> undofile                            <span class="string">&quot; 保留撤销历史</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">&quot;</span> 设置备份文件、交换文件、操作历史文件的保存文件</span><br><span class="line"><span class="built_in">set</span> backupdir = ~/.vim/.backup//</span><br><span class="line"><span class="built_in">set</span> directory = ~/.vim/.swp//</span><br><span class="line"><span class="built_in">set</span> undodir = ~/.vim/.undo//</span><br><span class="line"></span><br><span class="line"><span class="built_in">set</span> noerrorbells                        <span class="string">&quot; 出错时，别发声</span></span><br><span class="line"><span class="string">set visualbell                          &quot;</span> 出错时，屏幕闪烁</span><br><span class="line"><span class="built_in">set</span> <span class="built_in">history</span> = 1000                      <span class="string">&quot; 记住历史操作数</span></span><br><span class="line"><span class="string">set autoread                            &quot;</span> 打开文件监视</span><br><span class="line"></span><br><span class="line"><span class="built_in">set</span> wildmenu</span><br><span class="line"><span class="built_in">set</span> wildmode = longest:list,full        <span class="string">&quot; 命令模式下，按下 tab 自动补全</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="推荐插件"><a href="#推荐插件" class="headerlink" title="推荐插件"></a>推荐插件</h2><h3 id="Rust-vim"><a href="#Rust-vim" class="headerlink" title="Rust.vim"></a>Rust.vim</h3><blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/rust-lang/rust.vim">Rust.vim</a> 用来提供 Rust 文件检查、语法突出显示、格式化、Syntastic 集成等。适用于 <strong>Vim 8</strong> 或更高版本。</p>
+</blockquote>
+<ul>
+<li><strong>安装</strong><br>将以下文本添加到 <code>.vimrc</code> 文件。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Plug <span class="string">&#x27;rust-lang/rust.vim&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>Rust. Vim 的配置</strong><br>在 <code>.vimrc</code> 的文件中添加以下内容：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot; === rust.vim 配置 ===</span></span><br><span class="line"><span class="string">syntax enable                           &quot;</span> 打开语法高亮</span><br><span class="line">filetype plugin indent on               <span class="string">&quot; 启动文件类型插件、缩进和语法高亮功能</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">let g:rustfmt_autosave = 1              &quot;</span> 保存时自动运行 :RustFmt 格式化代码</span><br><span class="line"><span class="built_in">let</span> g:rustfmt_command = <span class="string">&quot;rustfmt&quot;</span>       <span class="string">&quot; 自定义格式化命令</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">&quot;</span> 快捷键 F5 编译运行 Rust 程序，快捷键 F6 运行测试 Rust 程序</span><br><span class="line">autocmd filetype rust nnoremap &lt;F5&gt; : &lt;bar&gt; <span class="built_in">exec</span> <span class="string">&#x27;RustRun&#x27;</span>&lt;CR&gt;</span><br><span class="line">autocmd filetype rust nnoremap &lt;F6&gt; : &lt;bar&gt; <span class="built_in">exec</span> <span class="string">&#x27;RustTest&#x27;</span>&lt;CR&gt;</span><br></pre></td></tr></table></figure>
+
+<p>增加快捷键 <code>F5</code> 用于把单个 rs 文件编译运行到临时文件夹，快捷键 <code>F6</code> 只运行当前光标所在的测试。</p>
+<h3 id="vim-lsp-和-vim-lsp-settings"><a href="#vim-lsp-和-vim-lsp-settings" class="headerlink" title="vim-lsp 和 vim-lsp-settings"></a>vim-lsp 和 vim-lsp-settings</h3><blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/prabirshrestha/vim-lsp">Vim-lsp</a> 是一种通过 language server protocol 协议实现动态代码解析、跳转功能的工具。</p>
+</blockquote>
+<ul>
+<li><strong>安装</strong><br>将以下文本添加到 <code>.vimrc</code> 文件：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Plug <span class="string">&#x27;prabirshrestha/vim-lsp&#x27;</span></span><br><span class="line">Plug <span class="string">&#x27;mattn/vim-lsp-settings&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>重新启动 Vim, 指令模式下输入 <code>:PlugInstall</code> 指令安装插件。</p>
+<ul>
+<li><strong>使用</strong><br>编辑要支持类型的文件时，使用以下指令下载 Lsp 服务器：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:LspInstallServer</span><br></pre></td></tr></table></figure>
+
+<h3 id="主题：molokai"><a href="#主题：molokai" class="headerlink" title="主题：molokai"></a>主题：molokai</h3><ul>
+<li><strong>安装</strong><br>将以下文本添加到 <code>.vimrc</code> 文件：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Plug <span class="string">&#x27;tomasr/molokai&#x27;</span>     </span><br></pre></td></tr></table></figure>
+
+<p>重新启动 Vim, 指令模式下输入 <code>:PlugInstall</code> 指令安装插件。</p>
+<ul>
+<li><strong>使用</strong><br>在 <code>.vimrc</code> 的文件中添加以下内容：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">colorscheme molokai</span><br></pre></td></tr></table></figure>
+
+<h3 id="NERDTree"><a href="#NERDTree" class="headerlink" title="NERDTree"></a>NERDTree</h3><blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/preservim/nerdtree">NERDTree</a> 是 Vim 编辑器的文件系统浏览器，使用该插件，可以直观地浏览复杂的目录层次结构，快速打开文件进行读取或编辑，执行基本的文件系统操作。</p>
+</blockquote>
+<ul>
+<li><strong>安装</strong><br>将以下文本添加到 <code>.vimrc</code> 文件。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Plug <span class="string">&#x27;preservim/nerdtree&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>重新启动 Vim, 指令模式下输入 <code>:PlugInstall</code> 指令安装插件。</p>
+<ul>
+<li><strong>NERDTree 的配置</strong><br>在 <code>.vimrc</code> 的文件中添加以下内容：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot; === NERDTree 配置 ===</span></span><br><span class="line"><span class="string">autocmd StdinReadPre * let s:std_in=1</span></span><br><span class="line"><span class="string">autocmd VimEnter * if argc() == 1 &amp;&amp; isdirectory(argv()[0]) &amp;&amp; !exists(&#x27;s:std_in&#x27;) |</span></span><br><span class="line"><span class="string">    \ execute &#x27;NERDTree&#x27; argv()[0] | wincmd p | enew | execute &#x27;cd &#x27;.argv()[0] | endif</span></span><br><span class="line"><span class="string">&quot;</span> 当 NERDTree 是选项卡中剩下的唯一窗口，则退出 Vim。</span><br><span class="line">autocmd BufEnter * <span class="keyword">if</span> tabpagenr(<span class="string">&#x27;$&#x27;</span>) == 1 &amp;&amp; winnr(<span class="string">&#x27;$&#x27;</span>) == 1 &amp;&amp; exists(<span class="string">&#x27;b:NERDTree&#x27;</span>) &amp;&amp; b:NERDTree.isTabTree() | quit | endif</span><br><span class="line"></span><br><span class="line"><span class="built_in">let</span> g:NERDTreeShowHidden = 1            <span class="string">&quot; 显示隐藏文件</span></span><br><span class="line"><span class="string">let g:NERDTreeFileLines = 1             &quot;</span> 显示文件行数</span><br><span class="line"><span class="built_in">let</span> NERDTreeWinPos=<span class="string">&quot;left&quot;</span>               <span class="string">&quot; 设置 NERDTree 子窗口位置</span></span><br><span class="line"><span class="string">&quot;</span> 设置忽略的文件</span><br><span class="line"><span class="built_in">let</span> NERDTreeIgnore=[<span class="string">&#x27;\.vim$&#x27;</span>, <span class="string">&#x27;\~$&#x27;</span>, <span class="string">&#x27;\.o$&#x27;</span>, <span class="string">&#x27;\.d$&#x27;</span>, <span class="string">&#x27;\.a$&#x27;</span>, <span class="string">&#x27;\.out$&#x27;</span>, <span class="string">&#x27;\.tgz$&#x27;</span>]</span><br><span class="line"><span class="string">&quot; 快捷键 Ctrl + t，打开/关闭目录</span></span><br><span class="line"><span class="string">nnoremap &lt;C-t&gt; :NERDTreeToggle&lt;CR&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>我只保留了 <code>Ctrl</code> + <code>t</code> 快捷键用来打开&#x2F;关闭目录。</p>
+<h3 id="minimap-Vim"><a href="#minimap-Vim" class="headerlink" title="minimap. Vim"></a>minimap. Vim</h3><blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/wfxr/minimap.vim">minimap.vim</a> 是 vim 的代码缩略图。</p>
+</blockquote>
+<ul>
+<li><strong>安装</strong><br>将以下文本添加到 <code>.vimrc</code> 文件：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Plug <span class="string">&#x27;wfxr/minimap.vim&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>重新启动 Vim, 指令模式下输入 <code>:PlugInstall</code> 指令安装插件，同时你需要 <code>cargo install code-minimap</code> 下载依赖。</p>
+<ul>
+<li><strong>使用</strong><br>在 <code>.vimrc</code> 的文件中添加以下内容：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">let</span> g:minimap_width = 10</span><br><span class="line"><span class="built_in">let</span> g:minimap_auto_start = 1</span><br><span class="line"><span class="built_in">let</span> g:minimap_auto_start_win_enter = 1</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="NERD-Commenter"><a href="#NERD-Commenter" class="headerlink" title="NERD Commenter"></a>NERD Commenter</h3><blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/preservim/nerdcommenter">NERD Commenter</a> 是一款 Vim 的注释功能插件。</p>
+</blockquote>
+<ul>
+<li><strong>安装</strong><br>将以下文本添加到 <code>.vimrc</code> 文件：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Plug <span class="string">&#x27;preservim/nerdcommenter&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>重新启动 Vim, 指令模式下输入 <code>:PlugInstall</code> 指令安装插件。</p>
+<ul>
+<li><strong>使用</strong><br>在 <code>.vimrc</code> 的文件中添加以下内容：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot; === NERDCommenter 配置</span></span><br><span class="line"><span class="string">let g:NERDCreateDefaultMappings = 1     &quot;</span> 创建默认映射</span><br><span class="line"><span class="built_in">let</span> g:NERDSpaceDelims = 1               <span class="string">&quot; 在注释分隔符后添加空格</span></span><br><span class="line"><span class="string">let g:NERDCompactSexyComs = 1           &quot;</span> 使用紧凑语法美化多行注释</span><br><span class="line"><span class="built_in">let</span> g:NERDDefaultAlign = <span class="string">&#x27;left&#x27;</span>         <span class="string">&quot; 行式注释分隔符向左对齐</span></span><br><span class="line"><span class="string">let g:NERDAltDelims_java = 1            &quot;</span> 将设置默认使用 java 语言的分隔符</span><br><span class="line"><span class="built_in">let</span> g:NERDCommentEmptyLines = 1         <span class="string">&quot; 允许注释和反转空行</span></span><br><span class="line"><span class="string">let g:NERDTrimTrailingWhitespace = 1    &quot;</span> 在取消注释时去除尾随空白</span><br><span class="line"><span class="built_in">let</span> g:NERDToggleCheckAllLines = 1       <span class="string">&quot; 检查所有选定的行是否有注释</span></span><br><span class="line"><span class="string">let g:NERDCustomDelimiters = &#123; &#x27;c&#x27;: &#123; &#x27;left&#x27;: &#x27;/**&#x27;,&#x27;right&#x27;: &#x27;*/&#x27; &#125; &#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">&quot;</span> === Commenter使用 ===</span><br><span class="line"><span class="string">&quot; \cc 注释当前行和选中行</span></span><br><span class="line"><span class="string">&quot;</span> \cn 没有发现和\cc有区别</span><br><span class="line"><span class="string">&quot; \c&lt;空格&gt; 如果被选区域有部分被注释，则对被选区域执行取消注释操作，其它情况执行反转注释操作</span></span><br><span class="line"><span class="string">&quot;</span> \cm 对被选区域用一对注释符进行注释，前面的注释对每一行都会添加注释</span><br><span class="line"><span class="string">&quot; \ci 执行反转注释操作，选中区域注释部分取消注释，非注释部分添加注释</span></span><br><span class="line"><span class="string">&quot;</span> \cs 添加性感的注释，代码开头介绍部分通常使用该注释</span><br><span class="line"><span class="string">&quot; \cy 添加注释，并复制被添加注释的部分</span></span><br><span class="line"><span class="string">&quot;</span> \c$ 注释当前光标到改行结尾的内容</span><br><span class="line"><span class="string">&quot; \cA 跳转到该行结尾添加注释，并进入编辑模式</span></span><br><span class="line"><span class="string">&quot;</span> \ca 转换注释的方式，比如： /**/和//</span><br><span class="line"><span class="string">&quot; \cl \cb 左对齐和左右对其，左右对其主要针对/**/</span></span><br><span class="line"><span class="string">&quot;</span> \cu 取消注释</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>目前这篇文章尚未完结，我也只是针对当前所使用的一些使用和配置进行了总结。我会在 github 上建一个仓库用来保存我的全部 <code>.vimrc</code> 配置，不清楚的可以参考该仓库。</p>
+</div>
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2023-12-03</span>
+            
+                <span>该篇文章被 meng.wang</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/MyBlog/tags/rust/'>
+                            rust
+                        </a>
+                    
+                        <a href='/MyBlog/tags/vim/'>
+                            vim
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/MyBlog/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/'>
+                            编程语言
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    <br>
+    
+    
+        
+            
+    
+            <div class="post-footer-pre-next">
+                
+                    <span>上一篇：<a href='/MyBlog/posts/27136.html'>Rust格式化输出</a></span>
+                
+
+                
+                    <span class="post-footer-pre-next-last-span-right">下一篇：<a href="/MyBlog/posts/64727.html">用 LaTex 语法排版数学公式</a>
+                    </span>
+                
+            </div>
+    
+        
+    
+
+     
+</div>
+
+
+
+                                      
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            © 1949-2025 China 
+
+            
+                
+
+            
+                
+                    / <a href="/MyBlog/friends/"> 友链 </a>
+                
+
+            
+                
+                    / <a href="/MyBlog/support/"> 支持 </a>
+                
+
+            
+        </span>
+       
+    
+</div>
+
+
+
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+                <span class="footer-last-span-right"><i>本站由<a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/index.html">Hexo</a>驱动｜使用<a target="_blank" rel="noopener" href="https://github.com/HiNinoJay/hexo-theme-A4">Hexo-theme-A4</a>主题</i></span>
+            
+    
+</div>
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+
+    <!--目录-->
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript" ></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" type="text/javascript" ></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tocify/1.9.0/javascripts/jquery.tocify.min.js" type="text/javascript" ></script>
+        
+<script src="/MyBlog/js/toc.js"></script>
+
+    
+
+    
+<script src="/MyBlog/js/randomHeaderContent.js"></script>
+
+    <!--回到顶部按钮-->
+    
+        
+<script src="/MyBlog/js/returnToTop.js"></script>
+
+    
+
+    
+        
+<script src="/MyBlog/js/returnToLastPage.js"></script>
+
+    
+
+
+
+
+
+<script src="/MyBlog/js/lightgallery/lightgallery.umd.min.js"></script>
+
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-thumbnail.umd.min.js"></script>
+
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-fullscreen.umd.min.js"></script>
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-autoplay.umd.min.js"></script>
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-zoom.umd.min.js"></script>
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-rotate.umd.min.js"></script>
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-paper.umd.min.js"></script>
+
+
+
+
+<script type="text/javascript">
+     
+    if (typeof lightGallery !== "undefined") {
+        var options1 = {
+            selector: '.gallery-item',
+            plugins: [lgThumbnail, lgFullscreen, lgAutoplay, lgZoom, lgRotate, lgPager], // 启用插件
+            thumbnail: true,          // 显示缩略图
+            zoom: true,               // 启用缩放功
+            rotate: true,             // 启用旋转功能能
+            autoplay: true,        // 启用自动播放功能
+            fullScreen: true,      // 启用全屏功能
+            pager: false, //页码,
+            zoomFromOrigin: true,   // 从原始位置缩放
+            actualSize: true,       // 启用查看实际大小的功能
+            enableZoomAfter: 300,    // 延迟缩放，确保图片加载完成后可缩放
+        };
+        lightGallery(document.getElementsByClassName('.article-gallery')[0], options1); // 修复选择器
+    }
+    
+</script>
+
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script> 
+
+                </div>
+            
+            
+                <!-- 回到顶部的按钮-->  
+                <div class="progress-wrap shadow-drop-2-bottom">
+                    <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+                        <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98"/>
+                    </svg>
+                </div>
+            
+            
+                <!-- 返回的按钮-->  
+                <div class="return-to-last-progress-wrap shadow-drop-2-bottom">
+                    <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+                        <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98"/>
+                    </svg>
+                </div>
+            
+    </body>
+</html>
+<script src="/MyBlog/js/emojiHandler.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    wrapEmojis('.paper');
+  });
+</script>

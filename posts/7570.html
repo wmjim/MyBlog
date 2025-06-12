@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport" />
+    <meta name="description" content="VSCode配置远程ssh免密登录" />
+    <meta name="hexo-theme-A4" content="v1.9.8" />
+    <link rel="alternate icon" type="image/webp" href="/MyBlog/img/favicon.jpg">
+    <title>青山依旧在</title>
+
+    
+        
+<link rel="stylesheet" href="/MyBlog/css/highlight/style1.css">
+
+        
+<link rel="stylesheet" href="/MyBlog/css/reset.css">
+
+        
+<link rel="stylesheet" href="/MyBlog/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/MyBlog/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+        
+        
+<link rel="stylesheet" href="/MyBlog/css/ui.css">
+ 
+        
+<link rel="stylesheet" href="/MyBlog/css/style.css">
+
+
+        
+            <!--返回顶部css-->
+            
+<link rel="stylesheet" href="/MyBlog/css/returnToTop.css">
+
+            
+<link rel="stylesheet" href="/MyBlog/css/unicons.css">
+
+        
+        
+            <!--目录-->
+            
+<link rel="stylesheet" href="/MyBlog/css/toc.css">
+
+        
+    
+
+    
+        
+<link rel="stylesheet" href="/MyBlog/css/returnToLastPage.css">
+
+    
+    
+   
+<link rel="stylesheet" href="/MyBlog/css/lightgallery-bundle.min.css">
+
+
+   
+        
+<link rel="stylesheet" href="/MyBlog/css/custom.css">
+
+    
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+    
+    
+
+    
+    
+
+
+
+    
+
+    
+    
+
+
+
+
+    <style>
+        .archive-main a:hover {
+            text-decoration: none; 
+        }
+    </style>
+
+    
+    
+
+    
+    <body>
+        <script src="/js/darkmode-js.min.js"></script>
+        
+        <script>
+            const options = {
+                bottom: '40px', // default: '32px'
+                right: 'unset', // default: '32px'
+                left: '42px', // default: 'unset'
+                time: '0.3s', // default: '0.3s'
+                mixColor: '#fff', // default: '#fff'
+                backgroundColor: ' #e4e4e4 ',  // default: '#fff'
+                buttonColorDark: '#100f2c',  // default: '#100f2c'
+                buttonColorLight: '#fff', // default: '#fff'
+                saveInCookies: true, // default: true,
+                label: '🌓', // default: ''
+                autoMatchOsTheme: true // default: true
+            }
+            const darkmode = new Darkmode(options);
+            darkmode.showWidget();
+        </script>
+        
+        
+            
+                <div class="left-toc-container">
+                    <nav id="toc" class="bs-docs-sidebar"></nav>
+                </div>
+            
+        
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+
+
+<div class="header">
+    <div class="header-container">
+        <style>
+            .header-img {
+                width: 56px;
+                height: auto;
+                object-fit: cover; /* 保持图片比例 */
+                transition: transform 0.3s ease-in-out; 
+                border-radius: 50%; 
+            }
+            
+            .header-img:hover {
+                animation: rotateAnimation 2s linear infinite; /* 悬停旋转动画 */
+            }
+            @keyframes rotateAnimation {
+                0% {
+                    transform: rotate(0deg);
+                }
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
+            
+        </style>
+        <img 
+            alt="^-^" 
+            cache-control="max-age=86400" 
+            class="header-img" 
+            src="/MyBlog/img/favicon.jpg" 
+        />
+        <div class="header-content">
+            <a class="logo" href="/MyBlog/">青山依旧在</a> 
+            <span class="description"></span> 
+        </div>
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/MyBlog/">首页</a></li>
+            
+        
+            
+                <li><a href="/MyBlog/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/MyBlog/about/">关于</a></li>
+            
+        
+            
+                <li><a href="/MyBlog/tags/">标签</a></li>
+            
+        
+            
+                <li><a href="/MyBlog/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+    
+
+    
+        
+            
+                <div class="post-main-title" style="text-align: center;">
+                    VSCode配置远程ssh免密登录
+                </div>
+            
+        
+      
+    
+
+    
+
+        
+            <div class="post-head-meta-center">
+        
+                
+                    <span>最近更新：2025-01-21</span> 
+                
+                
+                    
+                        &nbsp; | &nbsp;
+                    
+                     <span>字数总计：1.8k</span>
+                
+                
+                    
+                        &nbsp; | &nbsp;
+                    
+                    <span>阅读估时：6分钟</span>
+                
+                
+                    
+                        &nbsp; | &nbsp;
+                    
+                    <span id="busuanzi_container_page_pv">
+                        阅读量：<span id="busuanzi_value_page_pv"></span>次
+                    </span>
+                
+            </div>
+    
+
+    <div class="post-md">
+        
+            
+                <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%BC%95%E8%A8%80"><span class="post-toc-text">引言</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E8%AE%BE%E7%BD%AEremote-ssh%E5%8D%9A%E5%AE%A2%E5%BC%95%E7%94%A8"><span class="post-toc-text">设置remote-ssh博客引用</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%85%8D%E5%AF%86%E9%85%8D%E7%BD%AE%E6%8E%A2%E8%AE%A8"><span class="post-toc-text">免密配置探讨</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E8%A1%A5%E5%85%85-%E6%96%B0%E7%B3%BB%E7%BB%9F%E8%BF%81%E7%A7%BBgit"><span class="post-toc-text">补充-新系统迁移git</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E7%BB%93%E5%B0%BE"><span class="post-toc-text">结尾</span></a></li></ol>
+            
+        
+        <div class=".article-gallery"><h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>经历过远程开发的人都知道 VSCode 的 <strong>VS Code Remote</strong> 是一个非常好用的插件，这个插件使得开发者可以在容器，物理或虚拟机，以及 Windows Subsystem for Linux (WSL) 中实现无缝的远程开发。</p>
+<p>而在此之前的远程开发呢，比如我的导师，一个资历较老的开发人员了。他进行远程开发的方式是通过在本地 Source Insight 阅读和修改代码，使用 samba 管理服务器的文件，再通过将修改的文件与远程服务器上的文件进行替换的方式，实现远程代码编写。这个方式在今天来说效率已经相较颇低了。</p>
+<p>下面我引用一篇别人写的安装设置 remote-ssh 的博客（以分割线来进行划分），来略过重复的这一部分讲解，本篇只着重对免密这一部分进行探讨。</p>
+<p>这是原博客：<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_42397613/article/details/114983147">vscode 设置 remote-ssh 并免密登录</a></p>
+<h2 id="设置remote-ssh博客引用"><a href="#设置remote-ssh博客引用" class="headerlink" title="设置remote-ssh博客引用"></a>设置remote-ssh博客引用</h2><hr>
+<ol>
+<li><strong>在 vscode 中安装 <code>remote-ssh</code> 插件</strong></li>
+</ol>
+<p>直接在 vscode 中搜索 <code>remote-ssh</code> 即可安装。</p>
+<p><a target="_blank" rel="noopener" href="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/202309182142273.png" title="image-20230918214222182" class="gallery-item" style="box-shadow: none;"> <img src="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/202309182142273.png" alt="image-20230918214222182"></a></p>
+<p>安装完成以后是这样：</p>
+<p><a target="_blank" rel="noopener" href="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/202309182144231.png" title="image-20230918214458140" class="gallery-item" style="box-shadow: none;"> <img src="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/202309182144231.png" alt="image-20230918214458140"></a></p>
+<ol start="2">
+<li><strong>使用 <code>remote-ssh</code> 远程登录 ssh</strong></li>
+</ol>
+<p>按照下图标记依次点击 1、2、3，就会出现 <code>remote-ssh</code> 编辑界面，用来输出要远程登录的 ssh。</p>
+<p><a target="_blank" rel="noopener" href="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/202309182149796.png" title="image-20230918214916752" class="gallery-item" style="box-shadow: none;"> <img src="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/202309182149796.png" alt="image-20230918214916752"></a></p>
+<p>这就是远程 ssh 信息的编辑界面：</p>
+<p><a target="_blank" rel="noopener" href="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/202309182150334.png" title="image-20230918215014298" class="gallery-item" style="box-shadow: none;"> <img src="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/202309182150334.png" alt="image-20230918215014298"></a></p>
+<ul>
+<li><strong>Host</strong> 是这个 ssh 信息在你本地的显示内容（这个可以修改自己能够区分的信息，因为后面往往并不是只有一台服务器）。</li>
+<li><strong>HostName</strong> 是你的远程 ssh 的 ip 信息。</li>
+<li><strong>User</strong> 是你的远程 ssh 的用户名，如果远程是 Linux 系统的话，这个就是你登录 Linux 的用户名。</li>
+</ul>
+<p>输入完成保存以后，左侧就会出现你的刚才设置的信息：</p>
+<p><a target="_blank" rel="noopener" href="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/202309182153347.png" title="image-20230918215309307" class="gallery-item" style="box-shadow: none;"> <img src="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/202309182153347.png" alt="image-20230918215309307"></a></p>
+<p>然后点击下图圈起来的按钮，用来登录你的远程 ssh。</p>
+<p><a target="_blank" rel="noopener" href="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/202309182153072.png" title="image-20230918215354033" class="gallery-item" style="box-shadow: none;"> <img src="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/202309182153072.png" alt="image-20230918215354033"></a></p>
+<p>点击完成，就会弹出新的 vscode 界面，需要你进一步输入远程 ssh 的信息：</p>
+<p><a target="_blank" rel="noopener" href="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/202309182219320.png" title="image-20230918215604139" class="gallery-item" style="box-shadow: none;"> <img src="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/202309182219320.png" alt="image-20230918215604139"></a></p>
+<p>点击 Linux，之后会出：</p>
+<p><a target="_blank" rel="noopener" href="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/202309182219404.png" title="image-20230918215627999" class="gallery-item" style="box-shadow: none;"> <img src="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/202309182219404.png" alt="image-20230918215627999"></a></p>
+<p>输入你的远程 ssh 主机的密码，之后：</p>
+<p><a target="_blank" rel="noopener" href="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/202309182219195.png" title="image-20230918215748633" class="gallery-item" style="box-shadow: none;"> <img src="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/202309182219195.png" alt="image-20230918215748633"></a></p>
+<p>左下角出现如图字样，你就已经连接上了。</p>
+<ol start="3">
+<li><strong>设置免密登录</strong><br>当可以连接上 ssh 以后，打开命令行，输入：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ssh-keygen -t rsa -C email@address</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 示例</span></span><br><span class="line">ssh-keygen -t rsa -C meng.w1016@outlook.com</span><br></pre></td></tr></table></figure>
+
+<p>回车，一直回车，不要输入任何内容，直到命令行就会输出一下信息：</p>
+<p><a target="_blank" rel="noopener" href="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/202309182205756.png" title="image-20230918220104781" class="gallery-item" style="box-shadow: none;"> <img src="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/202309182205756.png" alt="image-20230918220104781"></a></p>
+<p>表示生成的公钥和秘钥，注意圈起来的路径文件，需要将其拷贝到你的远程 ssh 主机中，我远程主机时虚拟机，所以仅将其上传到 <code>/home</code> 文件夹下即可，也就是把 <code>id_rsa.pub</code> 文件拷贝（PS：刚才圈起来的按个目录一定有这个文件）。<br>之后操作远程 ssh 主机：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> .ssh</span><br><span class="line"><span class="built_in">mv</span> id_rsa.pub .ssh</span><br><span class="line"><span class="built_in">cd</span> .ssh</span><br><span class="line"><span class="built_in">cat</span> id_rsa.pub &gt;&gt; authorized_keys</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">chmod</span> 600 authorized_keys</span><br><span class="line">service sshd restart</span><br></pre></td></tr></table></figure>
+
+<p>可能在最后一条命令要输出你的账号登录密码。<br>这样远程 ssh 主机配置免密码登录就完成了。<br>然后你可以在 vscode 重复打开远程 ssh 的步骤，看看是否还需要输入密码了。</p>
+<hr>
+<h2 id="免密配置探讨"><a href="#免密配置探讨" class="headerlink" title="免密配置探讨"></a>免密配置探讨</h2><p>之所以想要对这部分免密部分进行探讨是因为，在这个过程中使用到了 <code>id_rsa</code>（私钥）和 <code>id_rsa.pub</code>（公钥）这两个文件。</p>
+<p>而生成这两个文件是需要在命令行界面执行 <code>ssh-keygen</code> 才能生成的。</p>
+<p>而之所以通过使用这种方式可以实现远程登录免密，其实还是利用了ssh用户认证的两种最基本的方式，密码认证和密钥认证。</p>
+<p><strong>密码认证</strong>就是将自己的用户名和密码发给服务器进行认证，因此在每次打开远程 ssh 时需要输入你的密码。</p>
+<p><strong>密钥认证</strong>就是通过使用公钥和私钥进行身份验证，实现安全的免密登录。</p>
+<p><strong>ssh 密钥认证登录流程：</strong></p>
+<ul>
+<li>在进行 SSH 连接之前，SSH 客户端需要先生成自己的公钥私钥对，并将自己的公钥存放在 SSH 服务器上。</li>
+<li>SSH 客户端发送登录请求，SSH 服务器就会根据请求中的用户名等信息在本地搜索客户端的公钥，并用这个公钥加密一个随机数发送给客户端。</li>
+<li>客户端使用自己的私钥对返回信息进行解密，并发送给服务器。</li>
+<li>服务器验证客户端解密的信息是否正确，如果正确则认证通过。</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://wjx-pic.oss-cn-hangzhou.aliyuncs.com/images/download" title="SSH密钥认证登录流程" class="gallery-item" style="box-shadow: none;"> <img src="https://wjx-pic.oss-cn-hangzhou.aliyuncs.com/images/download" alt="SSH密钥认证登录流程"></a></p>
+<p>因此在配置 VSCode 的 ssh 远程登陆时，你只需要生成一份公钥私钥密钥对即可。如果你在远程服务器生成，则可以把公钥私钥复制到本地用户名下 <code>.ssh</code> 文件夹。如果你在本地生成，则需要复制到服务器的用户名下 <code>.ssh</code> 文件夹。</p>
+<p>如果你是本地和服务器的 ssh 都有专门的用途，那就只能舍弃使用密钥登录的方式了。</p>
+<h2 id="补充-新系统迁移git"><a href="#补充-新系统迁移git" class="headerlink" title="补充-新系统迁移git"></a>补充-新系统迁移git</h2><p>当我们换新机又不想重新生成新的密钥公钥时，就需要将原来的 <code>id_rsa</code> 和 <code>id_rsa.pub</code>，迁移到新系统。</p>
+<p>首先将旧系统的 <code>.ssh</code> 目录直接复制到新系统的（Windows: C:\Users\xxx， linux: ~&#x2F;）目录下。</p>
+<p>此外还需要迁移位于用户目录下的全局配置文件 <code>.gitconfig</code> 文件，直接将该文件复制到新系统的用户目录下即可。</p>
+<p>最后再补充一点，8.8p1 版的 openssh 的 ssh 客户端默认禁用了 <code>ssh-rsa</code> 算法, 但是对方服务器只支持 <code>ssh-rsa</code>, 当你不能自己升级远程服务器的 openssh 版本或修改配置让它使用更安全的算法时, 在本地 ssh 需要针对这些旧的 ssh server 重新启用 <code>ssh-rsa</code> 。</p>
+<p>编辑用户 ssh 配置 <code>~/.ssh/config</code>, 对于无法成功连接的host, 增加配置项:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">HostKeyAlgorithms         +ssh-rsa</span><br><span class="line">PubkeyAcceptedKeyTypes    +ssh-rsa</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h2><p>在开发的工作中，起初我是使用 wsl 在本地进行开发。但是由于项目十分的庞大，导致在程序编译时，我的主机几乎无法使用，极其卡顿。因此我还是拿出了公司配的性能不太好的一个服务器，卡顿就让它在服务器上慢慢卡吧。</p>
+<p>而在这个迁移的过程中，由于我的账户信息都在 wsl 上，Gerrit 管理员为我开通拉取代码的权限是 wsl 用户下生成的公钥。如果在服务器上重新生成公钥私钥对，就需要重新找管理员。但是你可以将 wsl 的公钥私钥信息直接复制到你服务器上的同名文件内，然后保持相同的权限。这样你的服务器和 wsl 共用一套公钥私钥，就无需重新配置 Gerrit 上的信息了，主要还是找人办事麻烦的原因。</p>
+</div>
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2023-09-18</span>
+            
+                <span>该篇文章被 meng.wang</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/MyBlog/tags/tool/'>
+                            tool
+                        </a>
+                    
+                        <a href='/MyBlog/tags/ssh/'>
+                            ssh
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/MyBlog/categories/%E5%B7%A5%E5%85%B7/'>
+                            工具
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    <br>
+    
+    
+        
+            
+    
+            <div class="post-footer-pre-next">
+                
+                    <span>上一篇：<a href='/MyBlog/posts/64262.html'>assert的讨论</a></span>
+                
+
+                
+                    <span class="post-footer-pre-next-last-span-right">下一篇：<a href="/MyBlog/posts/34796.html">第一篇博客的诞生</a>
+                    </span>
+                
+            </div>
+    
+        
+    
+
+     
+</div>
+
+
+
+                                      
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            © 1949-2025 China 
+
+            
+                
+
+            
+                
+                    / <a href="/MyBlog/friends/"> 友链 </a>
+                
+
+            
+                
+                    / <a href="/MyBlog/support/"> 支持 </a>
+                
+
+            
+        </span>
+       
+    
+</div>
+
+
+
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+                <span class="footer-last-span-right"><i>本站由<a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/index.html">Hexo</a>驱动｜使用<a target="_blank" rel="noopener" href="https://github.com/HiNinoJay/hexo-theme-A4">Hexo-theme-A4</a>主题</i></span>
+            
+    
+</div>
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+
+    <!--目录-->
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript" ></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" type="text/javascript" ></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tocify/1.9.0/javascripts/jquery.tocify.min.js" type="text/javascript" ></script>
+        
+<script src="/MyBlog/js/toc.js"></script>
+
+    
+
+    
+<script src="/MyBlog/js/randomHeaderContent.js"></script>
+
+    <!--回到顶部按钮-->
+    
+        
+<script src="/MyBlog/js/returnToTop.js"></script>
+
+    
+
+    
+        
+<script src="/MyBlog/js/returnToLastPage.js"></script>
+
+    
+
+
+
+
+
+<script src="/MyBlog/js/lightgallery/lightgallery.umd.min.js"></script>
+
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-thumbnail.umd.min.js"></script>
+
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-fullscreen.umd.min.js"></script>
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-autoplay.umd.min.js"></script>
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-zoom.umd.min.js"></script>
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-rotate.umd.min.js"></script>
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-paper.umd.min.js"></script>
+
+
+
+
+<script type="text/javascript">
+     
+    if (typeof lightGallery !== "undefined") {
+        var options1 = {
+            selector: '.gallery-item',
+            plugins: [lgThumbnail, lgFullscreen, lgAutoplay, lgZoom, lgRotate, lgPager], // 启用插件
+            thumbnail: true,          // 显示缩略图
+            zoom: true,               // 启用缩放功
+            rotate: true,             // 启用旋转功能能
+            autoplay: true,        // 启用自动播放功能
+            fullScreen: true,      // 启用全屏功能
+            pager: false, //页码,
+            zoomFromOrigin: true,   // 从原始位置缩放
+            actualSize: true,       // 启用查看实际大小的功能
+            enableZoomAfter: 300,    // 延迟缩放，确保图片加载完成后可缩放
+        };
+        lightGallery(document.getElementsByClassName('.article-gallery')[0], options1); // 修复选择器
+    }
+    
+</script>
+
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script> 
+
+                </div>
+            
+            
+                <!-- 回到顶部的按钮-->  
+                <div class="progress-wrap shadow-drop-2-bottom">
+                    <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+                        <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98"/>
+                    </svg>
+                </div>
+            
+            
+                <!-- 返回的按钮-->  
+                <div class="return-to-last-progress-wrap shadow-drop-2-bottom">
+                    <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+                        <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98"/>
+                    </svg>
+                </div>
+            
+    </body>
+</html>
+<script src="/MyBlog/js/emojiHandler.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    wrapEmojis('.paper');
+  });
+</script>

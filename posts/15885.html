@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport" />
+    <meta name="description" content="本地搭建ChatGLM3详细教程" />
+    <meta name="hexo-theme-A4" content="v1.9.8" />
+    <link rel="alternate icon" type="image/webp" href="/MyBlog/img/favicon.jpg">
+    <title>青山依旧在</title>
+
+    
+        
+<link rel="stylesheet" href="/MyBlog/css/highlight/style1.css">
+
+        
+<link rel="stylesheet" href="/MyBlog/css/reset.css">
+
+        
+<link rel="stylesheet" href="/MyBlog/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/MyBlog/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+        
+        
+<link rel="stylesheet" href="/MyBlog/css/ui.css">
+ 
+        
+<link rel="stylesheet" href="/MyBlog/css/style.css">
+
+
+        
+            <!--返回顶部css-->
+            
+<link rel="stylesheet" href="/MyBlog/css/returnToTop.css">
+
+            
+<link rel="stylesheet" href="/MyBlog/css/unicons.css">
+
+        
+        
+            <!--目录-->
+            
+<link rel="stylesheet" href="/MyBlog/css/toc.css">
+
+        
+    
+
+    
+        
+<link rel="stylesheet" href="/MyBlog/css/returnToLastPage.css">
+
+    
+    
+   
+<link rel="stylesheet" href="/MyBlog/css/lightgallery-bundle.min.css">
+
+
+   
+        
+<link rel="stylesheet" href="/MyBlog/css/custom.css">
+
+    
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+    
+    
+
+    
+    
+
+
+
+    
+
+    
+    
+
+
+
+
+    <style>
+        .archive-main a:hover {
+            text-decoration: none; 
+        }
+    </style>
+
+    
+    
+
+    
+    <body>
+        <script src="/js/darkmode-js.min.js"></script>
+        
+        <script>
+            const options = {
+                bottom: '40px', // default: '32px'
+                right: 'unset', // default: '32px'
+                left: '42px', // default: 'unset'
+                time: '0.3s', // default: '0.3s'
+                mixColor: '#fff', // default: '#fff'
+                backgroundColor: ' #e4e4e4 ',  // default: '#fff'
+                buttonColorDark: '#100f2c',  // default: '#100f2c'
+                buttonColorLight: '#fff', // default: '#fff'
+                saveInCookies: true, // default: true,
+                label: '🌓', // default: ''
+                autoMatchOsTheme: true // default: true
+            }
+            const darkmode = new Darkmode(options);
+            darkmode.showWidget();
+        </script>
+        
+        
+            
+                <div class="left-toc-container">
+                    <nav id="toc" class="bs-docs-sidebar"></nav>
+                </div>
+            
+        
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+
+
+<div class="header">
+    <div class="header-container">
+        <style>
+            .header-img {
+                width: 56px;
+                height: auto;
+                object-fit: cover; /* 保持图片比例 */
+                transition: transform 0.3s ease-in-out; 
+                border-radius: 50%; 
+            }
+            
+            .header-img:hover {
+                animation: rotateAnimation 2s linear infinite; /* 悬停旋转动画 */
+            }
+            @keyframes rotateAnimation {
+                0% {
+                    transform: rotate(0deg);
+                }
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
+            
+        </style>
+        <img 
+            alt="^-^" 
+            cache-control="max-age=86400" 
+            class="header-img" 
+            src="/MyBlog/img/favicon.jpg" 
+        />
+        <div class="header-content">
+            <a class="logo" href="/MyBlog/">青山依旧在</a> 
+            <span class="description"></span> 
+        </div>
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/MyBlog/">首页</a></li>
+            
+        
+            
+                <li><a href="/MyBlog/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/MyBlog/about/">关于</a></li>
+            
+        
+            
+                <li><a href="/MyBlog/tags/">标签</a></li>
+            
+        
+            
+                <li><a href="/MyBlog/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+    
+
+    
+        
+            
+                <div class="post-main-title" style="text-align: center;">
+                    本地搭建ChatGLM3详细教程
+                </div>
+            
+        
+      
+    
+
+    
+
+        
+            <div class="post-head-meta-center">
+        
+                
+                    <span>最近更新：2025-01-21</span> 
+                
+                
+                    
+                        &nbsp; | &nbsp;
+                    
+                     <span>字数总计：599</span>
+                
+                
+                    
+                        &nbsp; | &nbsp;
+                    
+                    <span>阅读估时：2分钟</span>
+                
+                
+                    
+                        &nbsp; | &nbsp;
+                    
+                    <span id="busuanzi_container_page_pv">
+                        阅读量：<span id="busuanzi_value_page_pv"></span>次
+                    </span>
+                
+            </div>
+    
+
+    <div class="post-md">
+        
+            
+                <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%85%8B%E9%9A%86%E6%BA%90%E7%A0%81%E5%92%8C%E6%A8%A1%E5%9E%8B"><span class="post-toc-text">克隆源码和模型</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85"><span class="post-toc-text">源码安装</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%A8%A1%E5%9E%8B%E5%AE%89%E8%A3%85"><span class="post-toc-text">模型安装</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%A3%80%E6%9F%A5%E6%A8%A1%E5%9E%8B%E6%96%87%E4%BB%B6%E5%AE%8C%E6%95%B4%E6%80%A7"><span class="post-toc-text">检查模型文件完整性</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%AE%89%E8%A3%85%E7%9B%B8%E5%85%B3%E4%BE%9D%E8%B5%96"><span class="post-toc-text">安装相关依赖</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#conda%E5%88%9B%E5%BB%BA%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83"><span class="post-toc-text">conda创建虚拟环境</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96"><span class="post-toc-text">安装依赖</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#GPU%E7%9A%84%E4%BE%9D%E8%B5%96"><span class="post-toc-text">GPU的依赖</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%BF%90%E8%A1%8Cdemo"><span class="post-toc-text">运行demo</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E6%A1%A3"><span class="post-toc-text">参考文档</span></a></li></ol>
+            
+        
+        <div class=".article-gallery"><h2 id="克隆源码和模型"><a href="#克隆源码和模型" class="headerlink" title="克隆源码和模型"></a>克隆源码和模型</h2><ul>
+<li><strong>源码</strong>：指构成 <code>ChatGLM3</code> 的软件框架、功能框架、算法实现等代码部分。</li>
+<li><strong>模型</strong>：指的是 <code>ChatGLM3</code> 用于生成回答的预训练神经网络模型文件。</li>
+</ul>
+<blockquote>
+<p><strong>源码</strong>负责处理输入和输出、维护对话流程、调用模型进行预测等逻辑，而<strong>模型</strong>是实现自然语言处理能力的核心。</p>
+</blockquote>
+<h3 id="源码安装"><a href="#源码安装" class="headerlink" title="源码安装"></a>源码安装</h3><p>模型基础运行代码可以从以下两个平台进行下载：</p>
+<ul>
+<li>GitHub</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/THUDM/ChatGLM3.git</span><br></pre></td></tr></table></figure>
+<ul>
+<li>SwanHub</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://swanhub.co/ZhipuAI/ChatGLM3.git</span><br></pre></td></tr></table></figure>
+
+<h3 id="模型安装"><a href="#模型安装" class="headerlink" title="模型安装"></a>模型安装</h3><ol>
+<li>先确保 <code>git lfs</code> 命令已经安装，<a target="_blank" rel="noopener" href="https://docs.github.com/zh/repositories/working-with-files/managing-large-files/installing-git-large-file-storage">git lfs安装教程</a></li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git lfs install</span><br><span class="line">&gt; Git LFS initialized. <span class="comment"># 已成功安装 git lfs</span></span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>可从以下三个平台下载模型文件</li>
+</ol>
+<ul>
+<li>Huggingface</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git lfs install</span><br><span class="line">git <span class="built_in">clone</span> https://huggingface.co/THUDM/chatglm3-6b.git</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Modelscope</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git lfs install</span><br><span class="line">git <span class="built_in">clone</span> https://www.modelscope.cn/ZhipuAI/chatglm3-6b.git</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>SwanHub</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git lfs install</span><br><span class="line">git <span class="built_in">clone</span> https://swanhub.co/ZhipuAI/chatglm3-6b.git</span><br></pre></td></tr></table></figure>
+
+<h3 id="检查模型文件完整性"><a href="#检查模型文件完整性" class="headerlink" title="检查模型文件完整性"></a>检查模型文件完整性</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># sha256 checksums for chatglm3-6b</span></span><br><span class="line">4d5567466e89625dbd10e51c69a02982f233a10108cf232a379defdbb065ae0b  pytorch_model-00001-of-00007.bin</span><br><span class="line">4ad41534016ac4a2431fa2d4b08efbe28f963744135ec52b2ea13cc86730fa2a  pytorch_model-00002-of-00007.bin</span><br><span class="line">a2be9b17c332a8345e787953d4879caee4747ad4b263f013aa3c4654c94c3d24  pytorch_model-00003-of-00007.bin</span><br><span class="line">b5526891e1b4c8edd2e3688df5156aa107e2140fe7e3f9d0d54f9cbe3b6ee3b5  pytorch_model-00004-of-00007.bin</span><br><span class="line">84bb18a476f74beaf4d941733bd1c475791eba799b228f78d0165de989cb7a40  pytorch_model-00005-of-00007.bin</span><br><span class="line">1181875a2dc30fba968d72d0fc4628b9a60d3866bf680eb14b9822b5b504830f  pytorch_model-00006-of-00007.bin</span><br><span class="line">1271b638dc0a88206d1c7a51bcaa862410eb56f3e59fd0068a96e96cb5e3f4f0  pytorch_model-00007-of-00007.bin</span><br><span class="line">e7dc4c393423b76e4373e5157ddc34803a0189ba96b21ddbb40269d31468a6f2  tokenizer.model</span><br><span class="line"></span><br><span class="line"><span class="comment"># sha256 checksums for chatglm3-6b-32k</span></span><br><span class="line">39aeddd81596b2d66d657687a7328ebc7f8850e8ea83fa74080da59f7d2f7afc  pytorch_model-00001-of-00007.bin</span><br><span class="line">2525475ea2d483ecc15a15ad4e016ee0155e628ac66f15cd54daa6c811193e92  pytorch_model-00002-of-00007.bin</span><br><span class="line">faa1d884168a125af5105c4ee4c59fdac79f847b35a7389e0122a562995d34db  pytorch_model-00003-of-00007.bin</span><br><span class="line">66492c02ed13189202c7e46a121e308cf0ebbcf8141ecf3d551141aecfac7120  pytorch_model-00004-of-00007.bin</span><br><span class="line">870bb2bb4a289b8ab37cce88f56e93381ff428063b3d0065994a3dd2e830cb32  pytorch_model-00005-of-00007.bin</span><br><span class="line">a5f39ca17ba89e47e484d3b20d4ff78f4fb9b1b24bd3dfb314eff91ff6e37230  pytorch_model-00006-of-00007.bin</span><br><span class="line">7c8a8f3e881202ac3a9ab2638ce30147f67d4bd799624c24af66406a6ba22db2  pytorch_model-00007-of-00007.bin</span><br><span class="line">e7dc4c393423b76e4373e5157ddc34803a0189ba96b21ddbb40269d31468a6f2  tokenizer.model</span><br><span class="line"></span><br><span class="line"><span class="comment"># sha256 checksums for chatglm3-6b-base</span></span><br><span class="line">b6a6388dae55b598efe76c704e7f017bd84e6f6213466b7686a8f8326f78ab05  pytorch_model-00001-of-00007.bin</span><br><span class="line">2f96bef324acb5c3fe06b7a80f84272fe064d0327cbf14eddfae7af0d665a6ac  pytorch_model-00002-of-00007.bin</span><br><span class="line">2400101255213250d9df716f778b7d2325f2fa4a8acaedee788338fceee5b27e  pytorch_model-00003-of-00007.bin</span><br><span class="line">472567c1b0e448a19171fbb5b3dab5670426d0a5dfdfd2c3a87a60bb1f96037d  pytorch_model-00004-of-00007.bin</span><br><span class="line">ef2aea78fa386168958e5ba42ecf09cbb567ed3e77ce2be990d556b84081e2b9  pytorch_model-00005-of-00007.bin</span><br><span class="line">35191adf21a1ab632c2b175fcbb6c27601150026cb1ed5d602938d825954526f  pytorch_model-00006-of-00007.bin</span><br><span class="line">b7cdaa9b8ed183284905c49d19bf42360037fdf2f95acb3093039d3c3a459261  pytorch_model-00007-of-00007.bin</span><br><span class="line">e7dc4c393423b76e4373e5157ddc34803a0189ba96b21ddbb40269d31468a6f2  tokenizer.model</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装相关依赖"><a href="#安装相关依赖" class="headerlink" title="安装相关依赖"></a>安装相关依赖</h2><h3 id="conda创建虚拟环境"><a href="#conda创建虚拟环境" class="headerlink" title="conda创建虚拟环境"></a>conda创建虚拟环境</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># conda创建对应环境</span></span><br><span class="line">conda create -n chatglm-6b-310 python=3.10 <span class="comment"># python 版本推荐：3.10~3.11</span></span><br><span class="line"><span class="comment"># 激活环境</span></span><br><span class="line">conda activate chatglm-6b-310</span><br><span class="line"><span class="comment"># 需要退出环境时(任务结束时)</span></span><br><span class="line">conda deactive</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ChatGLM3 </span><br><span class="line">pip install -r requirements.txt</span><br></pre></td></tr></table></figure>
+
+<h3 id="GPU的依赖"><a href="#GPU的依赖" class="headerlink" title="GPU的依赖"></a>GPU的依赖</h3><ol>
+<li>安装 cuda：<code>nvcc -V</code> 查看 cuda 版本，如果没有则在<a target="_blank" rel="noopener" href="https://developer.nvidia.com/cuda-toolkit-archive">cuda-toolkit</a>进行安装。</li>
+<li>安装 pytorch：根据安装的 cuda 版本参照<a target="_blank" rel="noopener" href="https://pytorch.org/get-started/locally/">官方文档</a>进行安装。</li>
+</ol>
+<p>通过如下命令检查：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="built_in">print</span>(torch.cuda.is_available()) <span class="comment"># true 则表示正确安装 cuda 版本的 torch</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="运行demo"><a href="#运行demo" class="headerlink" title="运行demo"></a>运行demo</h3><ul>
+<li>使用本地模型加载并使用命令行回答</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python basic_demo/cli_demo.py</span><br></pre></td></tr></table></figure>
+
+<p>效果如下：</p>
+<p><a target="_blank" rel="noopener" href="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/20240302145913.png" class="gallery-item" style="box-shadow: none;"> <img src="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/20240302145913.png"></a></p>
+<ul>
+<li>本地模型加载并使用 web_demo 来问答</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">streamlit run basic_demo/web_demo_streamlit.py</span><br></pre></td></tr></table></figure>
+
+<p>效果如下：</p>
+<p><a target="_blank" rel="noopener" href="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/20240302150801.png" class="gallery-item" style="box-shadow: none;"> <img src="https://wmjia-1308526100.cos.ap-shanghai.myqcloud.com/imgs/20240302150801.png"></a></p>
+<h2 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://zhipu-ai.feishu.cn/wiki/YInmwPmyii67VRkzU3BchPNzncg">智谱AI技术文档</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/THUDM/ChatGLM3">ChatGLM3仓库</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.datalearner.com/blog/1051680925189690?q=ChatGLM-6B">手把手教你本地部署清华大学的ChatGLM-6B模型</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/655077866">flash attention安装教程</a></li>
+</ul>
+</div>
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2024-03-02</span>
+            
+                <span>该篇文章被 meng.wang</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/MyBlog/tags/chatglm3/'>
+                            chatglm3
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/MyBlog/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/'>
+                            人工智能
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    <br>
+    
+    
+        
+            
+    
+            <div class="post-footer-pre-next">
+                
+                    <span>上一篇：<a href='/MyBlog/posts/27030.html'>递归解析</a></span>
+                
+
+                
+                    <span class="post-footer-pre-next-last-span-right">下一篇：<a href="/MyBlog/posts/55060.html">存储持续性、作用域和链接性</a>
+                    </span>
+                
+            </div>
+    
+        
+    
+
+     
+</div>
+
+
+
+                                      
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            © 1949-2025 China 
+
+            
+                
+
+            
+                
+                    / <a href="/MyBlog/friends/"> 友链 </a>
+                
+
+            
+                
+                    / <a href="/MyBlog/support/"> 支持 </a>
+                
+
+            
+        </span>
+       
+    
+</div>
+
+
+
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+                <span class="footer-last-span-right"><i>本站由<a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/index.html">Hexo</a>驱动｜使用<a target="_blank" rel="noopener" href="https://github.com/HiNinoJay/hexo-theme-A4">Hexo-theme-A4</a>主题</i></span>
+            
+    
+</div>
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+
+    <!--目录-->
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript" ></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" type="text/javascript" ></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tocify/1.9.0/javascripts/jquery.tocify.min.js" type="text/javascript" ></script>
+        
+<script src="/MyBlog/js/toc.js"></script>
+
+    
+
+    
+<script src="/MyBlog/js/randomHeaderContent.js"></script>
+
+    <!--回到顶部按钮-->
+    
+        
+<script src="/MyBlog/js/returnToTop.js"></script>
+
+    
+
+    
+        
+<script src="/MyBlog/js/returnToLastPage.js"></script>
+
+    
+
+
+
+
+
+<script src="/MyBlog/js/lightgallery/lightgallery.umd.min.js"></script>
+
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-thumbnail.umd.min.js"></script>
+
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-fullscreen.umd.min.js"></script>
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-autoplay.umd.min.js"></script>
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-zoom.umd.min.js"></script>
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-rotate.umd.min.js"></script>
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-paper.umd.min.js"></script>
+
+
+
+
+<script type="text/javascript">
+     
+    if (typeof lightGallery !== "undefined") {
+        var options1 = {
+            selector: '.gallery-item',
+            plugins: [lgThumbnail, lgFullscreen, lgAutoplay, lgZoom, lgRotate, lgPager], // 启用插件
+            thumbnail: true,          // 显示缩略图
+            zoom: true,               // 启用缩放功
+            rotate: true,             // 启用旋转功能能
+            autoplay: true,        // 启用自动播放功能
+            fullScreen: true,      // 启用全屏功能
+            pager: false, //页码,
+            zoomFromOrigin: true,   // 从原始位置缩放
+            actualSize: true,       // 启用查看实际大小的功能
+            enableZoomAfter: 300,    // 延迟缩放，确保图片加载完成后可缩放
+        };
+        lightGallery(document.getElementsByClassName('.article-gallery')[0], options1); // 修复选择器
+    }
+    
+</script>
+
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script> 
+
+                </div>
+            
+            
+                <!-- 回到顶部的按钮-->  
+                <div class="progress-wrap shadow-drop-2-bottom">
+                    <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+                        <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98"/>
+                    </svg>
+                </div>
+            
+            
+                <!-- 返回的按钮-->  
+                <div class="return-to-last-progress-wrap shadow-drop-2-bottom">
+                    <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+                        <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98"/>
+                    </svg>
+                </div>
+            
+    </body>
+</html>
+<script src="/MyBlog/js/emojiHandler.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    wrapEmojis('.paper');
+  });
+</script>

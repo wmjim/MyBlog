@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport" />
+    <meta name="description" content="Rust格式化输出" />
+    <meta name="hexo-theme-A4" content="v1.9.8" />
+    <link rel="alternate icon" type="image/webp" href="/MyBlog/img/favicon.jpg">
+    <title>青山依旧在</title>
+
+    
+        
+<link rel="stylesheet" href="/MyBlog/css/highlight/style1.css">
+
+        
+<link rel="stylesheet" href="/MyBlog/css/reset.css">
+
+        
+<link rel="stylesheet" href="/MyBlog/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/MyBlog/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+        
+        
+<link rel="stylesheet" href="/MyBlog/css/ui.css">
+ 
+        
+<link rel="stylesheet" href="/MyBlog/css/style.css">
+
+
+        
+            <!--返回顶部css-->
+            
+<link rel="stylesheet" href="/MyBlog/css/returnToTop.css">
+
+            
+<link rel="stylesheet" href="/MyBlog/css/unicons.css">
+
+        
+        
+            <!--目录-->
+            
+<link rel="stylesheet" href="/MyBlog/css/toc.css">
+
+        
+    
+
+    
+        
+<link rel="stylesheet" href="/MyBlog/css/returnToLastPage.css">
+
+    
+    
+   
+<link rel="stylesheet" href="/MyBlog/css/lightgallery-bundle.min.css">
+
+
+   
+        
+<link rel="stylesheet" href="/MyBlog/css/custom.css">
+
+    
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+    
+    
+
+    
+    
+
+
+
+    
+
+    
+    
+
+
+
+
+    <style>
+        .archive-main a:hover {
+            text-decoration: none; 
+        }
+    </style>
+
+    
+    
+
+    
+    <body>
+        <script src="/js/darkmode-js.min.js"></script>
+        
+        <script>
+            const options = {
+                bottom: '40px', // default: '32px'
+                right: 'unset', // default: '32px'
+                left: '42px', // default: 'unset'
+                time: '0.3s', // default: '0.3s'
+                mixColor: '#fff', // default: '#fff'
+                backgroundColor: ' #e4e4e4 ',  // default: '#fff'
+                buttonColorDark: '#100f2c',  // default: '#100f2c'
+                buttonColorLight: '#fff', // default: '#fff'
+                saveInCookies: true, // default: true,
+                label: '🌓', // default: ''
+                autoMatchOsTheme: true // default: true
+            }
+            const darkmode = new Darkmode(options);
+            darkmode.showWidget();
+        </script>
+        
+        
+            
+                <div class="left-toc-container">
+                    <nav id="toc" class="bs-docs-sidebar"></nav>
+                </div>
+            
+        
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+
+
+<div class="header">
+    <div class="header-container">
+        <style>
+            .header-img {
+                width: 56px;
+                height: auto;
+                object-fit: cover; /* 保持图片比例 */
+                transition: transform 0.3s ease-in-out; 
+                border-radius: 50%; 
+            }
+            
+            .header-img:hover {
+                animation: rotateAnimation 2s linear infinite; /* 悬停旋转动画 */
+            }
+            @keyframes rotateAnimation {
+                0% {
+                    transform: rotate(0deg);
+                }
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
+            
+        </style>
+        <img 
+            alt="^-^" 
+            cache-control="max-age=86400" 
+            class="header-img" 
+            src="/MyBlog/img/favicon.jpg" 
+        />
+        <div class="header-content">
+            <a class="logo" href="/MyBlog/">青山依旧在</a> 
+            <span class="description"></span> 
+        </div>
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/MyBlog/">首页</a></li>
+            
+        
+            
+                <li><a href="/MyBlog/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/MyBlog/about/">关于</a></li>
+            
+        
+            
+                <li><a href="/MyBlog/tags/">标签</a></li>
+            
+        
+            
+                <li><a href="/MyBlog/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+    
+
+    
+        
+            
+                <div class="post-main-title" style="text-align: center;">
+                    Rust格式化输出
+                </div>
+            
+        
+      
+    
+
+    
+
+        
+            <div class="post-head-meta-center">
+        
+                
+                    <span>最近更新：2025-01-21</span> 
+                
+                
+                    
+                        &nbsp; | &nbsp;
+                    
+                     <span>字数总计：3.3k</span>
+                
+                
+                    
+                        &nbsp; | &nbsp;
+                    
+                    <span>阅读估时：15分钟</span>
+                
+                
+                    
+                        &nbsp; | &nbsp;
+                    
+                    <span id="busuanzi_container_page_pv">
+                        阅读量：<span id="busuanzi_value_page_pv"></span>次
+                    </span>
+                
+            </div>
+    
+
+    <div class="post-md">
+        
+            
+                <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#print-%E3%80%81println-%E5%92%8Cformat"><span class="post-toc-text">print!、println!和format</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#eprint-%E5%92%8Ceprintln"><span class="post-toc-text">eprint!和eprintln!</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%8D%A0%E4%BD%8D%E7%AC%A6"><span class="post-toc-text">{} 格式化占位符</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Debug%E7%89%B9%E6%80%A7"><span class="post-toc-text">Debug特性</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Display%E7%89%B9%E6%80%A7"><span class="post-toc-text">Display特性</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E4%BD%8D%E7%BD%AE%E5%8F%82%E6%95%B0"><span class="post-toc-text">位置参数</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%85%B7%E5%90%8D%E5%8F%82%E6%95%B0"><span class="post-toc-text">具名参数</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%8F%82%E6%95%B0"><span class="post-toc-text">格式化参数</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%AE%BD%E5%BA%A6"><span class="post-toc-text">宽度</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%A1%AB%E5%85%85%E5%92%8C%E5%AF%B9%E9%BD%90"><span class="post-toc-text">填充和对齐</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%BF%9B%E5%88%B6"><span class="post-toc-text">进制</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%B2%BE%E5%BA%A6%E6%8E%A7%E5%88%B6"><span class="post-toc-text">精度控制</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%8C%87%E6%95%B0"><span class="post-toc-text">指数</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%8C%87%E9%92%88%E5%9C%B0%E5%9D%80"><span class="post-toc-text">指针地址</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%BD%AC%E4%B9%89"><span class="post-toc-text">转义</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%8F%82%E8%80%83%E5%BC%95%E7%94%A8"><span class="post-toc-text">参考引用</span></a></li></ol>
+            
+        
+        <div class=".article-gallery"><h2 id="print-、println-和format"><a href="#print-、println-和format" class="headerlink" title="print!、println!和format"></a><code>print!</code>、<code>println!</code>和<code>format</code></h2><ul>
+<li><code>print!</code> 将格式化文本输出到标准输出，<strong>不带换行符</strong>。</li>
+<li><code>println!</code> 用于向标准输出设备打印信息并在末尾<strong>自动添加换行符</strong>。</li>
+<li><code>format!</code> 将格式化文本存入字符串。</li>
+</ul>
+<p>在实际的项目中，最常用的还是 <code>println!</code> 和 <code>format!</code> ，前者常用来调试输出，后者常用来生成格式化字符串。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">s</span> = <span class="string">&quot;hello&quot;</span>;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;, world&quot;</span>, s);           <span class="comment">// println!： 输出到终端，带换行符</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">s1</span> = <span class="built_in">format!</span>(<span class="string">&quot;&#123;&#125;, world&quot;</span>, s);   <span class="comment">//  format!： 将格式化文本存入字符串</span></span><br><span class="line">    <span class="built_in">print!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, s1);                   <span class="comment">//   print!： 输出到终端，不带换行符</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>输出结果：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hello, world</span><br><span class="line">hello, world</span><br></pre></td></tr></table></figure>
+
+<h3 id="eprint-和eprintln"><a href="#eprint-和eprintln" class="headerlink" title="eprint!和eprintln!"></a><code>eprint!</code>和<code>eprintln!</code></h3><ul>
+<li><code>eprint!</code> 输出到标准错误输出，<strong>不带换行符</strong>。</li>
+<li><code>eprintln!</code> 输出到标准错误输出，在末尾<strong>自动添加换行符</strong>。</li>
+</ul>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    eprint!(<span class="string">&quot;Error: Could not complete task1&quot;</span>);     <span class="comment">//   eprint!：输出到标准错误输出，不带换行符</span></span><br><span class="line">    <span class="built_in">eprintln!</span>(<span class="string">&quot;Error: Could not complete task2&quot;</span>);   <span class="comment">// eprintln!：输出到标准错误输出，带换行符</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>输出结果：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Error: Could not complete task1Error: Could not complete task2</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="格式化占位符"><a href="#格式化占位符" class="headerlink" title="{} 格式化占位符"></a><code>&#123;&#125;</code> 格式化占位符</h2><p>Rust 选择 <code>&#123;&#125;</code> 作为格式化占位符，无需再为特定的类型选择特定的占位符，统一用 <code>&#123;&#125;</code> 来替代，类型推导的细节则交给 Rust 编译器去做。</p>
+<ul>
+<li><code>&#123;&#125;</code> 是普通的占位符，它会将传入的值按照顺序进行替换。</li>
+<li><code>&#123;:?&#125;</code> 是调试占位符，除了将值进行替换以外，还会对值进行漂亮的打印，使得输出结果更易于阅读。</li>
+<li><code>&#123;:#?&#125;</code> 是更为详细的调试占位符，提供比 <code>&#123;:?&#125;</code> 更加深入的调试信息。</li>
+</ul>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#[derive(Debug)]</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Apple</span> &#123;</span><br><span class="line">    x: <span class="type">i32</span>,</span><br><span class="line">    y: <span class="type">char</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">x</span> = <span class="number">42</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">y</span> = <span class="string">&quot;Hello, world!&quot;</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">z</span> = Apple &#123; x: <span class="number">10</span>, y: <span class="string">&#x27;a&#x27;</span> &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 使用普通的占位符</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;普通占位符： &#123;&#125;&quot;</span>, x);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;普通占位符： &#123;&#125;&quot;</span>, y);</span><br><span class="line">    <span class="comment">// println!(&quot;普通占位符： &#123;&#125;&quot;, z); // `Apple` cannot be formatted with the default formatter</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 使用调试占位符</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;调试占位符： &#123;:?&#125;&quot;</span>, x);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;调试占位符： &#123;:?&#125;&quot;</span>, y);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;调试占位符： &#123;:?&#125;&quot;</span>, z);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 使用详细的调试占位符</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;详细调试占位符： &#123;:#?&#125;&quot;</span>, x);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;详细调试占位符： &#123;:#?&#125;&quot;</span>, y);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;详细调试占位符： &#123;:#?&#125;&quot;</span>, z);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>执行结果：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">普通占位符： 42</span><br><span class="line">普通占位符： Hello, world!</span><br><span class="line">调试占位符： 42</span><br><span class="line">调试占位符： <span class="string">&quot;Hello, world!&quot;</span></span><br><span class="line">调试占位符： Apple &#123; x: 10, y: <span class="string">&#x27;a&#x27;</span> &#125;</span><br><span class="line">详细调试占位符： 42</span><br><span class="line">详细调试占位符： <span class="string">&quot;Hello, world!&quot;</span></span><br><span class="line">详细调试占位符： Apple &#123;</span><br><span class="line">    x: 10,</span><br><span class="line">    y: <span class="string">&#x27;a&#x27;</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Debug特性"><a href="#Debug特性" class="headerlink" title="Debug特性"></a>Debug特性</h3><p>Debug 是为开发者调试打印数据结构所设计的，在使用的时候，对于数值、字符串、数组，可以直接使用 <code>&#123;:?&#125;</code> 输出；但是对于结构体、元组和枚举，需要派生 Debug 特性后，才能进行输出。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#[derive(Debug)]</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    name: <span class="type">String</span>,</span><br><span class="line">    age: <span class="type">u8</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">i</span> = <span class="number">3.1415926</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">s</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">v</span> = <span class="built_in">vec!</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">p</span> = Person&#123;name: <span class="string">&quot;sunface&quot;</span>.<span class="title function_ invoke__">to_string</span>(), age: <span class="number">18</span>&#125;;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;:?&#125;, &#123;:?&#125;, &#123;:?&#125;, &#123;:?&#125;&quot;</span>, i, s, v, p);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>执行结果：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">3.1415926, <span class="string">&quot;hello&quot;</span>, [1, 2, 3], Person &#123; name: <span class="string">&quot;sunface&quot;</span>, age: 18 &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Display特性"><a href="#Display特性" class="headerlink" title="Display特性"></a>Display特性</h3><p>Display 是给用户显示数据结构所设计的，在使用的时候，Display 用 <code>&#123;&#125;</code> 打印。与大部分类型实现了 Debug 特性不同，实现了 Display 特性的 Rust 类型没有那么多，自定义类型的 Display 必须自己实现。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">i</span> = <span class="number">3.1415926</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">s</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line"><span class="keyword">let</span> <span class="variable">v</span> = <span class="built_in">vec!</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"><span class="keyword">let</span> <span class="variable">p</span> = Person &#123;</span><br><span class="line">    name: <span class="string">&quot;sunface&quot;</span>.<span class="title function_ invoke__">to_string</span>(),</span><br><span class="line">    age: <span class="number">18</span>,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;, &#123;&#125;, &#123;&#125;, &#123;&#125;&quot;</span>, i, s, v, p);</span><br></pre></td></tr></table></figure>
+
+<p><strong>执行结果：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">error[E0277]: `Vec&lt;&#123;<span class="built_in">integer</span>&#125;&gt;` doesn<span class="string">&#x27;t implement `std::fmt::Display`</span></span><br><span class="line"><span class="string">  --&gt; demo.rs:14:38</span></span><br><span class="line"><span class="string">   |</span></span><br><span class="line"><span class="string">14 |     println!(&quot;&#123;&#125;, &#123;&#125;, &#123;&#125;, &#123;&#125;&quot;, i, s, v, p);</span></span><br><span class="line"><span class="string">   |                                      ^ `Vec&lt;&#123;integer&#125;&gt;` cannot be formatted with the default formatter</span></span><br><span class="line"><span class="string">   |</span></span><br><span class="line"><span class="string">   = help: the trait `std::fmt::Display` is not implemented for `Vec&lt;&#123;integer&#125;&gt;`</span></span><br><span class="line"><span class="string">   = note: in format strings you may be able to use `&#123;:?&#125;` (or &#123;:#?&#125; for pretty-print) instead</span></span><br><span class="line"><span class="string">   = note: this error originates in the macro `$crate::format_args_nl` which comes from the expansion of the macro `println` (in Nightly builds, run with -Z macro-backtrace for more info)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">error[E0277]: `Person` doesn&#x27;</span>t implement `std::<span class="built_in">fmt</span>::Display`</span><br><span class="line">  --&gt; demo.rs:14:41</span><br><span class="line">   |</span><br><span class="line">14 |     println!(<span class="string">&quot;&#123;&#125;, &#123;&#125;, &#123;&#125;, &#123;&#125;&quot;</span>, i, s, v, p);</span><br><span class="line">   |                                         ^ `Person` cannot be formatted with the default formatter</span><br><span class="line">   |</span><br><span class="line">   = <span class="built_in">help</span>: the trait `std::<span class="built_in">fmt</span>::Display` is not implemented <span class="keyword">for</span> `Person`</span><br><span class="line">   = note: <span class="keyword">in</span> format strings you may be able to use `&#123;:?&#125;` (or &#123;:#?&#125; <span class="keyword">for</span> pretty-print) instead</span><br><span class="line">   = note: this error originates <span class="keyword">in</span> the macro `<span class="variable">$crate</span>::format_args_nl` <span class="built_in">which</span> comes from the expansion of the macro `println` (<span class="keyword">in</span> Nightly builds, run with -Z macro-backtrace <span class="keyword">for</span> more info)</span><br><span class="line"></span><br><span class="line">error: aborting due to 2 previous errors</span><br><span class="line"></span><br><span class="line">For more information about this error, try `rustc --explain E0277`.</span><br></pre></td></tr></table></figure>
+
+<p>从运行结果来看：数组和结构体都没法通过编译，因为这两种类型没有实现 Display 特性。解决的方法有以下三种：</p>
+<ul>
+<li>使用 <code>&#123;:?&#125;</code> 和 <code>&#123;:#?&#125;</code> 。</li>
+<li>为自定义类型实现 Display 特性。</li>
+<li>使用 newtype 为外部类型实现 Display 特性。</li>
+<li><code>&#123;:#?&#125;</code> 和 <code>&#123;:?&#125;</code> 几乎一样，区别是 <code>&#123;:#?&#125;</code> 能够更优美地输出内容。</li>
+</ul>
+<p><strong>示例：</strong></p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#[derive(Debug)]</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    name: <span class="type">String</span>,</span><br><span class="line">    age: <span class="type">u8</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">v</span> = <span class="built_in">vec!</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">p</span> = Person &#123;</span><br><span class="line">        name: <span class="string">&quot;sunface&quot;</span>.<span class="title function_ invoke__">to_string</span>(),</span><br><span class="line">        age: <span class="number">18</span>,</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="comment">// &#123;:?&#125;</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;:?&#125;, &#123;:?&#125;&quot;</span>, v, p);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// &#123;:#?&#125;</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;:#?&#125;, &#123;:#?&#125;&quot;</span>, v, p);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>输出结果：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[1, 2, 3], Person &#123; name: <span class="string">&quot;sunface&quot;</span>, age: 18 &#125;</span><br><span class="line">[</span><br><span class="line">    1,</span><br><span class="line">    2,</span><br><span class="line">    3,</span><br><span class="line">], Person &#123;</span><br><span class="line">    name: <span class="string">&quot;sunface&quot;</span>,</span><br><span class="line">    age: 18,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="位置参数"><a href="#位置参数" class="headerlink" title="位置参数"></a>位置参数</h2><p>每个格式化参数既可以按照顺序进行格式化，也可以按照指定的顺序进行格式化。</p>
+<ul>
+<li><code>&#123;&#125;</code>：没有指定索引位置，会按照参数迭代逐个使用。</li>
+<li><code>&#123;n&#125;</code>：指定了索引位置，则只用指定索引的参数，n 从 0 开始计数。</li>
+</ul>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="comment">// 按照顺序进行格式化</span></span><br><span class="line">    <span class="comment">// 输出： 10 is a number, &#x27;hello world&#x27; is a string</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125; is a number, &#x27;&#123;&#125;&#x27; is a string&quot;</span>, <span class="number">10</span>, <span class="string">&quot;hello world&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 按照索引进行格式化</span></span><br><span class="line">    <span class="comment">// 输出： 10 is a number, &#x27;hello world&#x27; is a string</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;1&#125; is a number, &#x27;&#123;0&#125;&#x27; is a string&quot;</span>, <span class="string">&quot;hello world&quot;</span>, <span class="number">10</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 按照顺序与索引混合进行格式化</span></span><br><span class="line">    <span class="comment">// 没有索引的&#123;&#125;会按照迭代顺序进行格式化</span></span><br><span class="line">    <span class="comment">// 输出: 2 1 1 2</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;1&#125; &#123;&#125; &#123;0&#125; &#123;&#125;&quot;</span>, <span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="具名参数"><a href="#具名参数" class="headerlink" title="具名参数"></a>具名参数</h2><p>可以通过为参数指定名称来指定参数输出的顺序。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="comment">// 已存在的变量</span></span><br><span class="line">    <span class="comment">// 输出：My name is Bob.</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">name</span> = <span class="string">&quot;Bob&quot;</span>;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;My name is &#123;name&#125;.&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 格式化是指定名称，此处并不会覆盖原有的定义</span></span><br><span class="line">    <span class="comment">// 输出：My name is Alice, his name is Jeff.</span></span><br><span class="line">    <span class="built_in">println!</span>(</span><br><span class="line">        <span class="string">&quot;My name is &#123;name&#125;, his name is &#123;name1&#125;.&quot;</span>,</span><br><span class="line">        name = <span class="string">&quot;Alice&quot;</span>,</span><br><span class="line">        name1 = <span class="string">&quot;Jeff&quot;</span></span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 输出：name: Bob</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;name: &#123;name&#125;&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>**注意：**带名称的参数必须放在不带名称参数的后面。</p>
+</blockquote>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;&#123;abc&#125; &#123;1&#125;&quot;</span>, abc = <span class="string">&quot;def&quot;</span>, <span class="number">2</span>);</span><br></pre></td></tr></table></figure>
+
+<p><strong>报错：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">| println!(<span class="string">&quot;&#123;abc&#125; &#123;1&#125;&quot;</span>, abc = <span class="string">&quot;def&quot;</span>, 2);</span><br><span class="line">|                             -----  ^ positional arguments must be before named arguments</span><br><span class="line">|                             |</span><br><span class="line">|                             named argument</span><br></pre></td></tr></table></figure>
+
+<h2 id="格式化参数"><a href="#格式化参数" class="headerlink" title="格式化参数"></a>格式化参数</h2><h3 id="宽度"><a href="#宽度" class="headerlink" title="宽度"></a>宽度</h3><p>宽度用来指示输出目标的最小长度，如果长度不够则进行填充和对齐；如果长度超出并不会进行截断。</p>
+<ul>
+<li><code>&#123;:n&#125;</code>：通过数字直接指定宽度，如 {:5} 。</li>
+<li><code>&#123;:n$&#125;</code>：通过参数索引指定宽度，如 {:1$} 。</li>
+<li><code>&#123;:name$&#125;</code>：通过具名参数指定宽度，如 {:width$} 。</li>
+</ul>
+<p><strong>示例：</strong></p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="comment">// 1. 通过数字直接指定宽度</span></span><br><span class="line">    <span class="comment">// - 通过输出目标长度不足时</span></span><br><span class="line">    <span class="comment">// 不足长度5，填空空格</span></span><br><span class="line">    <span class="comment">// 输出: Hello a    !</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;Hello &#123;:5&#125;!&quot;</span>, <span class="string">&quot;a&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// - 输出目标长度超出时</span></span><br><span class="line">    <span class="comment">// 超出长度2，仍然完整输出</span></span><br><span class="line">    <span class="comment">// 输出: Hello World!</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;Hello &#123;:2&#125;!&quot;</span>, <span class="string">&quot;World&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 2. 通过参数索引指定宽度</span></span><br><span class="line">    <span class="comment">// 因为未指定位置索引，按照顺序首先引用 &quot;abc&quot;</span></span><br><span class="line">    <span class="comment">// 通过 $ 符指定宽度的索引是1，即宽度为5</span></span><br><span class="line">    <span class="comment">// 输出: Hello abc  !</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;Hello &#123;:1$&#125;!&quot;</span>, <span class="string">&quot;abc&quot;</span>, <span class="number">5</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 指定了位置索引为 1，使用 $ 符指定宽度的索引为 0 ，即宽度为5</span></span><br><span class="line">    <span class="comment">// 输出: Hello abc  !</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;Hello &#123;1:0$&#125;!&quot;</span>, <span class="number">5</span>, <span class="string">&quot;abc&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 3. 通过具名参数指定宽度为5</span></span><br><span class="line">    <span class="comment">// 输出: Hello abc  !</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;Hello &#123;:width$&#125;!&quot;</span>, <span class="string">&quot;abc&quot;</span>, width = <span class="number">5</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="填充和对齐"><a href="#填充和对齐" class="headerlink" title="填充和对齐"></a>填充和对齐</h3><p>在格式化字符串中，一般按照 <code>:</code> + <code>填充字符</code> + <code>对齐方式</code> 来排列。</p>
+<ul>
+<li><code>[fillchar]&lt;</code>：左对齐</li>
+<li><code>[fillchar]^</code>：居中对齐</li>
+<li><code>[fillchar]&gt;</code>：右对齐</li>
+</ul>
+<p><code>[]</code> 表示可选。</p>
+<p>关于填充：</p>
+<ul>
+<li>非数字时，默认填充使用 <code>空格</code> + <code>左对齐</code> 。</li>
+<li>数字时，默认填充使用 <code>空格</code> + <code>右对齐</code> 。</li>
+</ul>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="comment">// 非数字默认左对齐，空格填充</span></span><br><span class="line">    <span class="built_in">assert_eq!</span>(<span class="built_in">format!</span>(<span class="string">&quot;Hello &#123;:7&#125;!&quot;</span>, <span class="string">&quot;abc&quot;</span>), <span class="string">&quot;Hello abc    !&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 左对齐</span></span><br><span class="line">    <span class="built_in">assert_eq!</span>(<span class="built_in">format!</span>(<span class="string">&quot;Hello &#123;:&lt;7&#125;!&quot;</span>, <span class="string">&quot;abc&quot;</span>), <span class="string">&quot;Hello abc    !&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 左对齐，使用-填充</span></span><br><span class="line">    <span class="built_in">assert_eq!</span>(<span class="built_in">format!</span>(<span class="string">&quot;Hello &#123;:-&lt;7&#125;!&quot;</span>, <span class="string">&quot;abc&quot;</span>), <span class="string">&quot;Hello abc----!&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 右对齐，使用-填充</span></span><br><span class="line">    <span class="built_in">assert_eq!</span>(<span class="built_in">format!</span>(<span class="string">&quot;Hello &#123;:-&gt;7&#125;!&quot;</span>, <span class="string">&quot;abc&quot;</span>), <span class="string">&quot;Hello ----abc!&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 中间对齐，使用-填充</span></span><br><span class="line">    <span class="built_in">assert_eq!</span>(<span class="built_in">format!</span>(<span class="string">&quot;Hello &#123;:-^7&#125;!&quot;</span>, <span class="string">&quot;abc&quot;</span>), <span class="string">&quot;Hello --abc--!&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 数字默认右对齐，空格填充</span></span><br><span class="line">    <span class="built_in">assert_eq!</span>(<span class="built_in">format!</span>(<span class="string">&quot;Hello &#123;:7&#125;!&quot;</span>, <span class="number">7</span>), <span class="string">&quot;Hello       7!&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 左对齐</span></span><br><span class="line">    <span class="built_in">assert_eq!</span>(<span class="built_in">format!</span>(<span class="string">&quot;Hello &#123;:&lt;7&#125;!&quot;</span>, <span class="number">7</span>), <span class="string">&quot;Hello 7      !&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 居中对齐</span></span><br><span class="line">    <span class="built_in">assert_eq!</span>(<span class="built_in">format!</span>(<span class="string">&quot;Hello &#123;:^7&#125;!&quot;</span>, <span class="number">7</span>), <span class="string">&quot;Hello    7   !&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 填充0</span></span><br><span class="line">    <span class="built_in">assert_eq!</span>(<span class="built_in">format!</span>(<span class="string">&quot;Hello &#123;:07&#125;!&quot;</span>, <span class="number">7</span>), <span class="string">&quot;Hello 0000007!&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 负数填充0，负号会占用一位</span></span><br><span class="line">    <span class="built_in">assert_eq!</span>(<span class="built_in">format!</span>(<span class="string">&quot;Hello &#123;:07&#125;!&quot;</span>, -<span class="number">7</span>), <span class="string">&quot;Hello -000007!&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>**注意：**某些类型可能不会实现对齐，特别是对于 Debug trait 。确保应用填充的一种比较好的方法是格式化输入，再填充此结果字符串进行输出。</p>
+</blockquote>
+<h3 id="进制"><a href="#进制" class="headerlink" title="进制"></a>进制</h3><p>Rust 中使用 <code>#</code> 来控制数字的进制输出。</p>
+<ul>
+<li><code>#b</code> ：二进制</li>
+<li><code>#o</code> ：八进制</li>
+<li><code>#x</code> ：小写十六进制</li>
+<li><code>#X</code> ：大写十六进制</li>
+<li><code>x</code> ：不带前缀的小写十六进制</li>
+</ul>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="comment">// 以二进制形式输出</span></span><br><span class="line">    <span class="built_in">assert_eq!</span>(<span class="built_in">format!</span>(<span class="string">&quot;Hello &#123;:#b&#125;!&quot;</span>, <span class="number">10251</span>), <span class="string">&quot;Hello 0b10100000001011!&quot;</span>);</span><br><span class="line">    <span class="comment">// 以八进制形式输出</span></span><br><span class="line">    <span class="built_in">assert_eq!</span>(<span class="built_in">format!</span>(<span class="string">&quot;Hello &#123;:#o&#125;!&quot;</span>, <span class="number">10251</span>), <span class="string">&quot;Hello 0o24013!&quot;</span>);</span><br><span class="line">    <span class="comment">// 以十进制形式进行输出</span></span><br><span class="line">    <span class="built_in">assert_eq!</span>(<span class="built_in">format!</span>(<span class="string">&quot;Hello &#123;&#125;!&quot;</span>, <span class="number">10251</span>), <span class="string">&quot;Hello 10251!&quot;</span>);</span><br><span class="line">    <span class="comment">// 以小写十六进制形式进行输出</span></span><br><span class="line">    <span class="built_in">assert_eq!</span>(<span class="built_in">format!</span>(<span class="string">&quot;Hello &#123;:#x&#125;!&quot;</span>, <span class="number">10251</span>), <span class="string">&quot;Hello 0x280b!&quot;</span>);</span><br><span class="line">    <span class="comment">// 以大写十六进制形式进行输出</span></span><br><span class="line">    <span class="built_in">assert_eq!</span>(<span class="built_in">format!</span>(<span class="string">&quot;Hello &#123;:#X&#125;!&quot;</span>, <span class="number">10251</span>), <span class="string">&quot;Hello 0x280B!&quot;</span>);</span><br><span class="line">    <span class="comment">// 以不带前缀的十六进制形式进行输出</span></span><br><span class="line">    <span class="built_in">assert_eq!</span>(<span class="built_in">format!</span>(<span class="string">&quot;Hello &#123;:x&#125;!&quot;</span>, <span class="number">10251</span>), <span class="string">&quot;Hello 280b!&quot;</span>);</span><br><span class="line">    <span class="comment">// 使用0填充二进制，宽度为27 =&gt; 0000011011!</span></span><br><span class="line">    <span class="built_in">assert_eq!</span>(<span class="built_in">format!</span>(<span class="string">&quot;&#123;:#010b&#125;&quot;</span>, <span class="number">27</span>), <span class="string">&quot;0b00011011&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>&#123;:#010b&#125;</code>:</p>
+<ul>
+<li><code>#</code> 是一个选项，表示在输出的二进制数前添加 <code>0b</code> 前缀。</li>
+<li><code>0</code> 是填充字符，表示用 <code>0</code> 填充空白部分。</li>
+<li><code>10</code> 是宽度，表示最少要输出 10 位。</li>
+<li><code>b</code> 是类型，表示以二进制形式输出。</li>
+</ul>
+<h3 id="精度控制"><a href="#精度控制" class="headerlink" title="精度控制"></a>精度控制</h3><p>精度控制是指最大输出宽度，当超出精度控制时就会进行截止，一般针对浮点类型和字符串类型。</p>
+<ul>
+<li><code>.n</code>：整数 n 就是精度。</li>
+<li><code>.n$</code>：使用参数 n 作为精度，可以使用参数索引或者具名参数。</li>
+<li><code>.*</code>：与两个输入格式关联，第一个输入是要保存的精度，第二个是要打印的值。</li>
+</ul>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="comment">// 直接指定精度</span></span><br><span class="line">    <span class="built_in">assert_eq!</span>(</span><br><span class="line">        <span class="built_in">format!</span>(<span class="string">&quot;Hello &#123;&#125; is &#123;:.5&#125;&quot;</span>, <span class="string">&quot;abc&quot;</span>, <span class="number">0.01</span>),</span><br><span class="line">        <span class="string">&quot;Hello abc is 0.01000&quot;</span></span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 直接指定精度</span></span><br><span class="line">    <span class="built_in">assert_eq!</span>(</span><br><span class="line">        <span class="built_in">format!</span>(<span class="string">&quot;Hello &#123;0&#125; is &#123;1:.5&#125;&quot;</span>, <span class="string">&quot;abc&quot;</span>, <span class="number">0.01</span>),</span><br><span class="line">        <span class="string">&quot;Hello abc is 0.01000&quot;</span></span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 通过参数索引指定精度</span></span><br><span class="line">    <span class="built_in">assert_eq!</span>(</span><br><span class="line">        <span class="built_in">format!</span>(<span class="string">&quot;Hello &#123;0&#125; is &#123;1:.2$&#125;&quot;</span>, <span class="string">&quot;abc&quot;</span>, <span class="number">0.01</span>, <span class="number">5</span>),</span><br><span class="line">        <span class="string">&quot;Hello abc is 0.01000&quot;</span></span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 通过参数名称指定精度</span></span><br><span class="line">    <span class="built_in">assert_eq!</span>(</span><br><span class="line">        <span class="built_in">format!</span>(<span class="string">&quot;Hello &#123;0&#125; is &#123;1:.precision$&#125;&quot;</span>, <span class="string">&quot;abc&quot;</span>, <span class="number">0.01</span>, precision = <span class="number">5</span>),</span><br><span class="line">        <span class="string">&quot;Hello abc is 0.01000&quot;</span></span><br><span class="line">    );</span><br><span class="line">    <span class="built_in">assert_eq!</span>(</span><br><span class="line">        <span class="built_in">format!</span>(</span><br><span class="line">            <span class="string">&quot;Hello &#123;&#125; is &#123;number:.precision$&#125;&quot;</span>,</span><br><span class="line">            <span class="string">&quot;abc&quot;</span>,</span><br><span class="line">            number = <span class="number">0.01</span>,</span><br><span class="line">            precision = <span class="number">5</span></span><br><span class="line">        ),</span><br><span class="line">        <span class="string">&quot;Hello abc is 0.01000&quot;</span></span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 通过星号，从参数内读取精度和要处理的数字</span></span><br><span class="line">    <span class="built_in">assert_eq!</span>(</span><br><span class="line">        <span class="built_in">format!</span>(<span class="string">&quot;Hello &#123;&#125; is &#123;:.*&#125;&quot;</span>, <span class="string">&quot;abc&quot;</span>, <span class="number">5</span>, <span class="number">0.01</span>),</span><br><span class="line">        <span class="string">&quot;Hello abc is 0.01000&quot;</span></span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 通过星号，从参数内读取精度，数字指定了索引</span></span><br><span class="line">    <span class="built_in">assert_eq!</span>(</span><br><span class="line">        <span class="built_in">format!</span>(<span class="string">&quot;Hello &#123;&#125; is &#123;2:.*&#125;&quot;</span>, <span class="string">&quot;abc&quot;</span>, <span class="number">5</span>, <span class="number">0.01</span>),</span><br><span class="line">        <span class="string">&quot;Hello abc is 0.01000&quot;</span></span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 通过星号，从参数内读取精度，通过名称指定数字</span></span><br><span class="line">    <span class="built_in">assert_eq!</span>(</span><br><span class="line">        <span class="built_in">format!</span>(<span class="string">&quot;Hello, &#123;number:.*&#125;&quot;</span>, <span class="number">3</span>, number = <span class="number">123.45</span>),</span><br><span class="line">        <span class="string">&quot;Hello, 123.450&quot;</span></span><br><span class="line">    );</span><br><span class="line">    <span class="comment">// 数字为字符串，所以直接截断</span></span><br><span class="line">    <span class="built_in">assert_eq!</span>(</span><br><span class="line">        <span class="built_in">format!</span>(<span class="string">&quot;Hello, &#123;number:.*&#125;&quot;</span>, <span class="number">3</span>, number = <span class="string">&quot;123.45&quot;</span>),</span><br><span class="line">        <span class="string">&quot;Hello, 123&quot;</span></span><br><span class="line">    );</span><br><span class="line">    <span class="comment">// 配合最小宽度做填充</span></span><br><span class="line">    <span class="built_in">assert_eq!</span>(</span><br><span class="line">        <span class="built_in">format!</span>(<span class="string">&quot;Hello, &#123;number:&gt;8.*&#125;&quot;</span>, <span class="number">3</span>, number = <span class="number">123.45</span>),</span><br><span class="line">        <span class="string">&quot;Hello,  123.450&quot;</span></span><br><span class="line">    );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="指数"><a href="#指数" class="headerlink" title="指数"></a>指数</h3><ul>
+<li><code>:e</code>：LowerExp，小写 e 的科学计数法。</li>
+<li><code>:E</code>：UpperExp，大写 E 的科学计数法。</li>
+</ul>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;:e&#125;&quot;</span>, <span class="number">1000000000</span>); <span class="comment">// =&gt; 1e9</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;:E&#125;&quot;</span>, <span class="number">1000000000</span>); <span class="comment">// =&gt; 1E9</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="指针地址"><a href="#指针地址" class="headerlink" title="指针地址"></a>指针地址</h3><ul>
+<li><code>:p</code>：将变量以十六进制的形式输出。</li>
+</ul>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">v</span>= <span class="built_in">vec!</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line">	<span class="built_in">println!</span>(<span class="string">&quot;&#123;:p&#125;&quot;</span>, v.<span class="title function_ invoke__">as_ptr</span>()) <span class="comment">// =&gt; 0x5632538a7ba0</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="转义"><a href="#转义" class="headerlink" title="转义"></a>转义</h3><p>字符  <code>&#123;</code> 使用 <code>&#123;&#123;` 进行转义，字符 `&#125;` 使用 `&#125;&#125;</code> 进行转义。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">assert_eq!</span>(<span class="built_in">format!</span>(<span class="string">&quot;Hello &#123;&#123;&#125;&#125;&quot;</span>), <span class="string">&quot;Hello &#123;&#125;&quot;</span>);</span><br><span class="line"><span class="built_in">assert_eq!</span>(<span class="built_in">format!</span>(<span class="string">&quot;&#123;&#123; Hello&quot;</span>), <span class="string">&quot;&#123; Hello&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考引用"><a href="#参考引用" class="headerlink" title="参考引用"></a>参考引用</h2><ul>
+<li>JefferyWang’s Blog —— <a target="_blank" rel="noopener" href="https://blog.wangjunfeng.com/post/rust_str_format/">学习笔记：Rust字符打印格式化输出详解</a></li>
+<li>Rust语言圣经—— <a target="_blank" rel="noopener" href="https://course.rs/basic/formatted-output.html">2.14. 格式化输出</a></li>
+</ul>
+</div>
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2023-12-31</span>
+            
+                <span>该篇文章被 meng.wang</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/MyBlog/tags/rust/'>
+                            rust
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/MyBlog/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/'>
+                            编程语言
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    <br>
+    
+    
+        
+            
+    
+            <div class="post-footer-pre-next">
+                
+                    <span>上一篇：<a href='/MyBlog/posts/50560.html'>Rust语言|Rust注释和文档</a></span>
+                
+
+                
+                    <span class="post-footer-pre-next-last-span-right">下一篇：<a href="/MyBlog/posts/48914.html">Rust开发的Vim配置</a>
+                    </span>
+                
+            </div>
+    
+        
+    
+
+     
+</div>
+
+
+
+                                      
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            © 1949-2025 China 
+
+            
+                
+
+            
+                
+                    / <a href="/MyBlog/friends/"> 友链 </a>
+                
+
+            
+                
+                    / <a href="/MyBlog/support/"> 支持 </a>
+                
+
+            
+        </span>
+       
+    
+</div>
+
+
+
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+                <span class="footer-last-span-right"><i>本站由<a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/index.html">Hexo</a>驱动｜使用<a target="_blank" rel="noopener" href="https://github.com/HiNinoJay/hexo-theme-A4">Hexo-theme-A4</a>主题</i></span>
+            
+    
+</div>
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+
+    <!--目录-->
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript" ></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" type="text/javascript" ></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tocify/1.9.0/javascripts/jquery.tocify.min.js" type="text/javascript" ></script>
+        
+<script src="/MyBlog/js/toc.js"></script>
+
+    
+
+    
+<script src="/MyBlog/js/randomHeaderContent.js"></script>
+
+    <!--回到顶部按钮-->
+    
+        
+<script src="/MyBlog/js/returnToTop.js"></script>
+
+    
+
+    
+        
+<script src="/MyBlog/js/returnToLastPage.js"></script>
+
+    
+
+
+
+
+
+<script src="/MyBlog/js/lightgallery/lightgallery.umd.min.js"></script>
+
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-thumbnail.umd.min.js"></script>
+
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-fullscreen.umd.min.js"></script>
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-autoplay.umd.min.js"></script>
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-zoom.umd.min.js"></script>
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-rotate.umd.min.js"></script>
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-paper.umd.min.js"></script>
+
+
+
+
+<script type="text/javascript">
+     
+    if (typeof lightGallery !== "undefined") {
+        var options1 = {
+            selector: '.gallery-item',
+            plugins: [lgThumbnail, lgFullscreen, lgAutoplay, lgZoom, lgRotate, lgPager], // 启用插件
+            thumbnail: true,          // 显示缩略图
+            zoom: true,               // 启用缩放功
+            rotate: true,             // 启用旋转功能能
+            autoplay: true,        // 启用自动播放功能
+            fullScreen: true,      // 启用全屏功能
+            pager: false, //页码,
+            zoomFromOrigin: true,   // 从原始位置缩放
+            actualSize: true,       // 启用查看实际大小的功能
+            enableZoomAfter: 300,    // 延迟缩放，确保图片加载完成后可缩放
+        };
+        lightGallery(document.getElementsByClassName('.article-gallery')[0], options1); // 修复选择器
+    }
+    
+</script>
+
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script> 
+
+                </div>
+            
+            
+                <!-- 回到顶部的按钮-->  
+                <div class="progress-wrap shadow-drop-2-bottom">
+                    <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+                        <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98"/>
+                    </svg>
+                </div>
+            
+            
+                <!-- 返回的按钮-->  
+                <div class="return-to-last-progress-wrap shadow-drop-2-bottom">
+                    <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+                        <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98"/>
+                    </svg>
+                </div>
+            
+    </body>
+</html>
+<script src="/MyBlog/js/emojiHandler.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    wrapEmojis('.paper');
+  });
+</script>

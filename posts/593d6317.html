@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport" />
+    <meta name="description" content="实现SwiGLU算子" />
+    <meta name="hexo-theme-A4" content="v1.9.8" />
+    <link rel="alternate icon" type="image/webp" href="/MyBlog/img/favicon.jpg">
+    <title>青山依旧在</title>
+
+    
+        
+<link rel="stylesheet" href="/MyBlog/css/highlight/style1.css">
+
+        
+<link rel="stylesheet" href="/MyBlog/css/reset.css">
+
+        
+<link rel="stylesheet" href="/MyBlog/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/MyBlog/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+        
+        
+<link rel="stylesheet" href="/MyBlog/css/ui.css">
+ 
+        
+<link rel="stylesheet" href="/MyBlog/css/style.css">
+
+
+        
+            <!--返回顶部css-->
+            
+<link rel="stylesheet" href="/MyBlog/css/returnToTop.css">
+
+            
+<link rel="stylesheet" href="/MyBlog/css/unicons.css">
+
+        
+        
+            <!--目录-->
+            
+<link rel="stylesheet" href="/MyBlog/css/toc.css">
+
+        
+    
+
+    
+        
+<link rel="stylesheet" href="/MyBlog/css/returnToLastPage.css">
+
+    
+    
+   
+<link rel="stylesheet" href="/MyBlog/css/lightgallery-bundle.min.css">
+
+
+   
+        
+<link rel="stylesheet" href="/MyBlog/css/custom.css">
+
+    
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+    
+    
+
+    
+    
+
+
+
+    
+
+    
+    
+
+
+
+
+    <style>
+        .archive-main a:hover {
+            text-decoration: none; 
+        }
+    </style>
+
+    
+    
+
+    
+    <body>
+        <script src="/js/darkmode-js.min.js"></script>
+        
+        <script>
+            const options = {
+                bottom: '40px', // default: '32px'
+                right: 'unset', // default: '32px'
+                left: '42px', // default: 'unset'
+                time: '0.3s', // default: '0.3s'
+                mixColor: '#fff', // default: '#fff'
+                backgroundColor: ' #e4e4e4 ',  // default: '#fff'
+                buttonColorDark: '#100f2c',  // default: '#100f2c'
+                buttonColorLight: '#fff', // default: '#fff'
+                saveInCookies: true, // default: true,
+                label: '🌓', // default: ''
+                autoMatchOsTheme: true // default: true
+            }
+            const darkmode = new Darkmode(options);
+            darkmode.showWidget();
+        </script>
+        
+        
+            
+                <div class="left-toc-container">
+                    <nav id="toc" class="bs-docs-sidebar"></nav>
+                </div>
+            
+        
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+
+
+<div class="header">
+    <div class="header-container">
+        <style>
+            .header-img {
+                width: 56px;
+                height: auto;
+                object-fit: cover; /* 保持图片比例 */
+                transition: transform 0.3s ease-in-out; 
+                border-radius: 50%; 
+            }
+            
+            .header-img:hover {
+                animation: rotateAnimation 2s linear infinite; /* 悬停旋转动画 */
+            }
+            @keyframes rotateAnimation {
+                0% {
+                    transform: rotate(0deg);
+                }
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
+            
+        </style>
+        <img 
+            alt="^-^" 
+            cache-control="max-age=86400" 
+            class="header-img" 
+            src="/MyBlog/img/favicon.jpg" 
+        />
+        <div class="header-content">
+            <a class="logo" href="/MyBlog/">青山依旧在</a> 
+            <span class="description"></span> 
+        </div>
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/MyBlog/">首页</a></li>
+            
+        
+            
+                <li><a href="/MyBlog/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/MyBlog/about/">关于</a></li>
+            
+        
+            
+                <li><a href="/MyBlog/tags/">标签</a></li>
+            
+        
+            
+                <li><a href="/MyBlog/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+    
+
+    
+        
+            
+                <div class="post-main-title" style="text-align: center;">
+                    实现SwiGLU算子
+                </div>
+            
+        
+      
+    
+
+    
+
+        
+            <div class="post-head-meta-center">
+        
+                
+                    <span>最近更新：2025-02-21</span> 
+                
+                
+                    
+                        &nbsp; | &nbsp;
+                    
+                     <span>字数总计：2.7k</span>
+                
+                
+                    
+                        &nbsp; | &nbsp;
+                    
+                    <span>阅读估时：11分钟</span>
+                
+                
+                    
+                        &nbsp; | &nbsp;
+                    
+                    <span id="busuanzi_container_page_pv">
+                        阅读量：<span id="busuanzi_value_page_pv"></span>次
+                    </span>
+                
+            </div>
+    
+
+    <div class="post-md">
+        
+            
+                <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E4%BB%BB%E5%8A%A1%E6%8F%8F%E8%BF%B0"><span class="post-toc-text">任务描述</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E8%A7%A3%E8%AF%BB-Tensor"><span class="post-toc-text">解读 Tensor</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Tensor-%E7%9A%84%E6%96%B9%E6%B3%95"><span class="post-toc-text">Tensor 的方法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#new"><span class="post-toc-text">new()</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#default"><span class="post-toc-text">default()</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#data"><span class="post-toc-text">data()</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#data-mut"><span class="post-toc-text">data_mut()</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#shape"><span class="post-toc-text">shape()</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#size"><span class="post-toc-text">size()</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#reshape"><span class="post-toc-text">reshape()</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#slice"><span class="post-toc-text">slice()</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#close-to"><span class="post-toc-text">close_to()</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#print"><span class="post-toc-text">print()</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#swiglu-%E7%AE%97%E5%AD%90%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="post-toc-text">swiglu 算子的实现</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%80%BB%E7%BB%93%E6%8A%80%E5%B7%A7"><span class="post-toc-text">总结技巧</span></a></li></ol>
+            
+        
+        <div class=".article-gallery"><p>当完成 <a target="_blank" rel="noopener" href="https://opencamp.cn/InfiniTensor/camp/2024winter">2024冬季大模型与人工智能系统训练营</a> 的编程语言基础（Rust）阶段，面对作业阶段时大概看了一眼题目描述和项目代码实际上是有点慌的。</p>
+<p>比如不明白张量是什么？又比如看了 <code>Tensor&lt;T&gt;</code> 的 <code>data: Arc&lt;Box&lt;T&gt;&gt;</code> 发现同时使用这两种指针我又搞不明白了，之前学习智能指针的使用是有点浅了。</p>
+<p>于是又回去啃了几天 Rust 语言部分，作用当然是有的，一些似是而非的引用、借用、所有权的概念再次学习大约就明白了七七八八。但对于项目的代码还是有些困惑，大约是要硬着头皮往下读吧。</p>
+<p>不过好在在花费了十个多小时的摸索，总算理出了一些头绪，也解决掉了 SwiGLU 和 RMSNorm 算子的开路障碍，在继续往下做题之前，先写两篇博客总结整理得到的经验和思路。</p>
+<h2 id="任务描述"><a href="#任务描述" class="headerlink" title="任务描述"></a>任务描述</h2><p>请在 <code>src/operators.rs</code> 中实现 SwiGLU 算子，其公式为：</p>
+<p>$$<br>y&#x3D;silu(x) × y<br>$$</p>
+<p>其中</p>
+<p>$$<br>silu(x) &#x3D; sigmoid(x) × x<br>$$</p>
+<p>$$<br>sigmoid(x) &#x3D; \frac{1}{1 + e^{-x}}<br>$$</p>
+<p>注意：</p>
+<ul>
+<li><p>$y$ 既是输入，也存储最终输出。</p>
+</li>
+<li><p>该算子是element-wise操作而非向量点乘，即单次运算只涉及输入和输出张量中对应的元素。</p>
+</li>
+<li><p>你可以默认输入输出长度相同，不用考虑广播的情况。</p>
+</li>
+<li><p>用 <code>src/operators.rs</code> 中的测例检验你的实现是否正确。</p>
+</li>
+</ul>
+<h2 id="解读-Tensor"><a href="#解读-Tensor" class="headerlink" title="解读 Tensor"></a>解读 <code>Tensor</code></h2><p>任务描述在数学语言上是清晰的，我所混乱的是如何将数学语言转换成一定数据结构下的 Rust 代码语言。首先要搞清楚作为 <code>swiglu(y: &amp;mut Tensor&lt;f32&gt;, x: &amp;Tensor&lt;f32&gt;)</code> 中参数的类型 <code>Tensor</code> 是什么？它的代码实现是这样的：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">struct</span> <span class="title class_">Tensor</span>&lt;T&gt; &#123;</span><br><span class="line">	data: Arc&lt;<span class="type">Box</span>&lt;[T]&gt;&gt;,   <span class="comment">// 底层数据存储</span></span><br><span class="line">	shape: <span class="type">Vec</span>&lt;unsize&gt;,	   <span class="comment">// 形状 </span></span><br><span class="line">	offset: <span class="type">usize</span>,         <span class="comment">// 数据偏移量</span></span><br><span class="line">	length: <span class="type">usize</span>,         <span class="comment">// 数据长度</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中的泛型、结构体、Vec、usize我都能理解是什么？唯独 <code>Arc&lt;Box&lt;[T]&gt;&gt;</code> 这种实现一时没有看明白。感谢有 ChatGpt 的存在，复制过去直接进行询问，得到了清晰的解答，为此我整理了一篇知乎文章：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/21613395801">解读：Arc&gt; - 知乎</a>。其中我认为对我关键的部分是：</p>
+<ul>
+<li><code>[T]</code> 是<strong>动态数组</strong>，表示<strong>一个长度未知的切片</strong>（slice）。</li>
+<li>因为要存储 任意长度的数组，必须用切片 <code>&amp;[T]</code>，但切片本身没有所有权，因此使用 <code>Box&lt;[T]&gt;</code> 在堆上分配数据并获取所有权。</li>
+<li>使用 <code>Arc&lt;T&gt;</code> 是因为 <code>Box&lt;T&gt;</code> 只能有一个所有者，而如果 <code>Tensor&lt;T&gt;</code> 的多个实例需要共享 <code>data</code> ，<code>Box&lt;T&gt;</code> 则不够用。而 <code>Arc&lt;T&gt;</code> 则允许多个 <code>Tensor&lt;T&gt;</code> 共享同一个数据，并在最后一个 <code>Tensor</code> 被释放时才释放 <code>data</code> 。</li>
+</ul>
+<h2 id="Tensor-的方法"><a href="#Tensor-的方法" class="headerlink" title="Tensor 的方法"></a><code>Tensor</code> 的方法</h2><h3 id="new"><a href="#new" class="headerlink" title="new()"></a><code>new()</code></h3><p>用于创建一个新的 <code>Tensor</code> 实例。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">new</span>(data: <span class="type">Vec</span>&lt;T&gt;, shape: &amp;<span class="type">Vec</span>&lt;<span class="type">usize</span>&gt;) <span class="punctuation">-&gt;</span> <span class="keyword">Self</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">length</span> = data.<span class="title function_ invoke__">len</span>();</span><br><span class="line">    Tensor &#123;</span><br><span class="line">        data: Arc::<span class="title function_ invoke__">new</span>(data.<span class="title function_ invoke__">into_boxed_slice</span>().<span class="title function_ invoke__">try_into</span>().<span class="title function_ invoke__">unwrap</span>()),</span><br><span class="line">        shape: shape.<span class="title function_ invoke__">clone</span>(),</span><br><span class="line">        offset: <span class="number">0</span>,</span><br><span class="line">        length: length,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>data: Arc::new(data.into_boxed_slice().try_into().unwrap())</code>：<ul>
+<li><code>data.into_boxed_slice()</code>：将 <code>data</code> 向量转换为 <code>Box&lt;[T]&gt;</code> 类型的动态数组。</li>
+<li><code>try_into().unwrap()</code>：将 <code>Box&lt;[T]&gt;</code> 转换为 <code>Box&lt;[T]&gt;</code> 类型（这里实际上是同一类型的转换，但 <code>try_into</code> 是为了遵循 <code>TryInto</code> 特性），并使用 <code>unwrap</code> 方法处理可能的错误（在这个上下文中，由于类型转换是确定的，所以不会失败）。</li>
+<li><code>Arc::new(...)</code>：将转换后的 <code>Box&lt;[T]&gt;</code> 包装在 <code>Arc</code> 中，以便在多个线程间共享数据。</li>
+</ul>
+</li>
+<li><code>shape: shape.clone()</code>：克隆 <code>shape</code> 引用所指向的 <code>Vec&lt;usize&gt;</code>，并将其赋值给 <code>Tensor</code> 实例的 <code>shape</code> 字段。</li>
+<li><code>offset: 0</code>：将 <code>offset</code> 字段初始化为 <code>0</code>，表示从 <code>data</code> 数组的起始位置开始。</li>
+<li><code>length: length</code>：将 <code>length</code> 字段初始化为之前计算的 <code>data</code> 数组的长度。</li>
+</ul>
+<h3 id="default"><a href="#default" class="headerlink" title="default()"></a><code>default()</code></h3><p>用于创建一个具有指定形状的默认 <code>Tensor</code> 实例。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">default</span>(shape: &amp;<span class="type">Vec</span>&lt;<span class="type">usize</span>&gt;) <span class="punctuation">-&gt;</span> <span class="keyword">Self</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">length</span> = shape.<span class="title function_ invoke__">iter</span>().<span class="title function_ invoke__">product</span>(); <span class="comment">// 表示张量中元素的总数</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">data</span> = <span class="built_in">vec!</span>[T::<span class="title function_ invoke__">default</span>(); length]; <span class="comment">// 创建了一个长度为 length 的 Vec&lt;T&gt; 向量 data</span></span><br><span class="line">    <span class="keyword">Self</span>::<span class="title function_ invoke__">new</span>(data, shape)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>T::default()</code> 是 <code>T</code> 类型的默认值，这要求 <code>T</code> 类型实现了 <code>Default</code> 特性。</li>
+</ul>
+<h3 id="data"><a href="#data" class="headerlink" title="data()"></a><code>data()</code></h3><p>返回一个指向 <code>Tensor</code> 中数据的不可变切片</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">data</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> &amp;[T] &#123;</span><br><span class="line">    &amp;<span class="keyword">self</span>.data[<span class="keyword">self</span>.offset..][..<span class="keyword">self</span>.length]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>self.data[self.offset..]</code>：<ul>
+<li>这一步是从 <code>data</code> 数组的 <code>offset</code> 位置开始截取，生成一个新的切片。这个操作的作用是跳过 <code>data</code> 数组中 <code>offset</code> 之前的部分，定位到张量数据的起始位置。</li>
+</ul>
+</li>
+<li><code>[..self.length]</code>：<ul>
+<li>对上一步生成的切片再次进行截取，取其前 <code>length</code> 个元素。这样做是为了确保截取出来的切片长度正好等于张量中元素的总数。</li>
+</ul>
+</li>
+</ul>
+<h3 id="data-mut"><a href="#data-mut" class="headerlink" title="data_mut()"></a><code>data_mut()</code></h3><p>返回一个指向 <code>Tensor</code> 中数据的可变切片</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">unsafe</span> <span class="keyword">fn</span> <span class="title function_">data_mut</span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>) <span class="punctuation">-&gt;</span> &amp;<span class="keyword">mut</span> [T] &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">ptr</span> = <span class="keyword">self</span>.data.<span class="title function_ invoke__">as_ptr</span>().<span class="title function_ invoke__">add</span>(<span class="keyword">self</span>.offset) <span class="keyword">as</span> *<span class="keyword">mut</span> T;</span><br><span class="line">    slice::<span class="title function_ invoke__">from_raw_parts_mut</span>(ptr, <span class="keyword">self</span>.length)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>unsafe</code>：标记该方法为不安全方法，因为它涉及到指针操作，需要调用者自行确保操作的安全性。</li>
+<li><code>self.data.as_ptr()</code>：调用 <code>self.data</code> 的 <code>as_ptr</code> 方法，返回一个指向 <code>self.data</code> 数组首元素的不可变原始指针 <code>*const T</code>。</li>
+<li><code>.add(self.offset)</code>：调用 <code>add</code> 方法，将指针偏移 <code>self.offset</code> 个元素的位置，得到一个指向 <code>Tensor</code> 数据起始位置的指针。</li>
+<li><code>as *mut T</code>：将不可变指针转换为可变指针 <code>*mut T</code>，以便后续创建可变切片。</li>
+<li><code>slice::from_raw_parts_mut</code>：这是 <code>std::slice</code> 模块中的一个函数，用于从一个可变指针和长度创建一个可变切片。<ul>
+<li><code>ptr</code>：作为参数传递给 <code>from_raw_parts_mut</code> 函数的可变指针，指向 <code>Tensor</code> 数据的起始位置。</li>
+<li><code>self.length</code>：作为参数传递给 <code>from_raw_parts_mut</code> 函数的长度，表示切片的长度。</li>
+</ul>
+</li>
+</ul>
+<h3 id="shape"><a href="#shape" class="headerlink" title="shape()"></a><code>shape()</code></h3><p>返回 <code>Tensor</code> 实例的 <code>shape</code> 字段的不可变引用</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">shape</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> &amp;<span class="type">Vec</span>&lt;<span class="type">usize</span>&gt; &#123;</span><br><span class="line">    &amp;<span class="keyword">self</span>.shape</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>&amp;self</code> 让 <code>shape</code> 方法可以访问 <code>Tensor</code> 实例，而 <code>&amp;self.shape</code> 则是为了返回 <code>shape</code> 字段的不可变引用。</li>
+</ul>
+<h3 id="size"><a href="#size" class="headerlink" title="size()"></a><code>size()</code></h3><p>返回 <code>Tensor</code> 实例中元素的总数</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">size</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">usize</span> &#123;</span><br><span class="line">    <span class="keyword">self</span>.length</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="reshape"><a href="#reshape" class="headerlink" title="reshape()"></a><code>reshape()</code></h3><p>在不改变张量中元素总数的前提下，将张量重新解释为一个新的形状</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">reshape</span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>, new_shape: &amp;<span class="type">Vec</span>&lt;<span class="type">usize</span>&gt;) <span class="punctuation">-&gt;</span> &amp;<span class="keyword">mut</span> <span class="keyword">Self</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">new_length</span>: <span class="type">usize</span> = new_shape.<span class="title function_ invoke__">iter</span>().<span class="title function_ invoke__">product</span>();</span><br><span class="line">    <span class="keyword">if</span> new_length != <span class="keyword">self</span>.length &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">old_shape</span> = <span class="keyword">self</span>.shape.<span class="title function_ invoke__">clone</span>();</span><br><span class="line">        <span class="built_in">panic!</span>(<span class="string">&quot;New shape &#123;new_shape:?&#125; does not match tensor of &#123;old_shape:?&#125;&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">self</span>.shape = new_shape.<span class="title function_ invoke__">clone</span>();</span><br><span class="line">    <span class="keyword">self</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>&amp;self</code> 场景：<code>self</code> 是不可变引用，若要返回 <code>self</code> 中某个字段的引用，需要用 <code>&amp;</code> 来获取该字段的不可变引用。</li>
+<li><code>&amp;mut self</code> 场景：<code>self</code> 是可变引用，若要返回 <code>self</code> 本身的可变引用，直接返回 <code>self</code> 即可。</li>
+</ul>
+<h3 id="slice"><a href="#slice" class="headerlink" title="slice()"></a><code>slice()</code></h3><p>从现有的 Tensor 中切出一个子张量</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">slice</span>(&amp;<span class="keyword">self</span>, start: <span class="type">usize</span>, shape: &amp;<span class="type">Vec</span>&lt;<span class="type">usize</span>&gt;) <span class="punctuation">-&gt;</span> <span class="keyword">Self</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">new_length</span>: <span class="type">usize</span> = shape.<span class="title function_ invoke__">iter</span>().<span class="title function_ invoke__">product</span>();</span><br><span class="line">    <span class="built_in">assert!</span>(<span class="keyword">self</span>.offset + start + new_length &lt;= <span class="keyword">self</span>.length);</span><br><span class="line">    Tensor &#123;</span><br><span class="line">        data: <span class="keyword">self</span>.data.<span class="title function_ invoke__">clone</span>(),</span><br><span class="line">        shape: shape.<span class="title function_ invoke__">clone</span>(),</span><br><span class="line">        offset: <span class="keyword">self</span>.offset + start,</span><br><span class="line">        length: new_length,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>使用 <code>assert!</code> 宏进行断言检查，确保切片操作不会越界。<code>self.offset + start + new_length</code> 表示切片操作结束的位置，如果这个位置超过了当前 <code>Tensor</code> 的元素总数 <code>self.length</code>，程序会触发断言错误并终止。</li>
+</ul>
+<h3 id="close-to"><a href="#close-to" class="headerlink" title="close_to()"></a><code>close_to()</code></h3><p>该方法用于判断两个 <code>Tensor&lt;f32&gt;</code> 实例在数值上是否足够接近。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">close_to</span>(&amp;<span class="keyword">self</span>, other: &amp;<span class="keyword">Self</span>, rel: <span class="type">f32</span>) <span class="punctuation">-&gt;</span> <span class="type">bool</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">self</span>.<span class="title function_ invoke__">shape</span>() != other.<span class="title function_ invoke__">shape</span>() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">a</span> = <span class="keyword">self</span>.<span class="title function_ invoke__">data</span>();</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">b</span> = other.<span class="title function_ invoke__">data</span>();</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> a.<span class="title function_ invoke__">iter</span>().<span class="title function_ invoke__">zip</span>(b).<span class="title function_ invoke__">all</span>(|(x, y)| <span class="title function_ invoke__">float_eq</span>(x, y, rel));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>rel: f32</code>：接收一个 <code>f32</code> 类型的相对容差参数，用于判断两个浮点数是否足够接近。</li>
+<li>使用 <code>iter().zip()</code> 方法将两个数据切片中的元素一一对应起来，形成一个元素对的迭代器。</li>
+<li>对这个迭代器中的每个元素对 <code>(x, y)</code>，调用 <code>float_eq</code> 函数，判断它们是否足够接近。<code>float_eq</code> 函数根据传入的相对容差 <code>rel</code> 来判断两个浮点数是否足够接近。</li>
+<li><code>all</code> 方法用于检查迭代器中的所有元素对是否都满足 <code>float_eq</code> 函数的条件。如果所有元素对都足够接近，则返回 <code>true</code>；否则返回 <code>false</code>。</li>
+</ul>
+<h3 id="print"><a href="#print" class="headerlink" title="print()"></a><code>print()</code></h3><p>打印 Tensor 的形状、偏移量、长度以及其中的数据，这个方法对后面的调试很有帮助。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">print</span>(&amp;<span class="keyword">self</span>)&#123;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;shpae: &#123;:?&#125;, offset: &#123;&#125;, length: &#123;&#125;&quot;</span>, <span class="keyword">self</span>.shape, <span class="keyword">self</span>.offset, <span class="keyword">self</span>.length);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">dim</span> = <span class="keyword">self</span>.<span class="title function_ invoke__">shape</span>()[<span class="keyword">self</span>.<span class="title function_ invoke__">shape</span>().<span class="title function_ invoke__">len</span>() - <span class="number">1</span>];</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">batch</span> = <span class="keyword">self</span>.length / dim;</span><br><span class="line">    <span class="keyword">for</span> <span class="variable">i</span> <span class="keyword">in</span> <span class="number">0</span>..batch &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">start</span> = i * dim;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;&#123;:?&#125;&quot;</span>, &amp;<span class="keyword">self</span>.<span class="title function_ invoke__">data</span>()[start..][..dim]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>通过 <code>self.shape().len() - 1</code> 索引获取最后一个维度的大小。</li>
+<li><code>self.length</code> 表示 <code>Tensor</code> 中元素的总数，将其除以最后一个维度的大小 <code>dim</code>，得到批次数量。</li>
+<li><code>let start = i * dim;</code> 计算每个批次数据在 <code>Tensor</code> 中的起始位置。</li>
+<li><code>&amp;self.data()[start..][..dim]</code> 从 <code>Tensor</code> 的数据中截取当前批次的数据，<code>self.data()</code> 方法返回 <code>Tensor</code> 中存储的数据的不可变切片，通过切片操作 <code>[start..][..dim]</code> 截取当前批次的数据。</li>
+</ul>
+<h2 id="swiglu-算子的实现"><a href="#swiglu-算子的实现" class="headerlink" title="swiglu 算子的实现"></a>swiglu 算子的实现</h2><p>通过同时迭代 <code>_y</code> 数组和 <code>_x</code> 数组进行 <code>element-wise</code> 操作，然后执行对迭代的变量执行任务描述的所述的计算公式。这里我的实现如下：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// 实现 SwiGLU 激活函数，即 y = silu(x) * y，这是一个逐元素操作</span></span><br><span class="line"><span class="comment">///</span></span><br><span class="line"><span class="comment">/// # 参数</span></span><br><span class="line"><span class="comment">/// - `y`: 可变的 `Tensor&lt;f32&gt;` 引用，用于存储计算结果，会被修改。</span></span><br><span class="line"><span class="comment">/// - `x`: 不可变的 `Tensor&lt;f32&gt;` 引用，作为输入数据。</span></span><br><span class="line"><span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">swiglu</span>(y: &amp;<span class="keyword">mut</span> Tensor&lt;<span class="type">f32</span>&gt;, x: &amp;Tensor&lt;<span class="type">f32</span>&gt;) &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">len</span> = y.<span class="title function_ invoke__">size</span>();</span><br><span class="line">    <span class="comment">// 断言 y 和 x 张量的元素数量相同，确保 element-wise 操作不会越界</span></span><br><span class="line">    <span class="built_in">assert!</span>(len == x.<span class="title function_ invoke__">size</span>());</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 以不安全的方式获取 y 张量数据的可变切片</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">_y</span> = <span class="keyword">unsafe</span> &#123; y.<span class="title function_ invoke__">data_mut</span>() &#125;;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">_x</span> = x.<span class="title function_ invoke__">data</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (mut_num_y, num_x) <span class="keyword">in</span> _y.<span class="title function_ invoke__">iter_mut</span>().<span class="title function_ invoke__">zip</span>(_x.<span class="title function_ invoke__">iter</span>()) &#123;</span><br><span class="line">        <span class="comment">// 计算 x 元素的 SiLU 激活值</span></span><br><span class="line">        <span class="keyword">let</span> <span class="variable">silu_x</span> = num_x * (<span class="number">1</span>. / (<span class="number">1</span>. + (-num_x).<span class="title function_ invoke__">exp</span>()));</span><br><span class="line">        <span class="comment">// 将 y 元素乘以对应的 SiLU 激活值</span></span><br><span class="line">        *mut_num_y *= silu_x;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="总结技巧"><a href="#总结技巧" class="headerlink" title="总结技巧"></a>总结技巧</h2><ol>
+<li>通过IDE的提示，多观察参数、变量的数据类型变化，类型的转换是解题的主要思路。</li>
+<li>借用 <code>println!</code> 和<code>Tensor</code> 的 <code>print</code> 方法，在关键位置进行打印，观察程序执行与思路设计的差异。</li>
+</ol>
+</div>
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2025-02-12</span>
+            
+                <span>该篇文章被 meng.wang</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/MyBlog/tags/rust/'>
+                            rust
+                        </a>
+                    
+                        <a href='/MyBlog/tags/InfiniTensor/'>
+                            InfiniTensor
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/MyBlog/categories/%E9%A1%B9%E7%9B%AE/'>
+                            项目
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    <br>
+    
+    
+        
+            
+    
+            <div class="post-footer-pre-next">
+                
+                    <span>上一篇：<a href='/MyBlog/posts/8147e6c8.html'>实现RMSNorm算子</a></span>
+                
+
+                
+                    <span class="post-footer-pre-next-last-span-right">下一篇：<a href="/MyBlog/posts/77eefbae.html">解读：Arc&lt;Box&lt;[T]&gt;&gt;</a>
+                    </span>
+                
+            </div>
+    
+        
+    
+
+     
+</div>
+
+
+
+                                      
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            © 1949-2025 China 
+
+            
+                
+
+            
+                
+                    / <a href="/MyBlog/friends/"> 友链 </a>
+                
+
+            
+                
+                    / <a href="/MyBlog/support/"> 支持 </a>
+                
+
+            
+        </span>
+       
+    
+</div>
+
+
+
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+                <span class="footer-last-span-right"><i>本站由<a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/index.html">Hexo</a>驱动｜使用<a target="_blank" rel="noopener" href="https://github.com/HiNinoJay/hexo-theme-A4">Hexo-theme-A4</a>主题</i></span>
+            
+    
+</div>
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+
+    <!--目录-->
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript" ></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" type="text/javascript" ></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tocify/1.9.0/javascripts/jquery.tocify.min.js" type="text/javascript" ></script>
+        
+<script src="/MyBlog/js/toc.js"></script>
+
+    
+
+    
+<script src="/MyBlog/js/randomHeaderContent.js"></script>
+
+    <!--回到顶部按钮-->
+    
+        
+<script src="/MyBlog/js/returnToTop.js"></script>
+
+    
+
+    
+        
+<script src="/MyBlog/js/returnToLastPage.js"></script>
+
+    
+
+
+
+
+
+<script src="/MyBlog/js/lightgallery/lightgallery.umd.min.js"></script>
+
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-thumbnail.umd.min.js"></script>
+
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-fullscreen.umd.min.js"></script>
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-autoplay.umd.min.js"></script>
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-zoom.umd.min.js"></script>
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-rotate.umd.min.js"></script>
+
+
+<script src="/MyBlog/js/lightgallery/plugins/lg-paper.umd.min.js"></script>
+
+
+
+
+<script type="text/javascript">
+     
+    if (typeof lightGallery !== "undefined") {
+        var options1 = {
+            selector: '.gallery-item',
+            plugins: [lgThumbnail, lgFullscreen, lgAutoplay, lgZoom, lgRotate, lgPager], // 启用插件
+            thumbnail: true,          // 显示缩略图
+            zoom: true,               // 启用缩放功
+            rotate: true,             // 启用旋转功能能
+            autoplay: true,        // 启用自动播放功能
+            fullScreen: true,      // 启用全屏功能
+            pager: false, //页码,
+            zoomFromOrigin: true,   // 从原始位置缩放
+            actualSize: true,       // 启用查看实际大小的功能
+            enableZoomAfter: 300,    // 延迟缩放，确保图片加载完成后可缩放
+        };
+        lightGallery(document.getElementsByClassName('.article-gallery')[0], options1); // 修复选择器
+    }
+    
+</script>
+
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script> 
+
+                </div>
+            
+            
+                <!-- 回到顶部的按钮-->  
+                <div class="progress-wrap shadow-drop-2-bottom">
+                    <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+                        <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98"/>
+                    </svg>
+                </div>
+            
+            
+                <!-- 返回的按钮-->  
+                <div class="return-to-last-progress-wrap shadow-drop-2-bottom">
+                    <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+                        <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98"/>
+                    </svg>
+                </div>
+            
+    </body>
+</html>
+<script src="/MyBlog/js/emojiHandler.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    wrapEmojis('.paper');
+  });
+</script>
